@@ -1,0 +1,237 @@
+<%@page import="entidad.Curso"%>
+<%@page import="dao.DaoCurso"%>
+<%
+         //PARA QUE SE VEAN BIEN TODOS LOS CARACTERES
+        request.setCharacterEncoding("UTF-8");
+       
+        DaoCurso daocur = new DaoCurso();
+        String hash=request.getParameter("c");
+        Curso cur = daocur.seleccionarCursoporHash(hash);
+        String nombrecurso=cur.getNombre();
+        String valorcurso="";
+        Cookie[] valorCookiess = request.getCookies(); 
+                    for(Cookie h : valorCookiess){
+                        if(h.getName().equals("newcurso")){
+                             valorcurso=h.getValue();
+                        }
+                    }
+%>
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="shortcut icon" href="/InSeguimientoClientes/src/images/favicon.ico">
+        <link href="/InSeguimientoClientes/src/css/bootstrap.css" rel="stylesheet">
+        <link href="/InSeguimientoClientes/src/css/bootstrap-theme.css" rel="stylesheet">
+        <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+        <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+        <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+        <script src="src/js/jquery.dataTables.js" type="text/javascript"></script>
+        <script src="/InSeguimientoClientes/src/js/msg/msg.js" type="text/javascript"></script>
+        <script src="/InSeguimientoClientes/src/js/msgBox/jquery.msgBox.js" type="text/javascript"></script>
+        <LINK REL="stylesheet" HREF="/InSeguimientoClientes/src/js/msgBox/styles/msgBoxLight.css" TYPE="text/css">
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <style>
+           .navbar,legend,.h5 > b,.panel-heading{
+                    font-family: titulos;
+                    letter-spacing:  .07em;
+                }
+            .panel-heading,label{
+
+                font-family: titulos1;
+                font-weight: bold;
+                letter-spacing:  .07em;
+            }
+            .panel-body,.alert{
+                font-family: cuerpo;
+            }
+            #last_window > div.col-lg-3{
+                font-family: cuerpo;
+
+            }
+            #contenido2{
+               font-family: titulos1;
+              
+            }
+            
+/*                .contenido{
+                    margin-left: 30%;
+                    width: 40%;
+                }  */
+        </style>
+    </head>
+    <body>
+        
+        <div class="contenido col-lg-12">
+            <nav id="var" class="navbar navbar-inverse navbar-fixed-top" role="navigation" style="background-color: #f1f1f1;">
+             <div class="container">
+               <div class="navbar-header">
+       <!--            MARGIN Y PADDING A 0 para que svisualiza bien el logo-->
+                 <a class="navbar-brand" style=" margin: 0;padding: .3em 0 0 0 ;" href="#"><img title="Intea" id="imagen"  src="/InSeguimientoClientes/src/images/intea-logo150x36.png"></a>
+               </div>
+
+             </div>
+            </nav>
+        </div>
+        <div class="container" style="box-shadow: 0px 3px 18px -1px rgba(0,0,0,0.75);border-radius: 10px;">
+        <% 
+            
+             
+             if(!valorcurso.equals("1")){
+                 
+             
+        %>
+        
+        <div class="contenido col-lg-12" id="contenido2">
+            <h1>Este formulario sirve para interesarnos en el curso:</h1> <h3><%=nombrecurso%> </h3>
+        </div>
+        
+        <div class="contenido col-lg-12" id="contenido">
+            <form class="form" id="inscripcion_curso" onsubmit="return checkInscripcionCurso()" action="#">
+                <legend>Inscripcion curso:</legend>
+                <input type="hidden" name="hash" value="<%=hash%>">
+                <div class="row" style="margin-top: 5px;">
+                    <div class="col-lg-6">
+                        <label for="nombre">Nombre:</label>
+                        <span class="error_nombre"></span>
+                    </div>
+                     <div class="col-lg-6">
+                         <input type="text" name="nombre" id="nombre" class="form-control col-lg-6" maxlength="59">
+                     </div>
+                </div>
+                <div class="row" style="margin-top: 5px;">
+                    <div class="col-lg-6">
+                        <label for="apellidos">Apellidos:</label>
+                        <span class="error_apellido"></span>
+                    </div>
+                     <div class="col-lg-6">
+                        <input type="text" name="apellidos" id="apell" class="form-control col-lg-6" maxlength="59">
+                     </div>
+                </div>
+                <div class="row" style="margin-top: 5px;">
+                    <div class="col-lg-6">
+                        <label>Número de Teléfono:</label>
+                        <span class="error_tlfono"></span>
+                    </div>
+                     <div class="col-lg-6">
+                         <input type="text" name="telfno" id="telfno" class="form-control col-lg-60" maxlength="9">
+                     </div>
+                </div>
+                <div class="row" style="margin-top: 5px;">
+                    <div class="col-lg-6">
+                        <label for="mail">Correo Electrónico:</label>
+                        <span class="error_mail"></span>
+                    </div>
+                     <div class="col-lg-6">
+                         <input type="text" id="mail" name="mail"  class="form-control"maxlength="99"/>
+                     </div>
+                </div>
+                <div class="row"style="margin-top: 10px;">
+                    <div class="col-lg-12" >
+                        <input type="submit" class="btn btn-info" style="float:right" value="Inscribirse al curso">
+                     </div>
+                </div>
+            </form>
+        </div>
+        
+        <div class="contenido col-lg-12" id="gracias" style="display:none;">   
+             <img src="src/images/Intea%20Transparente.png"><br><br>
+             <p>
+                Gracias por confiar en nosotros.
+                Nos pondremos en contacto en la mayor brevedad posible.
+             </p>
+         </div>
+          <% }else{ %>
+          <!--Esto solo ocurre si hay cokies-->
+         <div class="contenido col-lg-12" >   
+             <img src="src/images/Intea%20Transparente.png"><br><br>
+             <h2>
+                Gracias por confiar en nosotros.
+                Nos pondremos en contacto en la mayor brevedad posible.
+             </h2>
+         </div>
+         <% } %>
+         </div>
+    </body>  
+</html>  
+<script>
+    function validarvacio(valor){
+        var val=$("#"+valor).val();
+        if(val === "" || val == null){
+            return false;
+        }else{
+            return true;
+        }
+    }
+    function validarmail(){
+        var expr=/^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+        var mail=document.getElementById('mail').value;
+        if(mail===""){
+            return true;
+        }else{
+             return expr.test(mail);
+        }
+    }
+    function checkInscripcionCurso() {
+        var cont = 0;
+        if(!validarvacio("nombre")){
+            cont++;
+            $(".error_nombre").html("El nombre no puede estar vacío.");
+            $(".error_nombre").attr("style", "color:red;");
+            $("#nombre").attr("style", "box-shadow:0px 0px 5px #DF0101");
+        }else{
+            $(".error_nombre").html("");
+             $("#nombre").attr("style", "box-shadow:0px 0px 0px #DF0101");
+        }
+        if(!validarmail()){
+            cont++;
+            $(".error_mail").html("El email no es valido.");
+            $(".error_mail").attr("style", "color:red;");
+            $("#mail").attr("style", "box-shadow:0px 0px 5px #DF0101");
+        }else{
+            $(".error_mail").html("");
+            $("#mail").attr("style", "box-shadow:0px 0px 0px #DF0101");
+        }
+        if(!validarvacio("apell")){
+            cont++;
+            $(".error_apellido").html("El apellido no puede estar vacío.");
+            $(".error_apellido").attr("style", "color:red;");
+            $("#apell").attr("style", "box-shadow:0px 0px 5px #DF0101");
+        }else{
+            $(".error_apellido").html("");
+            $("#apell").attr("style", "box-shadow:0px 0px 0px #DF0101");
+        }
+        
+        if ($("#telfno").val().length !== 9) {
+            $(".error_tlfono").html("El numero indicado no es valido.");
+            $(".error_tlfono").attr("style", "color:red;");
+            $("#telfno").attr("style", "box-shadow:0px 0px 5px #DF0101");
+            cont++;
+        } else {
+            $(".error_tlfono").html("");
+            $("#telfno").attr("style", "box-shadow:0px 0px 0px #DF0101");
+        }
+        
+        
+        if(cont>0){
+            return false;
+        }
+        
+        if (cont === 0) {
+            if (confirm("¿Quieres interesarte por el curso?")) {
+                $.ajax({
+                    url: "CONTROLADORInscripcionCurso.jsp",
+                    type: 'POST',
+                    data: $("#inscripcion_curso").serialize(),
+                    success: function (data) {
+//                        mensaje(data);
+                        $("#contenido").hide(200);
+                        $("#contenido2").hide(200);
+                        $("#gracias").show(1000);
+                    }
+                });
+            }
+        }
+        
+        return false;
+    }
+</script>

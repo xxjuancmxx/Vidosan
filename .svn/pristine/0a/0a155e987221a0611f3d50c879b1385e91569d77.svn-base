@@ -1,0 +1,162 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package entidad;
+
+import java.sql.Date;
+
+/**
+ *
+ * @author samuel.gonzalez
+ */
+public class Contacto {
+    
+    private int idcontacto;
+    private int idcliente;
+    private String nombre;
+    private String apellidos;
+    private String telefono;
+    private String movil_profesional;
+    private String movil_personal;
+    private String cargo;
+    private String correo;
+    private String observaciones;
+    private Date fecha_inserccion;
+    private Date fecha_modificacion;
+    private int isDelete;
+
+    public Contacto() {
+    }
+
+    
+    
+    public Contacto(int idcontacto, int idcliente, String nombre, String apellidos, String telefono, String movil_profesional, String movil_personal, String cargo, String correo, String observaciones, Date fecha_inserccion, Date fecha_modificacion, int isDelete) {
+        this.idcontacto = idcontacto;
+        this.idcliente = idcliente;
+        this.nombre = nombre;
+        this.apellidos = apellidos;
+        this.telefono = telefono;
+        this.movil_profesional = movil_profesional;
+        this.movil_personal = movil_personal;
+        this.cargo = cargo;
+        this.correo = correo;
+        this.observaciones = observaciones;
+        this.fecha_inserccion = fecha_inserccion;
+        this.fecha_modificacion = fecha_modificacion;
+        this.isDelete = isDelete;
+    }
+
+    public int getIdcontacto() {
+        return idcontacto;
+    }
+
+    public void setIdcontacto(int idcontacto) {
+        this.idcontacto = idcontacto;
+    }
+
+    public int getIdcliente() {
+        return idcliente;
+    }
+
+    public void setIdcliente(int idcliente) {
+        this.idcliente = idcliente;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public String getApellidos() {
+        return apellidos;
+    }
+
+    public void setApellidos(String apellidos) {
+        this.apellidos = apellidos;
+    }
+
+    public String getTelefono() {
+        return telefono;
+    }
+
+    public void setTelefono(String telefono) {
+        this.telefono = telefono;
+    }
+
+    public String getMovil_profesional() {
+        return movil_profesional;
+    }
+
+    public void setMovil_profesional(String movil_profesional) {
+        this.movil_profesional = movil_profesional;
+    }
+
+    public String getMovil_personal() {
+        return movil_personal;
+    }
+
+    public void setMovil_personal(String movil_personal) {
+        this.movil_personal = movil_personal;
+    }
+
+    public String getCargo() {
+        return cargo;
+    }
+
+    public void setCargo(String cargo) {
+        this.cargo = cargo;
+    }
+
+    public String getCorreo() {
+        return correo;
+    }
+
+    public void setCorreo(String correo) {
+        this.correo = correo;
+    }
+
+    public String getObservaciones() {
+        return observaciones;
+    }
+
+    public void setObservaciones(String observaciones) {
+        this.observaciones = observaciones;
+    }
+
+    public Date getFecha_inserccion() {
+        return fecha_inserccion;
+    }
+
+    public void setFecha_inserccion(Date fecha_inserccion) {
+        this.fecha_inserccion = fecha_inserccion;
+    }
+
+    public Date getFecha_modificacion() {
+        return fecha_modificacion;
+    }
+
+    public void setFecha_modificacion(Date fecha_modificacion) {
+        this.fecha_modificacion = fecha_modificacion;
+    }
+
+    public int getIsDelete() {
+        return isDelete;
+    }
+
+    public void setIsDelete(int isDelete) {
+        this.isDelete = isDelete;
+    }
+
+    @Override
+    public String toString() {
+        return "Contacto{" + "idcontacto=" + idcontacto + ", idcliente=" + idcliente + ", nombre=" + nombre + ", apellidos=" + apellidos + ", telefono=" + telefono + ", movil_profesional=" + movil_profesional + ", movil_personal=" + movil_personal + ", cargo=" + cargo + ", correo=" + correo + ", observaciones=" + observaciones + ", fecha_inserccion=" + fecha_inserccion + ", fecha_modificacion=" + fecha_modificacion + ", isDelete=" + isDelete + '}';
+    }
+    
+    
+    
+}

@@ -1,0 +1,53 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+package BBDD;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+
+/**
+ *
+ * @author hector.heras
+ */
+public class connect{
+    private Connection c;//CONEXION A LA BBDD  
+    //DECOMENTAR DESARROLLO 
+    private String server = "192.168.1.100"; //ESTA LINEA SE CAMBIA AL SUBIR AL SERVER 
+    private String bdseguimiento = "dseguimiento";
+    //USUARIOS
+    private String user = "hector";
+//    //DECOMENTAR PRODUCCION 
+//    private String server = "127.0.0.1"; //ESTA LINEA SE CAMBIA AL SUBIR AL SERVER 
+//    private String bdseguimiento = "seguimiento";
+//    //USUARIOS
+//    private String user = "root";
+    
+    
+    
+    //FUNCION QUE NOS DEVUELVE UNA CONEXION A LA BBDD
+    public Connection openConnect() throws ClassNotFoundException{
+        //INSTANCIAMOS LA CONEXION Y DEVOLVEMOS EL OBJETO
+        try{
+         Class.forName("com.mysql.jdbc.Driver");
+         c = DriverManager.getConnection("jdbc:mysql://"+server+"/"+bdseguimiento,user,"73M4jr9cat3");
+        }catch(Exception e){
+            System.out.println("Error al conectar a la base de datos."+e);
+        }finally{
+            return c;
+        }
+    }
+    public void cerrarConexion() throws SQLException{
+        try{
+        c.close();
+        }catch(Exception e){
+            System.out.println("Error al cerrar conexion en la bbdd."+e);
+        }
+    }
+   
+    
+}

@@ -1,0 +1,41 @@
+<%-- 
+    Document   : sessionControl
+    Created on : 15-feb-2016, 10:47:43
+    Author     : hector.heras
+--%>
+
+<%@page import="java.util.UUID"%>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%
+
+   /*
+    El objetivo de esta cookie es el de validar el acceso a personal intea que se haya logeado anteriormente en 
+    esta aplicacion, se comprobara si existe dicha cookie, si esta existe , permitimos el acceso a la aplicacion
+    de lo contrario devolvemos al login
+    
+    COOKIE : access_token
+    
+    
+    */
+   
+   int cont = 0;
+   
+   
+   Cookie listaCookie[] = request.getCookies();
+   
+   for(Cookie c : listaCookie){
+   
+       if(c.getName().equals("access_token")){
+           cont++;
+           
+       }
+       
+   }
+   
+   if(cont==0){
+       
+       response.sendRedirect("/InSeguimientoClientes/index.jsp?no_session_or_cookie=1");
+   }
+   
+
+%>

@@ -1,0 +1,242 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package entidad;
+
+import java.io.Serializable;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+/**
+ *
+ * @author samuel.gonzalez
+ */
+public class Cliente implements Serializable{
+    
+    private static final long serialVersionUID =1L ;
+    
+    private int idcliente;
+    private String nombre;
+    private String apellidos;
+    private String telefono_fijo;
+    private String telefono_movil;
+    private String telefono_otro;
+    private String mail;
+    private String referencia;
+    private Date fecha_ingreso;
+    private Date fecha_modificacion;
+    private int certificados;
+    private int deleted;
+    private String otro;
+    private String localidad;
+    private String provincia;
+    private String fax;
+    private String cp;
+    private String tipoCliente;
+    private String observaciones;
+    private int idmarca;
+    
+    public Cliente(){}//constructor vacio
+
+    public Cliente(int idcliente, String nombre, String apellidos, String telefono_fijo, String telefono_movil, String telefono_otro, String mail, String referencia, Date fecha_ingreso, Date fecha_modificacion, int certificados, int deleted, String otro, String localidad, String provincia, String fax, String cp, String tipoCliente, String observaciones, int idmarca) {
+        this.idcliente = idcliente;
+        this.nombre = nombre;
+        this.apellidos = apellidos;
+        this.telefono_fijo = telefono_fijo;
+        this.telefono_movil = telefono_movil;
+        this.telefono_otro = telefono_otro;
+        this.mail = mail;
+        this.referencia = referencia;
+        this.fecha_ingreso = fecha_ingreso;
+        this.fecha_modificacion = fecha_modificacion;
+        this.certificados = certificados;
+        this.deleted = deleted;
+        this.otro = otro;
+        this.localidad = localidad;
+        this.provincia = provincia;
+        this.fax = fax;
+        this.cp = cp;
+        this.tipoCliente = tipoCliente;
+        this.observaciones = observaciones;
+        this.idmarca = idmarca;
+    }
+
+   
+
+    public String getLocalidad() {
+        return localidad;
+    }
+
+    public void setLocalidad(String localidad) {
+        this.localidad = localidad;
+    }
+
+    public String getProvincia() {
+        return provincia;
+    }
+
+    public void setProvincia(String provincia) {
+        this.provincia = provincia;
+    }
+
+    public String getFax() {
+        return fax;
+    }
+
+    public void setFax(String fax) {
+        this.fax = fax;
+    }
+
+    public String getCp() {
+        return cp;
+    }
+
+    public void setCp(String cp) {
+        this.cp = cp;
+    }
+
+    public String getTipoCliente() {
+        return tipoCliente;
+    }
+
+    public void setTipoCliente(String tipoCliente) {
+        this.tipoCliente = tipoCliente;
+    }
+
+    public String getObservaciones() {
+        return observaciones;
+    }
+
+    public void setObservaciones(String observaciones) {
+        this.observaciones = observaciones;
+    }
+
+    public int getIdmarca() {
+        return idmarca;
+    }
+
+    public void setIdmarca(int idmarca) {
+        this.idmarca = idmarca;
+    }
+
+    
+
+    public int getDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(int deleted) {
+        this.deleted = deleted;
+    }
+
+    public boolean isDeleted(){
+        boolean a = (this.deleted == 0)?false:true;
+        return a;
+    }
+
+
+    public int getIdcliente() {
+        return idcliente;
+    }
+
+    public void setIdcliente(int idcliente) {
+        this.idcliente = idcliente;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public String getApellidos() {
+        return apellidos;
+    }
+
+    public void setApellidos(String apellidos) {
+        this.apellidos = apellidos;
+    } 
+
+    public String getMail() {
+        return mail;
+    }
+
+    public void setMail(String mail) {
+        this.mail = mail;
+    }
+
+    public String getTelefono_fijo() {
+        return telefono_fijo;
+    }
+
+    public void setTelefono_fijo(String telefono_fijo) {
+        this.telefono_fijo = telefono_fijo;
+    }
+
+    public String getTelefono_movil() {
+        return telefono_movil;
+    }
+
+    public void setTelefono_movil(String telefono_movil) {
+        this.telefono_movil = telefono_movil;
+    }
+
+    public String getTelefono_otro() {
+        return telefono_otro;
+    }
+
+    public void setTelefono_otro(String telefono_otro) {
+        this.telefono_otro = telefono_otro;
+    }
+    
+    public String getReferencia() {
+        return referencia;
+    }
+
+    public void setReferencia(String referencia) {
+        this.referencia = referencia;
+    }
+
+    public Date getFecha_ingreso() {
+        return fecha_ingreso;
+    }
+    
+    public void setFecha_ingreso(Date fecha_ingreso) {
+        this.fecha_ingreso = fecha_ingreso;
+    }
+    public String getFechaIngresoFormat() {
+        String S = new SimpleDateFormat("dd-MM-yyyy").format(fecha_ingreso);
+        return S;
+    }
+    public Date getFecha_modificacion() {
+        return fecha_modificacion;
+    }
+    public String getFechaModificacionFormat() {
+        String S = new SimpleDateFormat("dd-MM-yyyy").format(fecha_modificacion);
+        return S;
+    }
+    public void setFecha_modificacion(Date fecha_modificacion) {
+        this.fecha_modificacion = fecha_modificacion;
+    }
+
+    public int getCertificados() {
+        return certificados;
+    }
+
+    public void setCertificados(int certificados) {
+        this.certificados = certificados;
+    }
+
+    public String getOtro() {
+        return otro;
+    }
+
+    public void setOtro(String otro) {
+        this.otro = otro;
+    }
+    
+}

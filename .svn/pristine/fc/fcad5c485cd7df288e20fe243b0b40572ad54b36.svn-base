@@ -1,0 +1,79 @@
+<%@page import="java.sql.Connection"%>
+<%@page import="java.sql.DriverManager"%>
+<%@page import="java.sql.PreparedStatement"%>
+<%@page import="java.sql.ResultSet"%>
+
+<%
+         //PARA QUE SE VEAN BIEN TODOS LOS CARACTERES
+            request.setCharacterEncoding("UTF-8");
+%>
+
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="shortcut icon" href="/InSeguimientoClientes/src/images/favicon.ico">
+       
+        <link href="/InSeguimientoClientes/src/css/bootstrap.css" rel="stylesheet">
+        <link href="/InSeguimientoClientes/src/css/bootstrap-theme.css" rel="stylesheet">
+<!--        <LINK REL="stylesheet" HREF="/InSeguimientoClientes/src/js/datetimepicker-master/jquery.datetimepicker.css" TYPE="text/css">-->
+<!--        <link href="/Consultor/paginas/src/css/bootstrap-theme.css.map" rel="stylesheet">-->
+        <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+        <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+        <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+        <script src="src/js/jquery.dataTables.js" type="text/javascript"></script>
+        <script src="/InSeguimientoClientes/src/js/msg/msg.js" type="text/javascript"></script>
+        <script src="/InSeguimientoClientes/src/js/msgBox/jquery.msgBox.js" type="text/javascript"></script>
+        <LINK REL="stylesheet" HREF="/InSeguimientoClientes/src/js/msgBox/styles/msgBoxLight.css" TYPE="text/css">
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <style>
+/*            #imagen{
+                width: 170px; 
+                height: 50px;
+            }*/
+            .mover {
+                position: relative;
+                left: 38em;
+            }
+           .navbar,legend,.h5 > b,.panel-heading{
+                    font-family: titulos;
+                    letter-spacing:  .07em;
+                }
+                .panel-heading,label{
+                    
+                    font-family: titulos1;
+                    font-weight: bold;
+                    letter-spacing:  .07em;
+                }
+                .panel-body,.alert{
+                    font-family: cuerpo;
+                }
+                #last_window > div.col-lg-3{
+                    font-family: cuerpo;
+                    
+                }
+        </style>
+
+     <nav id="var" class="navbar navbar-inverse navbar-fixed-top" role="navigation" style="background-color: #f1f1f1;">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+<!--            MARGIN Y PADDING A 0 para que svisualiza bien el logo-->
+          <a class="navbar-brand" style=" margin: 0;padding: .3em 0 0 0 ;" href="home.jsp"><img title="Intea" id="imagen"  src="/InSeguimientoClientes/src/images/intea-logo150x36.png"></a>
+        </div>
+        <div id="navbar" class="collapse navbar-collapse">
+          <ul class="nav navbar-nav">
+              <li><a href="/InSeguimientoClientes/home.jsp">Inicio</a></li>
+              <li><a href="/InSeguimientoClientes/listadoClientes.jsp" data-toggle="tooltip" title="Listado de clientes en base de datos. Este apartado contiene la herramienta de exportacion a excel.">Clientes</a></li>
+              <li><a href="/InSeguimientoClientes/listadoClientesEliminados.jsp" data-toggle="tooltip" title="Listado de clientes eliminados de la base de datos.">Clientes Eliminados</a></li>
+<!--              <li><a href="/InSeguimientoClientes/Clientes/Formularios/nuevoCurso.jsp" data-toggle="tooltip"  title="Ingresar nuevo curso, categoria o hacer modificaciones">Administrar Cursos</a></li>-->
+ 
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
+
+
+<%@include file="sessionControl.jsp"%>

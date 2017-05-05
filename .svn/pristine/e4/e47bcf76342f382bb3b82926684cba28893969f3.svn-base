@@ -1,0 +1,83 @@
+<%-- 
+    Document   : CONTROLADORInscripcionCurso
+    Created on : 24-abr-2017, 11:46:20
+    Author     : juan.carrasco
+--%>
+
+<%@page import="java.util.UUID"%>
+<%@page import="entidad.Curso"%>
+<%@page import="dao.DaoCurso"%>
+<%@page import="dao.DaoCursoCliente"%>
+<%@page import="entidad.ClienteCurso"%>
+<%@page import="entidad.Acciones"%>
+<%@page import="dao.DaoAcciones"%>
+<%@page import="entidad.Cliente"%>
+<%@page import="dao.DaoCliente"%>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%
+    String nombre = request.getParameter("nombre");
+    String apellidos = request.getParameter("apellidos");
+    String telefono =request.getParameter("telfno");
+    String mail = request.getParameter("mail");
+    String curso=request.getParameter("hash");
+    String uuid =   UUID.randomUUID().toString();
+    //DAO
+    DaoCliente daocl = new DaoCliente();
+    DaoAcciones daoacc = new DaoAcciones();
+    DaoCursoCliente daocc = new DaoCursoCliente();
+    DaoCurso daoc = new DaoCurso();
+    
+    //OBJ
+    Cliente cl = new Cliente();
+    Acciones a = new Acciones();
+    ClienteCurso cc = new ClienteCurso();
+    Curso cu = daoc.seleccionarCursoporHash(curso);
+
+    if(!daocl.comprobarClientePorTelefono(Integer.parseInt(telefono))){
+        cl.setNombre(nombre);
+        cl.setApellidos(apellidos);
+        cl.setTelefono_fijo(telefono);
+        cl.setMail(mail);
+        cl.setReferencia(uuid);
+        
+        if(daocl.insertarCliente(cl)){
+           cl = daocl.seleccionarClientePorReferencia(cl.getReferencia());
+           cc.setIdcurso(cu.getIdcurso());
+           cc.setIdcliente(cl.getIdcliente());
+           if(daocc.insertarCursoCliente(cc)){
+               a.setIdcliente(cl.getIdcliente());
+               a.setComentario("Queda pendiente de llamada para la solicitud del curso "+cu.getNombre());
+               a.setStatus("PENDIENTE");
+               a.setVolver_llamar(1);
+               if(daoacc.insertarAcciones(a)){
+                  Cookie cookie2 = new Cookie("newcurso","1");
+                  cookie2.setMaxAge(60*60*24*7);
+                  response.addCookie(cookie2);
+                  response.sendRedirect("/InSeguimientoClientes/Inscripcion_curso.jsp");
+                  out.print("{\"tipo\":1");
+               }else{
+                   out.print("{\"tipo\":0");
+               }
+           }
+        }
+    }else{
+        cl=daocl.seleccionarUnClientePorTelefono(telefono);
+        cc.setIdcurso(cu.getIdcurso());
+           cc.setIdcliente(cl.getIdcliente());
+           if(daocc.insertarCursoCliente(cc)){
+               a.setIdcliente(cl.getIdcliente());
+               a.setComentario("Queda pendiente de llamada para la solicitud del curso "+cu.getNombre());
+               a.setStatus("PENDIENTE");
+               a.setVolver_llamar(1);
+               if(daoacc.insertarAcciones(a)){
+                    Cookie cookie2 = new Cookie("newcurso","1");
+                    cookie2.setMaxAge(60*60*24*7);
+                    response.addCookie(cookie2);
+                    response.sendRedirect("/InSeguimientoClientes/Inscripcion_curso.jsp");
+                    out.print("{\"tipo\":1");
+               }else{
+                   out.print("{\"tipo\":0");
+               }
+           }
+    }
+%>

@@ -1,0 +1,77 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package filter;
+
+import java.io.IOException;
+import java.io.Serializable;
+import javax.servlet.Filter;
+import javax.servlet.FilterChain;
+import javax.servlet.FilterConfig;
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+
+
+/**
+ *
+ * @author hector.heras
+ */
+public class SessionFilter implements Filter , Serializable{
+    
+    FilterConfig filterConfig = null;
+    
+    private static final long serialVersionUID = 1L;
+    
+	public void init(FilterConfig filterConfig) throws ServletException {
+		this.filterConfig = filterConfig;
+	}
+
+	public void destroy() {
+	}
+
+	public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain)
+			throws IOException, ServletException {
+            
+		servletResponse.setContentType("text/html");
+		int cont = 0;
+                HttpServletRequest req = (HttpServletRequest) servletRequest;
+                HttpServletResponse res = (HttpServletResponse) servletResponse;
+                String url = req.getRequestURI();
+                System.out.println("Estoy en el filtrooooooooo!!");
+                System.out.println("URL:"+url);
+                
+                String indice = url.substring(url.lastIndexOf("/"),url.length());
+                if(!"/index.jsp".equals(indice)&&!"/".equals(indice)){
+                    
+                    Cookie listaCookie[] =  req.getCookies();
+                    if(listaCookie.length!=0){
+                        for(Cookie c : listaCookie){
+
+                            if(c.getName().equals("access_token")){
+                                cont++;
+
+                            }
+
+                        } 
+                    }
+                
+//                    if(cont==0){
+//                        res.sendRedirect("/InSeguimientoClientes/index.jsp?no_session_or_cookie=1");
+//                    }else{
+//                        filterChain.doFilter(servletRequest, servletResponse);
+//                    }
+                }else{
+                    filterChain.doFilter(servletRequest, servletResponse);
+                }
+               // System.out.println("Estoy en el filtrooooooooo!!");
+
+	}
+}

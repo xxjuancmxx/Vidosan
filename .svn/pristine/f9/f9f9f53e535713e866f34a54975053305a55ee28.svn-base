@@ -1,0 +1,110 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package entidad;
+
+import java.io.Serializable;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+/**
+ *
+ * @author samuel.gonzalez
+ */
+public class Acciones implements Serializable{
+    private static final long serialVersionUID =1L ;
+    private int idaccion;
+    private int idcliente;
+    private String comentario;
+    private Date fecha;
+    private int volver_llamar;
+    private String status;
+    private String usuarios;
+    private int idusuarios;
+    
+    public Acciones(){}//constructor vacio
+
+    public Acciones(int idaccion, int idcliente, String comentario, Date fecha, int volver_llamar, String status,String usuarios,int idusuarios) {
+        this.idaccion = idaccion;
+        this.idcliente = idcliente;
+        this.comentario = comentario;
+        this.fecha = fecha;
+        this.volver_llamar = volver_llamar;
+        this.status = status;
+        this.usuarios = usuarios;
+        this.idusuarios = idusuarios;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+   
+    public int getIdaccion() {
+        return idaccion;
+    }
+
+    public void setIdaccion(int idaccion) {
+        this.idaccion = idaccion;
+    }
+
+    public int getIdcliente() {
+        return idcliente;
+    }
+
+    public void setIdcliente(int idcliente) {
+        this.idcliente = idcliente;
+    }
+
+    public String getComentario() {
+        return comentario;
+    }
+
+    public void setComentario(String comentario) {
+        this.comentario = comentario;
+    }
+
+    public Date getFecha() {
+        return fecha;
+    }
+    public String getFechaF() {
+        SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
+        return format.format(this.fecha);
+    }
+    public void setFecha(Date fecha) {
+        this.fecha = fecha;
+    }
+
+    public int getVolver_llamar() {
+        return volver_llamar;
+    }
+
+    public void setVolver_llamar(int volver_llamar) {
+        this.volver_llamar = volver_llamar;
+    }
+
+    public String getUsuarios() {
+        return usuarios;
+    }
+
+    public void setUsuarios(String usuarios) {
+        this.usuarios = usuarios;
+    }
+
+    public int getIdusuarios() {
+        return idusuarios;
+    }
+
+    public void setIdusuarios(int idusuarios) {
+        this.idusuarios = idusuarios;
+    }
+
+    
+    
+    
+}

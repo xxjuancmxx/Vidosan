@@ -1,0 +1,422 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package dao;
+
+import BBDD.connect;
+import entidad.Cliente;
+import entidad.Curso;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ *
+ * @author samuel.gonzalez
+ */
+public class DaoCliente {
+    
+    public DaoCliente(){}//constructor vacio
+    
+    //seleccionar cliente
+    public Cliente seleccionarClientePorId(int id) throws ClassNotFoundException, SQLException{
+        Cliente cl = new Cliente();
+        connect c = new connect();
+        Connection con=c.openConnect();
+        PreparedStatement ps;
+        ResultSet rs;
+        try{
+            ps=con.prepareStatement("SELECT * FROM cliente WHERE idcliente=?");
+            ps.setInt(1, id);
+            rs=ps.executeQuery();
+            while(rs.next()){
+                cl.setIdcliente(rs.getInt(1));
+                cl.setNombre(rs.getString(2));
+                cl.setApellidos(rs.getString(3));
+                cl.setTelefono_fijo(rs.getString(4));
+                cl.setTelefono_movil(rs.getString(5));
+                cl.setTelefono_otro(rs.getString(6));
+                cl.setMail(rs.getString(7));
+                cl.setReferencia(rs.getString(8));
+                cl.setFecha_ingreso(rs.getDate(9));
+                cl.setFecha_modificacion(rs.getDate(10));
+                cl.setCertificados(rs.getInt(11));
+                cl.setDeleted(rs.getInt(12));
+                cl.setOtro(rs.getString(13));
+            }
+        }catch(Exception e){
+            System.out.print("Error al seleccionar cliente por id"+e);
+        }
+        con.close();
+        return cl;
+    }
+    //seleccionar cliente
+    public Cliente seleccionarClientePorReferencia(String ref) throws ClassNotFoundException, SQLException{
+        Cliente cl = new Cliente();
+        connect c = new connect();
+        Connection con=c.openConnect();
+        PreparedStatement ps;
+        ResultSet rs;
+        try{
+            ps=con.prepareStatement("SELECT * FROM cliente WHERE referencia=?");
+            ps.setString(1, ref);
+            rs=ps.executeQuery();
+            while(rs.next()){
+                cl.setIdcliente(rs.getInt(1));
+                cl.setNombre(rs.getString(2));
+                cl.setApellidos(rs.getString(3));
+                cl.setTelefono_fijo(rs.getString(4));
+                cl.setTelefono_movil(rs.getString(5));
+                cl.setTelefono_otro(rs.getString(6));
+                cl.setMail(rs.getString(7));
+                cl.setReferencia(rs.getString(8));
+                cl.setFecha_ingreso(rs.getDate(9));
+                cl.setFecha_modificacion(rs.getDate(10));
+                cl.setCertificados(rs.getInt(11));
+                cl.setDeleted(rs.getInt(12));
+                cl.setOtro(rs.getString(13));
+            }
+        }catch(Exception e){
+            System.out.print("Error al seleccionar cliente por referencia "+e);
+        }
+        con.close();
+        return cl;
+    }
+    
+    //seleccionar clientes
+    public List<Cliente> seleccionarListadoClientes() throws ClassNotFoundException, SQLException{
+        List<Cliente> lista = new ArrayList<Cliente>();
+        connect c = new connect();
+        Connection con=c.openConnect();
+        PreparedStatement ps;
+        ResultSet rs;
+        try{
+            ps=con.prepareStatement("SELECT idcliente,nombre,apellidos,telefono,telefono_movil,telefono_otro,correo,referencia,fecha_inserccion,fecha_modificacion,certificados,isDeleted,observaciones FROM cliente where  isDeleted!=1 ORDER BY apellidos ASC ");
+            rs=ps.executeQuery();
+            while(rs.next()){
+            Cliente cl = new Cliente();
+            
+                cl.setIdcliente(rs.getInt(1));
+                cl.setNombre(rs.getString(2));
+                cl.setApellidos(rs.getString(3));
+                cl.setTelefono_fijo(rs.getString(4));
+                cl.setTelefono_movil(rs.getString(5));
+                cl.setTelefono_otro(rs.getString(6));
+                cl.setMail(rs.getString(7));
+                cl.setReferencia(rs.getString(8));
+                cl.setFecha_ingreso(rs.getDate(9));
+                cl.setFecha_modificacion(rs.getDate(10));
+                cl.setCertificados(rs.getInt(11));
+                cl.setDeleted(rs.getInt(12));
+                cl.setOtro(rs.getString(13));
+                lista.add(cl);
+            
+            }
+        }catch(Exception e){
+            System.out.print("Error al seleccionar todos los clientes "+e);
+        }
+        con.close();
+        return lista;
+    }
+     //seleccionar clientes
+    public List<Cliente> seleccionarListadoClientesEliminados() throws ClassNotFoundException, SQLException{
+        List<Cliente> lista = new ArrayList<Cliente>();
+        connect c = new connect();
+        Connection con=c.openConnect();
+        PreparedStatement ps;
+        ResultSet rs;
+        try{
+            ps=con.prepareStatement("SELECT * FROM cliente where  isDeleted=1 ORDER BY apellidos ASC ");
+            rs=ps.executeQuery();
+            while(rs.next()){
+            Cliente cl = new Cliente();
+            
+                cl.setIdcliente(rs.getInt(1));
+                cl.setNombre(rs.getString(2));
+                cl.setApellidos(rs.getString(3));
+                cl.setTelefono_fijo(rs.getString(4));
+                cl.setTelefono_movil(rs.getString(5));
+                cl.setTelefono_otro(rs.getString(6));
+                cl.setMail(rs.getString(7));
+                cl.setReferencia(rs.getString(8));
+                cl.setFecha_ingreso(rs.getDate(9));
+                cl.setFecha_modificacion(rs.getDate(10));
+                cl.setCertificados(rs.getInt(11));
+                cl.setDeleted(rs.getInt(12));
+                cl.setOtro(rs.getString(13));
+            lista.add(cl);
+            
+            }
+        }catch(Exception e){
+            System.out.print("Error al seleccionar todos los clientes "+e);
+        }
+        con.close();
+        return lista;
+    }
+    //insertar clientes
+    public boolean insertarCliente(Cliente cl) throws ClassNotFoundException, SQLException{
+        boolean correcto = false;
+        connect c = new connect();
+        Connection con=c.openConnect();
+        PreparedStatement ps;
+        try{
+            
+            ps=con.prepareStatement("INSERT INTO cliente (nombre,apellidos,telefono_fijo,"
+                    + "telefono_movil,tlfn_otro,mail,"
+                    + "referencia,certificados,otro_curso)"
+                    + " values(?,?,?,?,?,?,?,?,?)");
+            
+            ps.setString(1, cl.getNombre());
+            ps.setString(2, cl.getApellidos());
+            ps.setString(3, cl.getTelefono_fijo());
+            ps.setString(4, cl.getTelefono_movil());
+            ps.setString(5, cl.getTelefono_otro());
+            ps.setString(6, cl.getMail());
+            ps.setString(7, cl.getReferencia());
+            ps.setInt(8, cl.getCertificados());
+            ps.setString(9,cl.getOtro());
+            if(ps.executeUpdate()>0){
+                correcto=true;
+            }else{
+                correcto=false;
+            }
+        }catch(Exception e){
+            System.out.print("Error al insertar cliente "+e);
+        }
+        con.close();
+        return correcto;
+    }
+    
+    //modificar cliente
+    public boolean modificarCliente(Cliente cl) throws ClassNotFoundException, SQLException{
+        boolean correcto = false;
+        connect c = new connect();
+        Connection con=c.openConnect();
+        PreparedStatement ps;
+        try{
+            ps=con.prepareStatement("UPDATE cliente SET "
+                    + "nombre=?,apellidos=?,telefono_fijo=?,"
+                    + "telefono_movil=?,tlfn_otro=?,mail=?,certificados=?,otro_curso=? WHERE idcliente=?");
+            ps.setString(1, cl.getNombre());
+            ps.setString(2, cl.getApellidos());
+            ps.setString(3, cl.getTelefono_fijo());
+            ps.setString(4, cl.getTelefono_movil());
+            ps.setString(5, cl.getTelefono_otro());
+            ps.setString(6, cl.getMail());
+            ps.setInt(7, cl.getCertificados() );
+            ps.setString(8, cl.getOtro());
+            ps.setInt(9, cl.getIdcliente());
+            
+            if(ps.executeUpdate()>0){
+                correcto=true;
+            }else{
+                correcto=false;
+            }
+        }catch(Exception e){
+            System.out.print("Error al modificar cliente "+e);
+        }
+        con.close();
+        return correcto;
+    }
+  
+    //borrar cliente de bbdd
+    public boolean borrarClientes(int id) throws ClassNotFoundException, SQLException{
+        boolean correcto = false;
+        connect c = new connect();
+        Connection con=c.openConnect();
+        PreparedStatement ps;
+        try{
+            ps=con.prepareStatement("DELETE FROM cliente WHERE idcliente=?");
+            ps.setInt(1, id);
+            if(ps.executeUpdate()>0){
+                correcto=true;
+            }else{
+                correcto=false;
+            }
+        }catch(Exception e){
+            System.out.print("Error al borrar cliente "+e);
+        }
+        con.close();
+        return correcto;
+    }
+    //borrar cliente de , actualizando campo deleted a true
+    public boolean borrarClientePorId(int id) throws ClassNotFoundException, SQLException{
+        boolean correcto = false;
+        connect c = new connect();
+        Connection con=c.openConnect();
+        PreparedStatement ps;
+        try{
+            ps=con.prepareStatement("UPDATE cliente set deleted=1 WHERE idcliente=?");
+            ps.setInt(1, id);
+            if(ps.executeUpdate()>0){
+                correcto=true;
+            }else{
+                correcto=false;
+            }
+        }catch(Exception e){
+            System.out.print("Error al borrar cliente, actualizando el campo deleted "+e);
+        }
+        con.close();
+        return correcto;
+    }
+    //borrar cliente de , actualizando campo deleted a true
+    public boolean activarClientePorId(int id) throws ClassNotFoundException, SQLException{
+        boolean correcto = false;
+        connect c = new connect();
+        Connection con=c.openConnect();
+        PreparedStatement ps;
+        try{
+            ps=con.prepareStatement("UPDATE cliente set deleted=0 WHERE idcliente=?");
+            ps.setInt(1, id);
+            if(ps.executeUpdate()>0){
+                correcto=true;
+            }else{
+                correcto=false;
+            }
+        }catch(Exception e){
+            System.out.print("Error al borrar cliente, actualizando el campo deleted "+e);
+        }
+        con.close();
+        return correcto;
+    }
+    //comprobar si existe el cliente
+    public boolean comprobarClientePorTelefono(int telefono) throws ClassNotFoundException, SQLException{
+        boolean existe = false;
+        connect c = new connect();
+        Connection con=c.openConnect();
+        PreparedStatement ps;
+        ResultSet rs;
+        try{
+            ps=con.prepareStatement("SELECT * FROM cliente WHERE telefono_fijo = ? OR telefono_movil=? OR telefono_otro=? and deleted!=1");
+            
+            ps.setInt(1, telefono);
+            ps.setInt(2, telefono);
+            ps.setInt(3, telefono);
+            
+            rs=ps.executeQuery();
+            if(rs.next()){
+                existe=true;
+            }else{
+                existe=false;
+            }
+        }catch(Exception e){
+            System.out.print("Error al comprobar si existe el cliente por telefono"+e);
+        }
+        con.close();
+        return existe;
+    }
+    
+    //comprobar si existe el cliente
+    public List<Cliente> seleccionarClientePorTelefono(String telefono) throws ClassNotFoundException, SQLException{
+        List <Cliente> lcl = new ArrayList();
+        connect c = new connect();
+        Connection con=c.openConnect();
+        PreparedStatement ps;
+        ResultSet rs;
+        try{
+            ps=con.prepareStatement("SELECT * FROM cliente WHERE telefono_fijo = ? OR telefono_movil=? OR tlfn_otro=? and deleted!=1");
+            
+            ps.setString(1, telefono);
+            ps.setString(2, telefono);
+            ps.setString(3, telefono);
+            
+            rs=ps.executeQuery();
+            while(rs.next()){
+                Cliente cl = new Cliente();
+                cl.setIdcliente(rs.getInt(1));
+                cl.setNombre(rs.getString(2));
+                cl.setApellidos(rs.getString(3));
+                cl.setTelefono_fijo(rs.getString(4));
+                cl.setTelefono_movil(rs.getString(5));
+                cl.setTelefono_otro(rs.getString(6));
+                cl.setMail(rs.getString(7));
+                cl.setReferencia(rs.getString(8));
+                cl.setFecha_ingreso(rs.getDate(9));
+                cl.setFecha_modificacion(rs.getDate(10));
+                cl.setCertificados(rs.getInt(11));
+                cl.setDeleted(rs.getInt(12));
+                cl.setOtro(rs.getString(13));
+                
+                lcl.add(cl);
+            }
+        }catch(Exception e){
+            System.out.print("Error al seleccionar clientes por telefono"+e);
+        }
+        con.close();
+        return lcl;
+    }
+    
+    //seleccionar cursos de interes de un cliente
+   public List<Curso> seleccionarCursosInteresCliente(int idcliente) throws ClassNotFoundException, SQLException{ 
+        List<Curso> lc = new ArrayList();
+        connect c = new connect();
+        Connection con=c.openConnect();
+        PreparedStatement ps;
+        ResultSet rs;
+        try{
+            
+            ps=con.prepareStatement("select cu.idcurso,cu.nombre " +
+            "from " +
+            "cliente as c " +
+            "left join " +
+            "cliente_curso as cc " +
+            "on c.idcliente=cc.idcliente  " +
+            "inner join " +
+            "curso as cu on cc.idcurso=cu.idcurso " +
+            "where c.idcliente=?;");
+            
+            ps.setInt(1, idcliente);
+            
+            rs=ps.executeQuery();
+            
+            while(rs.next()){
+                lc.add(new Curso(rs.getInt(1),rs.getString(2)));
+            }
+        }catch(Exception e){
+            System.out.print("Error al seleccionar cursocliente por idcliente "+e);
+        }
+        con.close();
+        return lc;
+    }
+   
+   
+   //seleccionar los ultimos 10 clientes insertados
+    public List<Cliente> seleccionarUltimos10Clientes() throws ClassNotFoundException, SQLException{
+        List <Cliente> lcl = new ArrayList();
+        connect c = new connect();
+        Connection con=c.openConnect();
+        PreparedStatement ps;
+        ResultSet rs;
+        try{
+            ps=con.prepareStatement("SELECT * FROM cliente  order by fecha_ingreso desc limit 4 and deleted!=1;");
+            rs=ps.executeQuery();
+            while(rs.next()){
+                Cliente cl = new Cliente();
+                cl.setIdcliente(rs.getInt(1));
+                cl.setNombre(rs.getString(2));
+                cl.setApellidos(rs.getString(3));
+                cl.setTelefono_fijo(rs.getString(4));
+                cl.setTelefono_movil(rs.getString(5));
+                cl.setTelefono_otro(rs.getString(6));
+                cl.setMail(rs.getString(7));
+                cl.setReferencia(rs.getString(8));
+                cl.setFecha_ingreso(rs.getDate(9));
+                cl.setFecha_modificacion(rs.getDate(10));
+                cl.setCertificados(rs.getInt(11));
+                cl.setDeleted(rs.getInt(12));
+                cl.setOtro(rs.getString(13));
+                
+                lcl.add(cl);
+            }
+        }catch(Exception e){
+            System.out.print("Error al seleccionar ultimos 10 clientes:"+e);
+        }
+        con.close();
+        return lcl;
+    }
+}

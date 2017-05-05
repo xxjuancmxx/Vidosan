@@ -1,0 +1,33 @@
+<%-- 
+    Document   : ultimosClientes
+    Created on : 11-feb-2016, 12:03:17
+    Author     : hector.heras
+--%>
+
+<%@page import="entidad.Cliente"%>
+<%@page import="java.util.List"%>
+<%@page import="dao.DaoCliente"%>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+
+<%
+DaoCliente cc = new DaoCliente();
+List<Cliente>lc = cc.seleccionarUltimos10Clientes();
+%>
+<!--<table class="table">-->
+<div class="col-lg-12">
+    <div class="h5"> 
+        <b >Últimos clientes insertados:</b>
+    </div>
+</div>
+  <%
+    for( Cliente c : lc ){
+        %>
+        <div class="col-lg-3">
+            <%=c.getNombre()%> <%=c.getApellidos() %> / <%=c.getTelefono_movil() %>
+        </div>
+    <%
+    }
+  
+  
+  %>  
+<!--</table>-->

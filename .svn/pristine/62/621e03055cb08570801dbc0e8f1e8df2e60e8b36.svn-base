@@ -1,0 +1,57 @@
+<%-- 
+    Document   : CONTROLADORlogin
+    Created on : 24-jun-2015, 10:54:44
+    Author     : samuel.gonzalez
+--%>
+
+<%@page import="entidad.Hash"%>
+<%@page import="dao.DaoHash"%>
+<%@page import="entidad.intea.Usuario"%>
+<%@page import="dao.intea.DaoUsuario"%>
+<%@page import="java.util.UUID"%>
+<%@page import="java.sql.ResultSet"%>
+<%@page import="java.sql.PreparedStatement"%>
+<%@page import="java.sql.SQLException"%>
+<%@page import="java.sql.Connection"%>
+<%@page import="java.sql.DriverManager"%>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+        <% 
+            //IMPORTANTE PARA NO VISUALIZAR MAL LOS CARACTERES
+            request.setCharacterEncoding("UTF-8");
+            
+        try{
+             String user = request.getParameter("usuario");
+             String pass = request.getParameter("password");
+             
+             DaoUsuario dauser = new DaoUsuario();
+             DaoHash daoHash = new DaoHash();
+             
+
+             if(dauser.comprobarLogin(user, pass)){
+//                 Cookie cookie = new Cookie("usuario",usuario);
+//                 cookie.setMaxAge(60*60*24*31);
+                   UUID id = UUID.randomUUID();
+                   Usuario u = dauser.seleccionarUsuarioPorNombrePassword(user, pass);
+                   
+                   Cookie cookie = new Cookie("hash", id.toString());
+                   Cookie cookie1 = new Cookie("id", Integer.toString(u.getIduser()));
+                   
+                   cookie.setMaxAge(60*60*24*50);
+                   cookie1.setMaxAge(60*60*24*50);
+                   
+                   Hash h = new Hash(u.getIduser(),id.toString());
+                   daoHash.borrarHash(u.getIduser());
+                   daoHash.insertarHash(h);
+                   
+                   response.addCookie(cookie);
+                   response.addCookie(cookie1);
+                  
+                 response.sendRedirect("/InSeguimientoClientes/home.jsp");
+             }else{
+                 response.sendRedirect("/InSeguimientoClientes/index.jsp?p=1");
+             }
+        }catch(Exception e){ 
+             System.out.print("Error al loguearse "+e);
+        }
+        
+        %>

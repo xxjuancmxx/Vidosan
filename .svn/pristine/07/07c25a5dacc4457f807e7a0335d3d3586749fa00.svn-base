@@ -1,0 +1,63 @@
+<%-- 
+    Document   : otraaccion
+    Created on : 05-abr-2017, 13:13:56
+    Author     : juan.carrasco
+--%>
+
+<%@page import="java.util.List"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="dao.DaoAcciones"%>
+<%@page import="entidad.Acciones"%>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%
+    DaoAcciones daoacc = new DaoAcciones();
+    List<Acciones> listaAcciones = new ArrayList<Acciones>();
+%>
+Sacar las tareas de la tabla acciones-->
+<label><h4><b>Tareas:</b></h4></label>
+<%
+    listaAcciones = daoacc.seleccionarAccionesCliente(c.getIdcliente());
+    if (listaAcciones.size() >= 1) {
+%>
+<table class="table">
+    <th>Estado</th>
+    <th>Fecha</th>
+    <th>Volver a llamar</th>
+    <th>Comentario</th>
+        <%
+            for (Acciones acc : listaAcciones) {
+                out.print("<tr>");
+                out.print("<td>" + acc.getStatus() + "</td>");
+                out.print("<td>" + acc.getFecha() + "</td>");
+                if (acc.getVolver_llamar() == 1) {
+                    out.print("<td style='text-align:center'>SI</td>");
+                } else {
+                    out.print("<td style='text-align:center'>NO</td>");
+                }
+                out.print("<td style='width:55%;'><textarea class='form-control' readonly style='background-color:white;resize:none;'>" + acc.getComentario() + "</textarea></td>");
+
+                out.print("</tr>");
+            }
+
+        %>
+    <tr>
+        <td>Nueva Tarea</td>
+        <td>_______</td>
+        <td style='text-align: center;'>
+            <select>
+                <option>SI</option>
+                <option>NO</option>
+            </select>
+        </td>
+        <td>
+            <textarea class='form-control' style='resize: none'></textarea>
+        </td>
+    </tr>
+</table>
+<%    } else {
+%>
+
+<div class="alert alert-warning">Sin tareas por ahora..</div>
+<%
+    }
+%>

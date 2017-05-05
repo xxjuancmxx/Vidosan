@@ -1,0 +1,164 @@
+<%-- 
+    Document   : CONTROLADORmodificarCliente
+    Created on : 25-jun-2015, 13:06:43
+    Author     : samuel.gonzalez
+--%>
+
+<%@page import="dao.DaoCursoCliente"%>
+<%@page import="entidad.ClienteCurso"%>
+<%@page import="java.util.Date"%>
+<%@page import="java.text.SimpleDateFormat"%>
+<%@page import="entidad.Cliente"%>
+<%@page import="dao.DaoCliente"%>
+<%
+    //IMPORTANTE PARA NO VISUALIZAR MAL LOS CARACTERES
+    request.setCharacterEncoding("UTF-8");
+    
+    try{
+        //CONTROALDORES
+        DaoCliente daocl = new DaoCliente();
+        DaoCursoCliente daocc = new DaoCursoCliente();
+        
+        //OBJETOS
+        Cliente cl = new Cliente();
+        ClienteCurso cc = new ClienteCurso();
+        
+        //REQUEST
+        int idcliente = Integer.parseInt(request.getParameter("idcliente"));
+        String tipoCliente = request.getParameter("tipoCliente");
+        String nombre = request.getParameter("nombre");
+        String apellidos = request.getParameter("apellidos");
+        String telefono_fijo = request.getParameter("telefono_fijo");
+        String telefono_movil = request.getParameter("telefono_movil");
+        String telefono_otro = request.getParameter("telefono_otro");
+        String localidad = request.getParameter("localidad");
+        String provincia = request.getParameter("provincia");
+        String cp = request.getParameter("cp");
+        String fax = request.getParameter("fax");
+        String mail = request.getParameter("mail");
+        String interes[] = request.getParameterValues("interesado");
+        int certificados = Integer.parseInt(request.getParameter("certificados"));
+        String otro =  request.getParameter("otro");
+        
+        
+        if(tipoCliente.equals("Empresa")){
+            int idmarca = Integer.parseInt(request.getParameter("marca"));
+            cl.setNombre(nombre);
+            cl.setApellidos(apellidos);
+            cl.setTelefono(telefono_fijo);
+            cl.setTelefono_movil(telefono_movil);
+            cl.setTelefono_otro(telefono_otro);
+            cl.setCorreo(mail);
+            cl.setLocalidad(localidad);
+            cl.setProvincia(provincia);
+            cl.setFax(fax);
+            cl.setCp(cp);
+            cl.setCertificados(certificados);
+            cl.setTipoCliente(tipoCliente);
+            cl.setIdmarca(idmarca);
+            cl.setObservaciones(otro);
+            cl.setIdcliente(idcliente);
+            
+                    //SI SE INSERTA EL USUARIO
+        if(daocl.modificarCliente(cl)){
+            System.out.print("Se ha modificado un cliente.");
+            
+            if(interes != null ){ //CONTROLAMOS QUE INTERES NO PUEDA SER NULO
+                
+                if(daocc.borrarCursoClientePorIdCliente(idcliente)){
+                    System.out.print("Intereses del alumno en un curso borrados satisfactoriamente (modificar cliente).");
+                }else{
+                    System.out.print("Ocurrio un error al borrar los intereses (modificar cliente) de un cliente en un curso.");
+                }
+                
+                for(int x=0;x<interes.length;x++){
+                   cc.setIdcliente(cl.getIdcliente());
+                   cc.setIdcurso(Integer.parseInt(interes[x])); 
+                   if(daocc.insertarCursoCliente(cc)){
+                       System.out.print("Se ha asignado correctamente un curso a un cliente.");
+                    }else{
+                       System.out.print("Ocurrio un error al asignar un curso a un cliente.");
+                    }
+                }
+            }else{
+                if(daocc.borrarCursoClientePorIdCliente(idcliente)){
+                    System.out.print("Intereses del alumno en un curso borrados satisfactoriamente (modificar cliente).");
+                }
+            }
+            
+            
+                //Enviamos respuesta al home indicando que todo salio bien.
+            
+//            response.sendRedirect("/InSeguimientoClientes/home.jsp?clb=1");
+            
+            out.print("{\"tipo\":1,\"msg\":\"Cliente modificado correctamente.\"}");
+        }else{
+            System.out.print("Ocurrio un error al insertar un cliente.");
+            
+            out.print("{\"tipo\":0,\"msg\":\"Ocurrio un error al modificar el cliente.\"}");
+            //response.sendRedirect("/InSeguimientoClientes/home.jsp?clm=1");
+        }
+        }else{
+            
+            
+        //Asignamos valores al obejto cliente
+        cl.setIdcliente(idcliente);
+        cl.setNombre(nombre);
+        cl.setApellidos(apellidos);
+        cl.setTelefono(telefono_fijo);
+        cl.setLocalidad(localidad);
+        cl.setProvincia(provincia);
+        cl.setCp(cp);
+        cl.setFax(fax);
+        cl.setTipoCliente(tipoCliente);
+        cl.setTelefono_movil(telefono_movil);
+        cl.setTelefono_otro(telefono_otro);
+        cl.setCorreo(mail);
+        cl.setCertificados(certificados);
+        cl.setObservaciones(otro);
+        cl.setIdcliente(idcliente);
+                    //SI SE INSERTA EL USUARIO
+        if(daocl.modificarCliente(cl)){
+            System.out.print("Se ha modificado un cliente.");
+            
+            if(interes != null ){ //CONTROLAMOS QUE INTERES NO PUEDA SER NULO
+                
+                if(daocc.borrarCursoClientePorIdCliente(idcliente)){
+                    System.out.print("Intereses del alumno en un curso borrados satisfactoriamente (modificar cliente).");
+                }else{
+                    System.out.print("Ocurrio un error al borrar los intereses (modificar cliente) de un cliente en un curso.");
+                }
+                
+                for(int x=0;x<interes.length;x++){
+                   cc.setIdcliente(cl.getIdcliente());
+                   cc.setIdcurso(Integer.parseInt(interes[x])); 
+                   if(daocc.insertarCursoCliente(cc)){
+                       System.out.print("Se ha asignado correctamente un curso a un cliente.");
+                    }else{
+                       System.out.print("Ocurrio un error al asignar un curso a un cliente.");
+                    }
+                }
+            }else{
+                if(daocc.borrarCursoClientePorIdCliente(idcliente)){
+                    System.out.print("Intereses del alumno en un curso borrados satisfactoriamente (modificar cliente).");
+                }
+            }
+            
+            
+                //Enviamos respuesta al home indicando que todo salio bien.
+            
+//            response.sendRedirect("/InSeguimientoClientes/home.jsp?clb=1");
+            
+            out.print("{\"tipo\":1,\"msg\":\"Cliente modificado correctamente.\"}");
+        }else{
+            System.out.print("Ocurrio un error al insertar un cliente.");
+            
+            out.print("{\"tipo\":0,\"msg\":\"Ocurrio un error al modificar el cliente.\"}");
+            //response.sendRedirect("/InSeguimientoClientes/home.jsp?clm=1");
+        }
+        }
+
+    }catch(Exception e){
+        System.out.print("Error al modificar el cliente "+e);
+    }
+%>

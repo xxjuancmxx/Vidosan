@@ -1,0 +1,971 @@
+package dao;
+
+import bbdd.Connect;
+import entidad.Usuario;
+import entidad.UsuarioPromotor;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+public class DaoUsuario {
+    //CONSTRUCTOR VACIO
+    public DaoUsuario(){}
+    //INSERTAR USUARIO
+    public boolean insertarUsuario(Usuario u) throws ClassNotFoundException, SQLException{
+        boolean correcto=false;
+        Connect c = new Connect();
+        Connection con=c.openConnectIntea();
+        PreparedStatement ps;
+        try{
+            ps=con.prepareStatement("INSERT INTO intea_user ("
+                    + "name,pass,permiso,departamento,nombrecompleto,"
+                    + "email,color,marca,funcion,correocliente,"
+                    + "tlfCliente,tlfIntea,tlfOtro,idpromuser,lider,"
+                    + "idlms,estado,reportes,calendario,seguimiento,"
+                    + "formularios,inventario,comunicacion,gestion_usuario,ref_promotor,"
+                    + "ref_lms,referencia,nif,naf,horas,"
+                    + "man_en,man_sal,tar_en,tar_sal,fecha_nac,"
+                    + "path_cv,href_cv,path_foto,href_foto,fecha_modificacion_foto,"
+                    + "fecha_modificacion_cv,iso,or,correoPersonal,ccc) "
+                    + "VALUES("
+                    + "?,?,?,?,?,"
+                    + "?,?,?,?,?,"
+                    + "?,?,?,?,?,"
+                    + "?,?,?,?,?,"
+                    + "?,?,?,?,?,?,?,"
+                    + "?,?,?,?,?,?,?,"
+                    + "?,?,?,?,?"
+                    + "?,?,?,?,?,?)");
+            
+            
+            ps.setString(1, u.getName());
+            ps.setString(2, u.getPass());
+            ps.setInt(3, u.getPermiso());
+            ps.setInt(4, u.getDepartamento());
+            ps.setString(5, u.getNombrecompleto());
+            
+            ps.setString(6, u.getEmail());
+            ps.setString(7, u.getColor());
+            ps.setInt(8, u.getIdmarca());
+            ps.setInt(9, u.getFuncion());
+            ps.setString(10, u.getCorreocliente());
+            
+            ps.setString(11, u.getTlfCliente());
+            ps.setString(12, u.getTlfIntea());
+            ps.setString(13, u.getTlfOtro());
+            ps.setInt(14, u.getIdpromuser());
+            ps.setInt(15, u.getLider());
+            
+            ps.setInt(16, u.getIdlms());
+            ps.setInt(17, u.getEstado());
+            ps.setInt(18, u.getReportes());
+            ps.setInt(19, u.getCalendario());
+            ps.setInt(20, u.getSeguimiento());
+            
+            ps.setInt(21, u.getFormularios());
+            ps.setInt(22, u.getInventario());
+            ps.setInt(23, u.getComunicacion());
+            ps.setInt(24, u.getGestion_usuarios());
+            
+            ps.setString(25, u.getRef_promotor());
+            ps.setString(26, u.getRef_promotor());
+            ps.setString(27, u.getReferencia());
+            ps.setString(28, u.getNif());
+            ps.setString(29, u.getNaf());
+            
+            ps.setFloat(30, u.getHoras());
+            ps.setTime(31, u.getManana_entrada());
+            ps.setTime(32, u.getManana_salida());
+            ps.setTime(33, u.getTarde_entrada());
+            ps.setTime(34, u.getTarde_salida());
+            
+            ps.setDate(35, u.getFecha_nac());
+            ps.setString(36, u.getPath_cv());
+            ps.setString(37, u.getHref_cv());
+            ps.setString(38, u.getPath_foto());
+            ps.setString(39, u.getHref_foto());
+            
+            ps.setDate(40, u.getFecha_modificacion_foto());
+            ps.setDate(41, u.getFecha_modificacion_cv());
+            ps.setInt(42,u.getIso());
+            ps.setInt(43,u.getOr());
+            ps.setString(44,u.getCorreoPersonal());
+            
+            ps.setString(45, u.getCcc());
+            
+            if(ps.executeUpdate()>0){
+                correcto=true;
+            }else{
+                correcto=false;
+            }
+        }catch(SQLException e){
+            System.out.print("Error al insertar usuario interno : "+e.getMessage());
+        }
+        con.close();
+        return correcto;
+    }
+    //borrar usuario
+    public boolean borrarUsuario(int idusuario) throws ClassNotFoundException, SQLException{
+        boolean correcto=false;
+        Connect c = new Connect();
+        Connection con=c.openConnectIntea();
+        PreparedStatement ps;
+        try{
+            ps=con.prepareStatement("DELETE FROM intea_user WHERE iduser=?");
+            ps.setInt(1, idusuario);
+            if(ps.executeUpdate()>0){
+                correcto=true;
+            }else{
+                correcto=false;
+            }
+        }catch(SQLException e){
+            System.out.print("Error al borrar el usuario "+e.getMessage());
+        }
+        con.close();
+        return correcto;
+    }
+    //SELECCIONAR USUARIOS
+    public List<Usuario> seleccionarUsuarios() throws ClassNotFoundException, SQLException{
+        List<Usuario> listauser = new ArrayList <Usuario>();
+        Connect c = new Connect();
+        Connection con=c.openConnectIntea();
+        PreparedStatement ps;
+        ResultSet rs;
+        try{
+            ps=con.prepareStatement("SELECT * FROM intea_user where estado!=0 order by nombrecompleto");
+            rs=ps.executeQuery();
+            while(rs.next()){
+                Usuario u = new Usuario();
+                u.setIduser(rs.getInt(1));
+                u.setName(rs.getString(2));
+                u.setPass(rs.getString(3));
+                u.setPermiso(rs.getInt(4));
+                u.setDepartamento(rs.getInt(5));
+                u.setNombrecompleto(rs.getString(6));
+                u.setEmail(rs.getString(7));
+                u.setColor(rs.getString(8));
+                u.setIdmarca(rs.getInt(9));
+                u.setFuncion(rs.getInt(10));
+                u.setCorreocliente(rs.getString(11));
+                u.setTlfCliente(rs.getString(12));
+                u.setTlfIntea(rs.getString(13));
+                u.setTlfOtro(rs.getString(14));
+                u.setIdpromuser(rs.getInt(15));
+                u.setLider(rs.getInt(16));
+                u.setIdlms(rs.getInt(17));
+                u.setEstado(rs.getInt(18));
+                u.setReportes(rs.getInt(19));
+                u.setCalendario(rs.getInt(20));
+                u.setSeguimiento(rs.getInt(21));
+                u.setFormularios(rs.getInt(22));
+                u.setInventario(rs.getInt(23));
+                u.setComunicacion(rs.getInt(24));
+                u.setGestion_usuarios(rs.getInt(25));
+                u.setFecha_insercion(rs.getTimestamp(26));
+                u.setFecha_modificacion(rs.getTimestamp(27));
+                u.setRef_promotor(rs.getString(28));
+                u.setRef_lms(rs.getString(29));
+                u.setReferencia(rs.getString(30));
+                u.setNif(rs.getString(31));
+                u.setNaf(rs.getString(32));
+                u.setHoras(rs.getFloat(33));
+                u.setManana_entrada(rs.getTime(34));
+                u.setManana_salida(rs.getTime(35));
+                u.setTarde_entrada(rs.getTime(36));
+                u.setTarde_salida(rs.getTime(37));
+                u.setFecha_nac(rs.getDate(38));
+                u.setPath_cv(rs.getString(39));
+                u.setHref_cv(rs.getString(40));
+                u.setPath_foto(rs.getString(41));
+                u.setHref_foto(rs.getString(42));
+                
+                u.setFecha_modificacion_foto(rs.getDate(43));
+                u.setFecha_modificacion_cv(rs.getDate(44));
+                u.setIso(rs.getInt(45));
+                u.setOr(rs.getInt(46));
+                u.setCorreoPersonal(rs.getString(47));
+                
+                u.setCcc(rs.getString(48));
+                
+                listauser.add(u);
+            }
+        }catch(SQLException e){
+            System.out.print("Error al seleccionar los usuarios "+e.getMessage());
+        }
+        con.close();
+        return listauser;
+    }
+    //SELECCIONAR USUARIOS
+    public List<Usuario> seleccionarUsuariosLider() throws ClassNotFoundException, SQLException{
+        List<Usuario> listauser = new ArrayList <Usuario>();
+        Connect c = new Connect();
+        Connection con=c.openConnectIntea();
+        PreparedStatement ps;
+        ResultSet rs;
+        try{
+            ps=con.prepareStatement("SELECT * FROM intea_user where estado!=0 and lider=1 order by nombrecompleto");
+            rs=ps.executeQuery();
+            while(rs.next()){
+                Usuario u = new Usuario();
+                u.setIduser(rs.getInt(1));
+                u.setName(rs.getString(2));
+                u.setPass(rs.getString(3));
+                u.setPermiso(rs.getInt(4));
+                u.setDepartamento(rs.getInt(5));
+                u.setNombrecompleto(rs.getString(6));
+                u.setEmail(rs.getString(7));
+                u.setColor(rs.getString(8));
+                u.setIdmarca(rs.getInt(9));
+                u.setFuncion(rs.getInt(10));
+                u.setCorreocliente(rs.getString(11));
+                u.setTlfCliente(rs.getString(12));
+                u.setTlfIntea(rs.getString(13));
+                u.setTlfOtro(rs.getString(14));
+                u.setIdpromuser(rs.getInt(15));
+                u.setLider(rs.getInt(16));
+                u.setIdlms(rs.getInt(17));
+                u.setEstado(rs.getInt(18));
+                u.setReportes(rs.getInt(19));
+                u.setCalendario(rs.getInt(20));
+                u.setSeguimiento(rs.getInt(21));
+                u.setFormularios(rs.getInt(22));
+                u.setInventario(rs.getInt(23));
+                u.setComunicacion(rs.getInt(24));
+                u.setGestion_usuarios(rs.getInt(25));
+                u.setFecha_insercion(rs.getTimestamp(26));
+                u.setFecha_modificacion(rs.getTimestamp(27));
+                u.setRef_promotor(rs.getString(28));
+                u.setRef_lms(rs.getString(29));
+                u.setReferencia(rs.getString(30));
+                u.setNif(rs.getString(31));
+                u.setNaf(rs.getString(32));
+                u.setHoras(rs.getFloat(33));
+                u.setManana_entrada(rs.getTime(34));
+                u.setManana_salida(rs.getTime(35));
+                u.setTarde_entrada(rs.getTime(36));
+                u.setTarde_salida(rs.getTime(37));
+                u.setFecha_nac(rs.getDate(38));
+                u.setPath_cv(rs.getString(39));
+                u.setHref_cv(rs.getString(40));
+                u.setPath_foto(rs.getString(41));
+                u.setHref_foto(rs.getString(42));
+                
+                u.setFecha_modificacion_foto(rs.getDate(43));
+                u.setFecha_modificacion_cv(rs.getDate(44));
+                u.setIso(rs.getInt(45));
+                u.setOr(rs.getInt(46));
+                u.setCorreoPersonal(rs.getString(47));
+                
+                u.setCcc(rs.getString(48));
+                
+                listauser.add(u);
+            }
+        }catch(SQLException e){
+            System.out.print("Error al seleccionar los usuarios "+e.getMessage());
+        }
+        con.close();
+        return listauser;
+    }
+    //SELECCIONAR USUARIOS DE LA BASE DE DATOS PROMTOOR
+    public List<UsuarioPromotor> seleccionarUsuariosPromotor(int idmarca) throws ClassNotFoundException, SQLException{
+        List<UsuarioPromotor> listauser = new ArrayList <UsuarioPromotor>();
+        Connect c = new Connect();
+        Connection con=c.openConnectPromotores();
+        PreparedStatement ps;
+        ResultSet rs;
+        try{
+            
+            ps=con.prepareStatement("SELECT * FROM cuadromando.promuser where marca=? and concesion is null");
+            ps.setInt(1, idmarca);
+            rs=ps.executeQuery();
+            while(rs.next()){
+                
+                UsuarioPromotor u = new UsuarioPromotor();
+                u.setIdpromuser(rs.getInt(1));
+                u.setNombrepromuser(rs.getString(2));
+                u.setPasspromuser(rs.getString(3));
+                u.setZona(rs.getString(4));
+                u.setPermiso(rs.getString(5));
+                u.setMarca(rs.getString(6));
+                u.setArea(rs.getString(7));
+                u.setNombrecompleto(rs.getString(8));
+                u.setColor(rs.getString(9));
+                u.setConcesion(rs.getString(10));
+                listauser.add(u);
+                
+            }
+        }catch(SQLException e){
+            System.out.print("Error al seleccionar los usuarios "+e.getMessage());
+        }
+        con.close();
+        return listauser;
+    }
+    //SELECCIONAR USUARIOS DE LA BASE DE DATOS PROMTOOR
+    public List<Usuario> seleccionarUsuariosPromotor() throws ClassNotFoundException, SQLException{
+        List<Usuario> listauser = new ArrayList <Usuario>();
+        Connect c = new Connect();
+        Connection con=c.openConnectIntea();
+        PreparedStatement ps;
+        ResultSet rs;
+        try{
+            
+            ps=con.prepareStatement("SELECT * FROM intea_user where idpromuser!=0 ");
+            rs=ps.executeQuery();
+            while(rs.next()){
+                
+                Usuario u = new Usuario();
+                u.setIduser(rs.getInt(1));
+                u.setName(rs.getString(2));
+                u.setPass(rs.getString(3));
+                u.setPermiso(rs.getInt(4));
+                u.setDepartamento(rs.getInt(5));
+                u.setNombrecompleto(rs.getString(6));
+                u.setEmail(rs.getString(7));
+                u.setColor(rs.getString(8));
+                u.setIdmarca(rs.getInt(9));
+                u.setFuncion(rs.getInt(10));
+                u.setCorreocliente(rs.getString(11));
+                u.setTlfCliente(rs.getString(12));
+                u.setTlfIntea(rs.getString(13));
+                u.setTlfOtro(rs.getString(14));
+                u.setIdpromuser(rs.getInt(15));
+                u.setLider(rs.getInt(16));
+                u.setIdlms(rs.getInt(17));
+                u.setEstado(rs.getInt(18));
+                u.setReportes(rs.getInt(19));
+                u.setCalendario(rs.getInt(20));
+                u.setSeguimiento(rs.getInt(21));
+                u.setFormularios(rs.getInt(22));
+                u.setInventario(rs.getInt(23));
+                u.setComunicacion(rs.getInt(24));
+                u.setGestion_usuarios(rs.getInt(25));
+                u.setFecha_insercion(rs.getTimestamp(26));
+                u.setFecha_modificacion(rs.getTimestamp(27));
+                u.setRef_promotor(rs.getString(28));
+                u.setRef_lms(rs.getString(29));
+                u.setReferencia(rs.getString(30));
+                u.setNif(rs.getString(31));
+                u.setNaf(rs.getString(32));
+                u.setHoras(rs.getFloat(33));
+                u.setManana_entrada(rs.getTime(34));
+                u.setManana_salida(rs.getTime(35));
+                u.setTarde_entrada(rs.getTime(36));
+                u.setTarde_salida(rs.getTime(37));
+                u.setFecha_nac(rs.getDate(38));
+                u.setPath_cv(rs.getString(39));
+                u.setHref_cv(rs.getString(40));
+                u.setPath_foto(rs.getString(41));
+                u.setHref_foto(rs.getString(42));
+                u.setCcc(rs.getString(48));
+                listauser.add(u);
+                
+            }
+        }catch(SQLException e){
+            System.out.print("Error al seleccionar los usuarios "+e.getMessage());
+        }
+        con.close();
+        return listauser;
+    }
+    //SELECCIONAR USUARIO
+    public Usuario seleccionarUsuario(int iduser) throws ClassNotFoundException, SQLException{
+        Usuario u = new Usuario();
+        Connect c = new Connect();
+        Connection con=c.openConnectIntea();
+        PreparedStatement ps;
+        ResultSet rs;
+        try{
+            ps=con.prepareStatement("SELECT * FROM intea_user WHERE iduser=?");
+            ps.setInt(1, iduser);
+            rs=ps.executeQuery();
+            if(rs.next()){
+                u.setIduser(rs.getInt(1));
+                u.setName(rs.getString(2));
+                u.setPass(rs.getString(3));
+                u.setPermiso(rs.getInt(4));
+                u.setDepartamento(rs.getInt(5));
+                u.setNombrecompleto(rs.getString(6));
+                u.setEmail(rs.getString(7));
+                u.setColor(rs.getString(8));
+                u.setIdmarca(rs.getInt(9));
+                u.setFuncion(rs.getInt(10));
+                u.setCorreocliente(rs.getString(11));
+                u.setTlfCliente(rs.getString(12));
+                u.setTlfIntea(rs.getString(13));
+                u.setTlfOtro(rs.getString(14));
+                u.setIdpromuser(rs.getInt(15));
+                u.setLider(rs.getInt(16));
+                u.setIdlms(rs.getInt(17));
+                u.setEstado(rs.getInt(18));
+                u.setReportes(rs.getInt(19));
+                u.setCalendario(rs.getInt(20));
+                u.setSeguimiento(rs.getInt(21));
+                u.setFormularios(rs.getInt(22));
+                u.setInventario(rs.getInt(23));
+                u.setComunicacion(rs.getInt(24));
+                u.setGestion_usuarios(rs.getInt(25));
+                u.setFecha_insercion(rs.getTimestamp(26));
+                u.setFecha_modificacion(rs.getTimestamp(27));
+                u.setRef_promotor(rs.getString(28));
+                u.setRef_lms(rs.getString(29));
+                u.setReferencia(rs.getString(30));
+                u.setNif(rs.getString(31));
+                u.setNaf(rs.getString(32));
+                u.setHoras(rs.getFloat(33));
+                u.setManana_entrada(rs.getTime(34));
+                u.setManana_salida(rs.getTime(35));
+                u.setTarde_entrada(rs.getTime(36));
+                u.setTarde_salida(rs.getTime(37));
+                u.setFecha_nac(rs.getDate(38));
+                u.setPath_cv(rs.getString(39));
+                u.setHref_cv(rs.getString(40));
+                u.setPath_foto(rs.getString(41));
+                u.setHref_foto(rs.getString(42));
+                
+                
+                u.setFecha_modificacion_foto(rs.getDate(43));
+                u.setFecha_modificacion_cv(rs.getDate(44));
+                u.setIso(rs.getInt(45));
+                u.setOr(rs.getInt(46));
+                u.setCorreoPersonal(rs.getString(47));
+                u.setCcc(rs.getString(48));
+                
+                
+            }
+        }catch(SQLException e){
+            System.out.print("Error al seleccionar usuario "+e.getMessage());
+        }
+        con.close();
+        return u;
+        
+    }
+    //SELECCIONAR USUARIO
+    public Usuario seleccionarUsuarioPorReferencia(String referencia) throws ClassNotFoundException, SQLException{
+        Usuario u = new Usuario();
+        Connect c = new Connect();
+        Connection con=c.openConnectIntea();
+        PreparedStatement ps;
+        ResultSet rs;
+        try{
+            ps=con.prepareStatement("SELECT * FROM intea_user WHERE referencia=?");
+            ps.setString(1, referencia);
+            rs=ps.executeQuery();
+            if(rs.next()){
+                u.setIduser(rs.getInt(1));
+                u.setName(rs.getString(2));
+                u.setPass(rs.getString(3));
+                u.setPermiso(rs.getInt(4));
+                u.setDepartamento(rs.getInt(5));
+                u.setNombrecompleto(rs.getString(6));
+                u.setEmail(rs.getString(7));
+                u.setColor(rs.getString(8));
+                u.setIdmarca(rs.getInt(9));
+                u.setFuncion(rs.getInt(10));
+                u.setCorreocliente(rs.getString(11));
+                u.setTlfCliente(rs.getString(12));
+                u.setTlfIntea(rs.getString(13));
+                u.setTlfOtro(rs.getString(14));
+                u.setIdpromuser(rs.getInt(15));
+                u.setLider(rs.getInt(16));
+                u.setIdlms(rs.getInt(17));
+                u.setEstado(rs.getInt(18));
+                u.setReportes(rs.getInt(19));
+                u.setCalendario(rs.getInt(20));
+                u.setSeguimiento(rs.getInt(21));
+                u.setFormularios(rs.getInt(22));
+                u.setInventario(rs.getInt(23));
+                u.setComunicacion(rs.getInt(24));
+                u.setGestion_usuarios(rs.getInt(25));
+                u.setFecha_insercion(rs.getTimestamp(26));
+                u.setFecha_modificacion(rs.getTimestamp(27));
+                u.setRef_promotor(rs.getString(28));
+                u.setRef_lms(rs.getString(29));
+                u.setReferencia(rs.getString(30));
+                u.setNif(rs.getString(31));
+                u.setNaf(rs.getString(32));
+                u.setHoras(rs.getFloat(33));
+                u.setManana_entrada(rs.getTime(34));
+                u.setManana_salida(rs.getTime(35));
+                u.setTarde_entrada(rs.getTime(36));
+                u.setTarde_salida(rs.getTime(37));
+                u.setFecha_nac(rs.getDate(38));
+                u.setPath_cv(rs.getString(39));
+                u.setHref_cv(rs.getString(40));
+                u.setPath_foto(rs.getString(41));
+                u.setHref_foto(rs.getString(42));
+                
+                u.setFecha_modificacion_foto(rs.getDate(43));
+                u.setFecha_modificacion_cv(rs.getDate(44));
+                u.setIso(rs.getInt(45));
+                u.setOr(rs.getInt(46));
+                u.setCorreoPersonal(rs.getString(47));
+                u.setCcc(rs.getString(48));
+            }
+        }catch(SQLException e){
+            System.out.print("Error al seleccionar usuario "+e.getMessage());
+        }
+        con.close();
+        return u;
+        
+    }
+       //SELECCIONAR USUARIO PROMOTOR
+    public UsuarioPromotor seleccionarUsuarioPromotor(int iduser) throws ClassNotFoundException, SQLException{
+        UsuarioPromotor u = new UsuarioPromotor();
+        Connect c = new Connect();
+        Connection con=c.openConnectIntea();
+        PreparedStatement ps;
+        ResultSet rs;
+        try{
+            ps=con.prepareStatement("SELECT * FROM cuadromando.promuser WHERE idpromuser=?");
+            ps.setInt(1, iduser);
+            rs=ps.executeQuery();
+            if(rs.next()){
+                u.setIdpromuser(rs.getInt(1));
+                u.setNombrepromuser(rs.getString(2));
+                u.setPasspromuser(rs.getString(3));
+                u.setZona(rs.getString(4));
+                u.setPermiso(rs.getString(5));
+                u.setMarca(rs.getString(6));
+                u.setArea(rs.getString(7));
+                u.setNombrecompleto(rs.getString(8));
+                u.setColor(rs.getString(9));
+                u.setConcesion(rs.getString(10));
+            }
+        }catch(SQLException e){
+            System.out.print("Error al seleccionar usuario "+e.getMessage());
+        }
+        con.close();
+        return u;
+        
+    }
+    //MODIFICAR USUARIO
+    public boolean modificarUsuario(Usuario u) throws ClassNotFoundException, SQLException{
+        boolean correcto=false;
+        Connect c = new Connect();
+        Connection con=c.openConnectIntea();
+        PreparedStatement ps;
+        try{
+            ps=con.prepareStatement("UPDATE intea_user SET name=?,pass=?,permiso=?,departamento=?,nombrecompleto=?,"
+                    + "email=?,color=?,marca=?,funcion=?,correocliente=?,"
+                    + "tlfCliente=?,tlfIntea=?,tlfOtro=?,idpromuser=?, lider=?,"
+                    + "nif=?,naf=?,horas=?,man_en=?,man_sal=?,"
+                    + "tar_en=?,tar_sal=?,fecha_nac=?,path_cv=?,"
+                    + "href_cv=?,path_foto=?,href_foto=?,fecha_modificacion_foto=?,fecha_modificacion_cv=?,"
+                    + "iso=?,or=?,correoPersonal=?, ccc=?"
+                    + " WHERE iduser=?");
+            ps.setString(1, u.getName());
+            ps.setString(2, u.getPass());
+            ps.setInt(3, u.getPermiso());
+            ps.setInt(4, u.getDepartamento());
+            ps.setString(5, u.getNombrecompleto());
+            ps.setString(6, u.getEmail());
+            ps.setString(7, u.getColor());
+            ps.setInt(8, u.getIdmarca());
+            ps.setInt(9, u.getFuncion());
+            ps.setString(10, u.getCorreocliente());
+            ps.setString(11, u.getTlfCliente());
+            ps.setString(12, u.getTlfIntea());
+            ps.setString(13, u.getTlfOtro());
+            ps.setInt(14, u.getIdpromuser());
+            ps.setInt(15, u.getLider());
+            ps.setString(16, u.getNif());
+            ps.setString(17, u.getNaf());
+            ps.setTime(18, u.getManana_entrada());
+            ps.setTime(19, u.getManana_salida());
+            ps.setTime(20, u.getTarde_entrada());
+            ps.setTime(21, u.getTarde_salida());
+            ps.setDate(22, u.getFecha_nac());
+            ps.setString(23, u.getPath_cv());
+            ps.setString(24, u.getHref_cv());
+            ps.setString(25, u.getPath_foto());
+            ps.setString(26, u.getHref_foto());
+            
+            ps.setDate(27, u.getFecha_modificacion_foto());
+            ps.setDate(28, u.getFecha_modificacion_cv());
+            ps.setInt(29,u.getIso());
+            ps.setInt(30,u.getOr());
+            ps.setString(31,u.getCorreoPersonal());
+            ps.setString(32, u.getCcc());
+
+            ps.setInt(33, u.getIduser());
+            
+            if(ps.executeUpdate()>0){
+                correcto=true;
+            }else{
+                correcto=false;
+            }
+        }catch(SQLException e){
+            System.out.print("Error al modificar el usuario "+e.getMessage());
+        }
+        con.close();
+        return correcto;
+    }
+    //seleccionar usuarios
+    public List<Usuario> seleccionarUsuariosIntea() throws ClassNotFoundException, SQLException{
+        List<Usuario> lista = new ArrayList<Usuario>();
+        Connect c = new Connect();
+        Connection con=c.openConnectIntea();
+        PreparedStatement ps;
+        ResultSet rs;
+        try{
+            ps=con.prepareStatement("SELECT * FROM intea_user");
+            rs=ps.executeQuery();
+            while(rs.next()){
+                Usuario u = new Usuario();
+                u.setIduser(rs.getInt(1));
+                u.setName(rs.getString(2));
+                u.setPass(rs.getString(3));
+                u.setPermiso(rs.getInt(4));
+                u.setDepartamento(rs.getInt(5));
+                u.setNombrecompleto(rs.getString(6));
+                u.setEmail(rs.getString(7));
+                u.setColor(rs.getString(8));
+                u.setIdmarca(rs.getInt(9));
+                u.setFuncion(rs.getInt(10));
+                u.setCorreocliente(rs.getString(11));
+                u.setTlfCliente(rs.getString(12));
+                u.setTlfIntea(rs.getString(13));
+                u.setTlfOtro(rs.getString(14));
+                u.setIdpromuser(rs.getInt(15));
+                u.setLider(rs.getInt(16));
+                u.setIdlms(rs.getInt(17));
+                u.setEstado(rs.getInt(18));
+                u.setReportes(rs.getInt(19));
+                u.setCalendario(rs.getInt(20));
+                u.setSeguimiento(rs.getInt(21));
+                u.setFormularios(rs.getInt(22));
+                u.setInventario(rs.getInt(23));
+                u.setComunicacion(rs.getInt(24));
+                u.setGestion_usuarios(rs.getInt(25));
+                u.setFecha_insercion(rs.getTimestamp(26));
+                u.setFecha_modificacion(rs.getTimestamp(27));
+                u.setRef_promotor(rs.getString(28));
+                u.setRef_lms(rs.getString(29));
+                u.setReferencia(rs.getString(30));
+                u.setNif(rs.getString(31));
+                u.setNaf(rs.getString(32));
+                u.setHoras(rs.getFloat(33));
+                u.setManana_entrada(rs.getTime(34));
+                u.setManana_salida(rs.getTime(35));
+                u.setTarde_entrada(rs.getTime(36));
+                u.setTarde_salida(rs.getTime(37));
+                u.setFecha_nac(rs.getDate(38));
+                u.setPath_cv(rs.getString(39));
+                u.setHref_cv(rs.getString(40));
+                u.setPath_foto(rs.getString(41));
+                u.setHref_foto(rs.getString(42));
+                
+                u.setFecha_modificacion_foto(rs.getDate(43));
+                u.setFecha_modificacion_cv(rs.getDate(44));
+                u.setIso(rs.getInt(45));
+                u.setOr(rs.getInt(46));
+                u.setCorreoPersonal(rs.getString(47));
+                u.setCcc(rs.getString(48));
+                
+                lista.add(u);
+            }
+        }catch(Exception e){
+            System.out.print("Error al seleccionar los usuarios "+e);
+        }
+        con.close();
+        return lista;
+    }
+    
+    //comprobar usuarios
+    public boolean comprobarLogin(String n,String p) throws ClassNotFoundException, SQLException{
+        boolean existe = false;
+        Connect c = new Connect();
+        Connection con=c.openConnectIntea();
+        PreparedStatement ps;
+        ResultSet rs;
+        try{
+            ps=con.prepareStatement("SELECT * FROM intea_user WHERE name=? AND pass=?");
+            ps.setString(1, n);
+            ps.setString(2, p);
+            rs=ps.executeQuery();
+            if(rs.next()){
+                existe=true;
+            }else{
+                existe=false;
+            }
+        }catch(Exception e){
+            System.out.print("Error al comprobar el usuario "+e);
+        }
+        con.close();
+        return existe;
+    }
+    /**
+     * Modificar estado del usuario
+     * @param idu
+     * @return 
+     * @throws java.lang.ClassNotFoundException
+     * @throws java.sql.SQLException
+     */
+    public boolean modificarEstadoUsuario(int idu) throws ClassNotFoundException, SQLException{
+        boolean correcto=false;
+        Connect c = new Connect();
+        Connection con=c.openConnectIntea();
+        DaoUsuario daou = new DaoUsuario();
+        PreparedStatement ps,ps1;
+        ResultSet rs;
+        try{
+            ps=con.prepareStatement("SELECT * FROM intea_user WHERE iduser=?");
+            ps.setInt(1, idu);
+            rs=ps.executeQuery();
+            if(rs.next()){
+                if(rs.getInt(18)==0){
+                    ps1=con.prepareStatement("UPDATE intea_user SET estado=1 WHERE iduser=?");
+                    ps1.setInt(1, idu);
+                    if(ps1.executeUpdate()>0){
+                        correcto=true;
+                    }else{
+                        correcto=false;
+                    }
+                }else{
+                    ps1=con.prepareStatement("UPDATE intea_user SET estado=0 WHERE iduser=?");
+                    ps1.setInt(1, idu);
+                    if(ps1.executeUpdate()>0){
+                        correcto=true;
+                    }else{
+                        correcto=false;
+                    }
+                }
+            }
+        }catch(Exception e){
+            System.out.print("Error al modificar el estado del usuario "+e);
+        }
+        con.close();
+        return correcto;
+    }
+    //seleccionar usuario por nombre y password
+    public Usuario seleccionarUsuarioNombrePassword(String n,String p) throws ClassNotFoundException, SQLException{
+        Usuario u = new Usuario();
+        Connect c = new Connect();
+        Connection con=c.openConnectIntea();
+        PreparedStatement ps;
+        ResultSet rs;
+        try{
+            ps=con.prepareStatement("SELECT * FROM intea_user WHERE name like '%"+n+"%' AND pass like '%"+p+"%'");
+            rs=ps.executeQuery();
+            if(rs.next()){
+                u.setIduser(rs.getInt(1));
+                u.setName(rs.getString(2));
+                u.setPass(rs.getString(3));
+                u.setPermiso(rs.getInt(4));
+                u.setDepartamento(rs.getInt(5));
+                u.setNombrecompleto(rs.getString(6));
+                u.setEmail(rs.getString(7));
+                u.setColor(rs.getString(8));
+                u.setIdmarca(rs.getInt(9));
+                u.setFuncion(rs.getInt(10));
+                u.setCorreocliente(rs.getString(11));
+                u.setTlfCliente(rs.getString(12));
+                u.setTlfIntea(rs.getString(13));
+                u.setTlfOtro(rs.getString(14));
+                u.setIdpromuser(rs.getInt(15));
+                u.setLider(rs.getInt(16));
+                u.setIdlms(rs.getInt(17));
+                u.setEstado(rs.getInt(18));
+                u.setReportes(rs.getInt(19));
+                u.setCalendario(rs.getInt(20));
+                u.setSeguimiento(rs.getInt(21));
+                u.setFormularios(rs.getInt(22));
+                u.setInventario(rs.getInt(23));
+                u.setComunicacion(rs.getInt(24));
+                u.setGestion_usuarios(rs.getInt(25));
+                u.setFecha_insercion(rs.getTimestamp(26));
+                u.setFecha_modificacion(rs.getTimestamp(27));
+                u.setRef_promotor(rs.getString(28));
+                u.setRef_lms(rs.getString(29));
+                u.setReferencia(rs.getString(30));
+                u.setNif(rs.getString(31));
+                u.setNaf(rs.getString(32));
+                u.setHoras(rs.getFloat(33));
+                u.setManana_entrada(rs.getTime(34));
+                u.setManana_salida(rs.getTime(35));
+                u.setTarde_entrada(rs.getTime(36));
+                u.setTarde_salida(rs.getTime(37));
+                u.setFecha_nac(rs.getDate(38));
+                u.setPath_cv(rs.getString(39));
+                u.setHref_cv(rs.getString(40));
+                u.setPath_foto(rs.getString(41));
+                u.setHref_foto(rs.getString(42));
+                
+                u.setFecha_modificacion_foto(rs.getDate(43));
+                u.setFecha_modificacion_cv(rs.getDate(44));
+                u.setIso(rs.getInt(45));
+                u.setOr(rs.getInt(46));
+                u.setCorreoPersonal(rs.getString(47));
+                u.setCcc(rs.getString(48));
+            }
+        }catch(Exception e){
+            System.out.print("Error al seleccionar el usuario por nombre y password "+e);
+        }
+        con.close();
+        return u;
+    }
+    
+    /**
+     * @see Modifica el perfil del usuario a partir de un objeto usuario, el update que realiza contra la base de datos 
+     * solo actualizara los campos que estan relacionados con el perfil, para evitar errores.
+     * @param u Usuario con los datos a modificar de la base de datos
+     * @return Retorna verdaero o falso segun excepcion
+     * @throws ClassNotFoundException En caso de no encontrar la clase Connect o no encontrar el driver JDBC Mysql
+     * @throws SQLException  En caso de error en la sintaxis
+     */
+    
+    public boolean modificarPerfilUsuario(Usuario u) throws ClassNotFoundException, SQLException{
+        Connect c = new Connect();
+        Connection con=c.openConnectIntea();
+        PreparedStatement ps;
+        int correcto = 0;
+        try{
+            ps=con.prepareStatement("update intea_user set "
+                    + "nombrecompleto=?, correocliente=?, tlfCliente=?, tlfOtro=?, fecha_nac=?"
+                    + " where"
+                    + " iduser=?");
+            ps.setString(1, u.getNombrecompleto());
+            ps.setString(2, u.getCorreocliente());
+            ps.setString(3, u.getTlfCliente());
+            ps.setString(4, u.getTlfOtro());
+            ps.setDate(5, u.getFecha_nac());
+            ps.setInt(6, u.getIduser());
+            
+            correcto = ps.executeUpdate();
+            
+        }catch(Exception e){
+            System.out.print("Error al modificar el perfil del usuario: "+e);
+        }
+        con.close();
+        return (correcto==1)?true:false;
+    }
+    
+    /**
+     * @see Modifica el perfil del usuario (LA FOTO) a partir de un objeto usuario, el update que realiza contra la base de datos 
+     * solo actualizara los campos que estan relacionados con el perfil(LA FOTO), para evitar errores.
+     * @param u Usuario con los datos a modificar de la base de datos (ID Y LA FOTO)
+     * @return Retorna verdaero o falso segun excepcion
+     * @throws ClassNotFoundException En caso de no encontrar la clase Connect o no encontrar el driver JDBC Mysql
+     * @throws SQLException  En caso de error en la sintaxis
+     */
+    
+    public boolean modificarPerfilFoto(Usuario u) throws ClassNotFoundException, SQLException{
+        Connect c = new Connect();
+        Connection con=c.openConnectIntea();
+        PreparedStatement ps;
+        int correcto = 0;
+        java.util.Date utilDate = new java.util.Date();
+    java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
+        try{
+            ps=con.prepareStatement("update intea_user set "
+                    + "path_foto=?, href_foto=?,fecha_modificacion_foto=? "
+                    + " where "
+                    + " iduser=?");
+            ps.setString(1, u.getPath_foto());
+            ps.setString(2, u.getHref_foto());
+            ps.setDate(3, sqlDate);
+            ps.setInt(4, u.getIduser());
+            
+            correcto = ps.executeUpdate();
+            
+        }catch(Exception e){
+            System.out.print("Error al modificar el perfil del usuario (LA FOTO) : "+e);
+        }
+        con.close();
+        return (correcto==1)?true:false;
+    }
+    /**
+     * @see Modifica el perfil del usuario (EL CV) a partir de un objeto usuario, el update que realiza contra la base de datos 
+     * solo actualizara los campos que estan relacionados con el perfil(EL CV), para evitar errores.
+     * @param u Usuario con los datos a modificar de la base de datos (ID Y EL CV)
+     * @return Retorna verdaero o falso segun excepcion
+     * @throws ClassNotFoundException En caso de no encontrar la clase Connect o no encontrar el driver JDBC Mysql
+     * @throws SQLException  En caso de error en la sintaxis
+     */
+    
+    public boolean modificarPerfilCv(Usuario u) throws ClassNotFoundException, SQLException{
+        Connect c = new Connect();
+        Connection con=c.openConnectIntea();
+        PreparedStatement ps;
+        int correcto = 0;
+                java.util.Date utilDate = new java.util.Date();
+    java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
+        try{
+            ps=con.prepareStatement("update intea_user set "
+                    + " path_cv=?, href_cv=?, fecha_modificacion_cv=? "
+                    + " where "
+                    + " iduser=? ");
+            ps.setString(1, u.getPath_cv());
+            ps.setString(2, u.getHref_cv());
+            ps.setDate(3, sqlDate);
+            ps.setInt(4, u.getIduser());
+            
+            correcto = ps.executeUpdate();
+            
+        }catch(Exception e){
+            System.out.print("Error al modificar el perfil del usuario (EL CV) : "+e);
+        }
+        con.close();
+        return (correcto==1)?true:false;
+    }
+    
+    ////////////////////
+    public boolean insertarDatos(Usuario user) throws ClassNotFoundException, SQLException{
+        boolean correcto=false;
+        Connect c = new Connect();
+        Connection con=c.openConnectIntea();
+        PreparedStatement ps;
+        try{
+            ps=con.prepareStatement("INSERT INTO intea_user (nif,naf,horas,man_en,man_sal,tar_en,tar_sal,ccc) VALUES(?,?,?,?,?,?,?,?)");
+            ps.setString(1, user.getNif());
+            ps.setString(2, user.getNaf());
+            ps.setFloat(3, user.getHoras());
+            ps.setTime(4, user.getManana_entrada());
+            ps.setTime(5, user.getManana_salida());
+            ps.setTime(6, user.getTarde_entrada());
+            ps.setTime(7, user.getTarde_salida());
+            ps.setString(8, user.getCcc());
+            if(ps.executeUpdate()>0){
+                correcto=true;
+            }else{
+                correcto=false;
+            }
+        }catch(Exception e){
+            System.out.print("Error "+e);
+        }
+        con.close();
+        return correcto;
+    }
+    
+    public boolean copiarDatos() throws ClassNotFoundException, SQLException{
+        boolean correcto=false;
+        int cont=0;
+        DaoUsuario daou = new DaoUsuario();
+        List<Usuario> listaUsuariosDintea = new ArrayList<Usuario>();
+        List<Usuario> listaUsuariosIntea = new ArrayList<Usuario>();
+        
+        listaUsuariosDintea=daou.seleccionarUsuarios();
+        listaUsuariosIntea=daou.seleccionarUsuariosIntea();
+        
+        for(Usuario userd : listaUsuariosDintea){
+            for(Usuario useri : listaUsuariosIntea){
+                if(userd.getIduser()==useri.getIduser()){
+                    if(daou.insertarDatos(userd)){
+                        cont++;
+                    }
+                }
+            }
+        }
+        if(cont>0){
+            correcto=false;
+        }else{
+            correcto=true;
+        }
+        return correcto;
+    }
+}

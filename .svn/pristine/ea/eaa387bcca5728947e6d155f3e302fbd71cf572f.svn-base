@@ -1,0 +1,44 @@
+<%-- 
+    Document   : CONTROLADORBorrarCliente
+    Created on : 15-feb-2016, 16:28:01
+    Author     : hector.heras
+--%>
+
+<%@page import="entidad.Cliente"%>
+<%@page import="dao.DaoCliente"%>
+<%@page import="org.json.simple.JSONArray"%>
+<%@page import="org.json.simple.parser.JSONParser"%>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%
+
+//RECOGEMOS LA REQUEST EN FORMATO JSON
+String jsonRequest = request.getParameter("contactos");
+
+
+//L ACONVERTIMOS A UN ARRAY
+JSONParser parser = new JSONParser();
+Object obj = parser.parse(jsonRequest);
+JSONArray array = (JSONArray)obj;
+
+DaoCliente cc = new DaoCliente();
+
+System.out.print("Se van a borrar :"+array.size()+" contactos.");
+    //CONTADOR DE ERROES SI ES MAYOR A 1 MOSTRAMOS ERROR
+    int a=0;
+
+    for(int x=0; x<array.size();x++){
+        String ae = (String) array.get(x) ;
+        //BORRAMOS TODOS LOS CLIENTES PASADOS EN EL ARRAY
+        if(!cc.borrarClientePorId(Integer.parseInt(ae))){
+            a++;
+        };
+    }
+    //COMPROBAMOS QUE NO HA OCURRIDO NINGUN ERROR
+    if(a>0){
+         out.print("{\"tipo\":0,\"msg\":\"Ocurrio un error al borrar clientes.\"}");
+    }else{
+        out.print("{\"tipo\":1,\"msg\":\"Cliente borrado correctamente.\"}");
+    }
+
+//out.print(a);
+%>

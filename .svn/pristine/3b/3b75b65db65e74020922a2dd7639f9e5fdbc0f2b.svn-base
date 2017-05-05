@@ -1,0 +1,64 @@
+<%-- 
+    Document   : CONTROLADORExportarExcel.jsp
+    Created on : 12-feb-2016, 12:33:30
+    Author     : hector.heras
+--%>
+<%@page import="java.text.SimpleDateFormat"%>
+<%@page import="java.util.Calendar"%>
+<%@page import="java.text.DateFormat"%>
+<%@page import="entidad.Cliente"%>
+<%@page import="dao.DaoCliente"%>
+<%@page import="java.util.Date"%>
+<%@page import="java.io.StringWriter"%>
+<%@page import="org.json.simple.JSONObject"%>
+<%@page import="org.json.simple.JSONArray"%>
+<%@page import="org.json.simple.parser.JSONParser"%>
+<%
+String jsonRequest = request.getParameter("contactos");
+
+JSONParser parser = new JSONParser();
+Object obj = parser.parse(jsonRequest);
+JSONArray array = (JSONArray)obj;
+
+DaoCliente cc = new DaoCliente();
+
+System.out.print("Se van a exportar :"+array.size()+" contactos.");
+
+DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+Calendar cal = Calendar.getInstance();
+
+response.setContentType("application/vnd.ms-excel");
+response.setHeader("Content-Disposition", "inline; filename=Exportacion_contactos_"+dateFormat.format(cal.getTime())+".xls");
+
+
+int a= array.size();
+%>
+<table style="border:2px solid black;">
+    <tr>
+        <th>Nombre y Apellidos</th>
+        <th>Tlfn Fijo</th>
+        <th>Tlfn Movil</th>
+        <th>Tlfn Otro</th>
+        <th>Interes en Certificados de Profesionalidad</th>
+    </tr>
+<%
+for(int x=0; x<array.size();x++){
+    String ae = (String) array.get(x) ;
+    Cliente c = cc.seleccionarClientePorId( Integer.parseInt(ae) );
+    
+    %>
+    <tr>
+        <td style="border: 0.5px solid black"><%=c.getNombre()%> <%=c.getApellidos() %></td>
+        <td style="border: 0.5px solid black"><%=c.getTelefono()%></td>
+        <td style="border: 0.5px solid black"><%=c.getTelefono_movil()%></td>
+        <td style="border: 0.5px solid black"><%=c.getTelefono_otro()%></td>
+        <td style="border: 0.5px solid black"><%=c.getCertificados()==0?"no":"si"%></td>
+    </tr>
+    <%
+    
+
+}
+
+//out.print(a);
+%>
+</table>

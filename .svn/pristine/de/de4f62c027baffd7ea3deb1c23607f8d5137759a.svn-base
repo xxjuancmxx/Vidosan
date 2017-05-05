@@ -1,0 +1,171 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package entidad;
+
+import java.io.Serializable;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+/**
+ *
+ * @author samuel.gonzalez
+ */
+public class Cliente implements Serializable{
+    
+    private static final long serialVersionUID =1L ;
+    
+    private int idcliente;
+    private String nombre;
+    private String apellidos;
+    private String telefono_fijo;
+    private String telefono_movil;
+    private String telefono_otro;
+    private String mail;
+    private String referencia;
+    private Date fecha_ingreso;
+    private Date fecha_modificacion;
+    private int certificados;
+    private int deleted;
+    private String otro;
+    
+    
+    public Cliente(){}//constructor vacio
+
+    public Cliente(int idcliente, String nombre, String apellidos, String telefono_fijo, String telefono_movil, String telefono_otro, String mail, String referencia, Date fecha_ingreso, Date fecha_modificacion, int certificados, int deleted, String otro) {
+        this.idcliente = idcliente;
+        this.nombre = nombre;
+        this.apellidos = apellidos;
+        this.telefono_fijo = telefono_fijo;
+        this.telefono_movil = telefono_movil;
+        this.telefono_otro = telefono_otro;
+        this.mail = mail;
+        this.referencia = referencia;
+        this.fecha_ingreso = fecha_ingreso;
+        this.fecha_modificacion = fecha_modificacion;
+        this.certificados = certificados;
+        this.deleted = deleted;
+        this.otro = otro;
+    }
+
+    
+
+    public int getDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(int deleted) {
+        this.deleted = deleted;
+    }
+
+    public boolean isDeleted(){
+        boolean a = (this.deleted == 0)?false:true;
+        return a;
+    }
+
+
+    public int getIdcliente() {
+        return idcliente;
+    }
+
+    public void setIdcliente(int idcliente) {
+        this.idcliente = idcliente;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public String getApellidos() {
+        return apellidos;
+    }
+
+    public void setApellidos(String apellidos) {
+        this.apellidos = apellidos;
+    } 
+
+    public String getMail() {
+        return mail;
+    }
+
+    public void setMail(String mail) {
+        this.mail = mail;
+    }
+
+    public String getTelefono_fijo() {
+        return telefono_fijo;
+    }
+
+    public void setTelefono_fijo(String telefono_fijo) {
+        this.telefono_fijo = telefono_fijo;
+    }
+
+    public String getTelefono_movil() {
+        return telefono_movil;
+    }
+
+    public void setTelefono_movil(String telefono_movil) {
+        this.telefono_movil = telefono_movil;
+    }
+
+    public String getTelefono_otro() {
+        return telefono_otro;
+    }
+
+    public void setTelefono_otro(String telefono_otro) {
+        this.telefono_otro = telefono_otro;
+    }
+    
+    public String getReferencia() {
+        return referencia;
+    }
+
+    public void setReferencia(String referencia) {
+        this.referencia = referencia;
+    }
+
+    public Date getFecha_ingreso() {
+        return fecha_ingreso;
+    }
+    
+    public void setFecha_ingreso(Date fecha_ingreso) {
+        this.fecha_ingreso = fecha_ingreso;
+    }
+    public String getFechaIngresoFormat() {
+        String S = new SimpleDateFormat("dd-MM-yyyy").format(fecha_ingreso);
+        return S;
+    }
+    public Date getFecha_modificacion() {
+        return fecha_modificacion;
+    }
+    public String getFechaModificacionFormat() {
+        String S = new SimpleDateFormat("dd-MM-yyyy").format(fecha_modificacion);
+        return S;
+    }
+    public void setFecha_modificacion(Date fecha_modificacion) {
+        this.fecha_modificacion = fecha_modificacion;
+    }
+
+    public int getCertificados() {
+        return certificados;
+    }
+
+    public void setCertificados(int certificados) {
+        this.certificados = certificados;
+    }
+
+    public String getOtro() {
+        return otro;
+    }
+
+    public void setOtro(String otro) {
+        this.otro = otro;
+    }
+    
+}

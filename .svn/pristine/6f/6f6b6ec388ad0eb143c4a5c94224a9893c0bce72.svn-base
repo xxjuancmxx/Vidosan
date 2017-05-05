@@ -1,0 +1,339 @@
+<%-- 
+    Document   : editarCliente
+    Created on : 08-feb-2016, 16:04:02
+    Author     : hector.heras
+--%>
+
+<%@page import="dao.DaoMarca"%>
+<%@page import="entidad.Marca"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="entidad.ClienteCurso"%>
+<%@page import="dao.DaoCursoCliente"%>
+<%@page import="entidad.Cliente"%>
+<%@page import="dao.DaoCliente"%>
+<%@page import="entidad.Curso"%>
+<%@page import="java.util.List"%>
+<%@page import="dao.DaoCurso"%>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%
+    int idcliente = Integer.parseInt(request.getParameter("idcliente"));
+    DaoCurso cc = new DaoCurso();
+    DaoCliente ccli = new DaoCliente();
+    DaoMarca daom = new DaoMarca();
+    List<Marca> listaMarcas = new ArrayList<Marca>();
+    listaMarcas = daom.seleccionarMarcas();
+    DaoCursoCliente daocc = new DaoCursoCliente();
+    Cliente c = ccli.seleccionarClientePorId(idcliente);
+    List<Curso> lc = cc.seleccionarCursos();
+    List<ClienteCurso> cursosInteresCliente = daocc.seleccionarCursosClientePorIdCliente(idcliente);
+%>
+
+<%    if (request.getParameter("mi") != null) {
+        out.print("<div class='alert alert-info' style='margin-top:.7em;'>Este contacto ya existe en nuestra base de datos, si quieres modificar algun dato hazlo desde el formulario siguiente</div>");
+    }
+    if (c.isDeleted()) {
+        out.print("<div class='alert alert-danger' style='margin-top:.7em;'>El contacto actualmente se encuentra en la lista de eliminados.</div>");
+    }
+%>
+<form class="form" id="new_client" onsubmit="return checkFormEditClient()">
+    <fieldset>
+        <legend>Formulario Editar Contacto</legend>
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="form-group">
+                    <label class="col-md-6 control-label" for="tipoCliente">Tipo Cliente</label>
+                    <div class="col-md-6"> 
+                        <label class="radio-inline" for="tipoCliente-0">
+                            <input type="radio" name="tipoCliente" id="tipoCliente-0" value="Empresa" <%
+                                if (c.getTipoCliente().equals("Empresa")) {
+                                   %> checked <%
+                                       }
+                                   %> onclick="cargarMarca('Empresa')">
+                            Empresa
+                        </label> 
+                        <label class="radio-inline" for="tipoCliente-1">
+                            <input type="radio" name="tipoCliente" id="tipoCliente-1" value="Particular" <%
+                                if (c.getTipoCliente().equals("Particular")) {
+                                   %> checked <%
+                                       }%> onclick="cargarMarca('Particular')">
+                            Particular
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6" id="marcas" on="cargar">
+                <div class="form-group">
+                    <label class="col-md-4 control-label" for="marca">Marca:</label>
+                    <div class="col-md-4">
+                        <select id="marca" name="marca" class="form-control">
+                            <option value="0" <%if (c.getIdmarca() == 0) {%> selected <%}%> </option>
+                            <%
+                                for (Marca m : listaMarcas) {
+
+                            %>
+                            <option value="<%=m.getIdmarca()%>" <%if (c.getIdmarca() == m.getIdmarca()) {%> selected <%}%>><%=m.getNombre()%></option>
+                            <%
+                                }
+                            %>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <script>
+                $(function () {
+                    <%
+                                if(c.getTipoCliente().equals("Empresa")){
+                                    %>
+                                            $("#marcas").show();
+                                           <%
+                                }else{
+                                    %>
+                                            $("#marcas").hide();
+                                            <%
+                                }
+                    %>
+                    
+                });
+
+            </script>
+
+        </div><br>
+        <input type="hidden" name="idcliente" value="<%=c.getIdcliente()%>"/>
+        <div class="form-group col-lg-4">
+            <label for="telefono_fijo">
+                Telefono Fijo:
+            </label>
+            <input type="text" id="telefono_fijo" name="telefono_fijo" value="<%=c.getTelefono()%>" class="form-control"/>
+            <span class="error error_fijo"></span>
+            <button id="btf"><span class="glyphicon glyphicon-remove"></span></button>
+        </div>
+        <div class="form-group col-lg-4">
+            <label for="telefono_movil">
+                Telefono Movil:
+            </label>
+            <input type="text" id="telefono_movil" name="telefono_movil" value="<%=c.getTelefono_movil()%>" class="form-control"/>
+            <span class="error error_movil"></span>
+            <button id="btm"><span class="glyphicon glyphicon-remove"></span></button>
+        </div>
+        <div class="form-group col-lg-4">
+            <label for="telefono_otro">
+                Telefono Otro:
+            </label>
+            <input type="text" id="telefono_otro" name="telefono_otro" value="<%=c.getTelefono_otro()%>" class="form-control"/>
+            <span class="error error_otro"></span>
+            <button id="bto"><span class="glyphicon glyphicon-remove"></span></button>
+        </div>
+        <div class="form-group col-lg-4">
+            <label for="nombre">
+                Nombre:
+            </label>
+            <input type="text" id="nombre" name="nombre" value="<%= c.getNombre()%>" class="form-control"/>
+        </div>
+        <div class="form-group col-lg-4">
+            <label for="telefono_fijo">
+                Apellidos:
+            </label>
+            <input type="text" id="apellidos" name="apellidos"  value="<%= c.getApellidos()%>" class="form-control"/>
+        </div>
+        <div class="form-group col-lg-4">
+            <label for="mail">
+                Mail:
+            </label>
+            <input type="text" id="mail" name="mail"  value="<%= c.getCorreo()%>"  class="form-control"/>
+        </div>
+        <div class="form-group col-lg-4">
+            <label for="fax">
+                Fax:
+            </label>
+            <input type="text" id="fax" name="fax" value="<%=c.getFax()%>" class="form-control"/>
+        </div>
+        <div class="form-group col-lg-4">
+            <label for="localidad">
+                Localidad:
+            </label>
+            <input type="text" id="localidad" name="localidad" value="<%=c.getLocalidad()%>" class="form-control"/>
+        </div>
+        <div class="form-group col-lg-4">
+            <label for="provincia">
+                Provincia:
+            </label>
+            <input type="text" id="provincia" name="provincia" value="<%=c.getProvincia()%>" class="form-control"/>
+        </div>
+        <div class="form-group col-lg-4">
+            <label for="cp">
+                C.P:
+            </label>
+            <input type="text" id="cp" name="cp" value="<%=c.getCp()%>" class="form-control"/>
+        </div>
+        <div class="form-group col-lg-6">
+            <label for="interesado">
+                Interesado en:
+            </label>
+            <select id="interesado" name="interesado" class="form-control" multiple>
+                <%
+                    for (Curso cu : lc) {
+                        int cont = 0;
+                        for (ClienteCurso ccu : cursosInteresCliente) {
+
+                            if (ccu.getIdcurso() == cu.getIdcurso()) {
+                %>
+                <option value="<%=cu.getIdcurso()%>" selected><%=cu.getCodigo()%> - (<%=cu.getNombre()%>)</option>
+                <%
+                            cont++;
+                        }
+                    }
+                    if (cont == 0) {
+                %>
+                <option value="<%=cu.getIdcurso()%>"><%=cu.getCodigo()%> - (<%=cu.getNombre()%>)</option>
+                <%
+
+                        }
+
+                    }
+                %>
+            </select>
+        </div>
+        <div class="form-group col-lg-6">
+            <label for="certificados" style="display: block;">
+                Interesado en Certificados de Profesionalidad:
+            </label>
+
+            <label class="radio-inline">
+                <input type="radio" name="certificados" id="certificados" value="1" 
+                       <%
+                           if (c.getCertificados() == 1) {
+                               out.print(" checked ");
+                           }
+
+                       %>/>Si
+            </label>
+            <label class="radio-inline">
+                <input type="radio" name="certificados" id="certificados" value="0" 
+                       <%                           if (c.getCertificados() == 0) {
+                               out.print(" checked ");
+                           }
+
+                       %>/>No
+            </label>   
+
+        </div>
+
+        <div class="form-group col-lg-12">
+            <label for="otro" style="display: block;">
+                Interesado en otro tipo de curso:
+            </label>
+
+            <input type="text" name="otro" id="otro" value="<%=c.getObservaciones()%>" class="form-control"/> 
+        </div>
+
+        <div class="form-group col-lg-12">
+            <button class="btn btn-info">Editar Cliente</button>
+        </div>
+    </fieldset>
+</form>
+<script type="text/javascript">
+
+//function cargarMarca(t){
+//        alert(t);
+//        var tipo = t;
+//        if(tipo=="Empresa"){
+//            $("#marcas").load("/InSeguimientoClientes/Clientes/Formularios/formuMarca.jsp");
+//        }else{
+//            $("#marcas").show();
+//        }
+//    }
+//    $("#btf").click(function(e){
+//        e.preventDefault();
+//        $("#telefono_fijo").val("");
+//    });
+//    $("#btm").click(function(e){
+//        e.preventDefault();
+//        $("#telefono_movil").val("");
+//    });
+//    $("#bto").click(function(e){
+//        e.preventDefault();
+//        $("#telefono_otro").val("");
+//    });
+//     $("#mail").blur(checkIfMailIsValid);
+//    function checkMail(m){
+//        var re = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+//        return re.test(m);
+//    }
+//    function checkIfMailIsValid(){
+//        
+//        if(checkMail($("#mail").val())){
+//            
+//            $("#mail").attr("style","background-color:#ABEBC6;");
+//        }else{
+//            
+//            $("#mail").attr("style","background-color:#F5B7B1;");
+//        }
+//    }
+
+    function checkFormEditClient() {
+//        alert($("#interesado").val());
+        var conte = 0;
+//        alert($("#telefono_fijo").val().length); 
+
+        if ($("#telefono_fijo").val() != "" && $("#telefono_fijo").val().length != 9) {
+
+            $(".error_fijo").html("El numero indicado no es invalido.");
+            conte++;
+        } else {
+            $(".error_fijo").html("");
+        }
+        if ($("#telefono_movil").val() != "" && $("#telefono_movil").val().length != 9) {
+            $(".error_movil").html("El numero indicado no es invalido.");
+            conte++;
+        } else {
+            $(".error_movil").html("");
+
+        }
+
+        if ($("#telefono_otro").val() != "" && $("#telefono_otro").val().length != 9) {
+            $(".error_otro").html("El numero indicado no es invalido.");
+            conte++;
+        } else {
+            $(".error_otro").html("");
+        }
+
+        if (conte != 3) {
+            var cont = 0;
+            $("#interesado option:selected").each(function () {
+                cont++;
+            });
+            if (cont === 0) {
+                if (confirm("¿Estas seguro que quieres continuar sin asignar un curso de interes al cliente?")) {
+                    $.ajax({
+                        url: "Clientes/Controladores/CONTROLADORmodificarCliente.jsp",
+                        type: 'POST',
+                        data: $("#new_client").serialize(),
+                        success: function (data) {
+                            mensaje(data.trim());
+
+                            cargarEditarCliente(<%=c.getIdcliente()%>);
+                        }
+
+                    });
+
+                }
+            } else {
+                $.ajax({
+                    url: "Clientes/Controladores/CONTROLADORmodificarCliente.jsp",
+                    type: 'POST',
+                    data: $("#new_client").serialize(),
+                    success: function (data) {
+                        mensaje(data.trim());
+                        cargarEditarCliente(<%=c.getIdcliente()%>);
+                    }
+
+                });
+
+
+            }
+
+        }
+        return false;
+    }
+
+</script>

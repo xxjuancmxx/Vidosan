@@ -1,0 +1,225 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package dao;
+
+import BBDD.connect;
+import entidad.Marca;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ *
+ * @author samuel.gonzalez
+ */
+public class DaoMarca {
+    
+    /**
+     * Seleccionar marca por ID
+     * @param id
+     * @return 
+     * @throws java.lang.ClassNotFoundException
+     * @throws java.sql.SQLException
+     */
+    public Marca seleccionarMarcaID(int id) throws ClassNotFoundException, SQLException{
+        Marca m = new Marca();
+        connect c = new connect();
+        Connection con=c.openConnect();
+        PreparedStatement ps;
+        ResultSet rs;
+        try{
+            ps=con.prepareStatement("SELECT * FROM marca WHERE idmarca=?");
+            ps.setInt(1, id);
+            rs=ps.executeQuery();
+            if(rs.next()){
+                m.setIdmarca(rs.getInt(1));
+                m.setNombre(rs.getString(2));
+                m.setPath_logo(rs.getString(3));
+                m.setHref_logo(rs.getString(4));
+                m.setColor(rs.getString(5));
+                m.setInterna(rs.getInt(6));
+                m.setReferencia(rs.getString(7));
+            }
+        }catch(Exception e){
+            System.out.print("Error al seleccionar la marca por id "+e);
+        }
+        con.close();
+        return m;
+    }
+    
+    /**
+     * Seleccionar todas las marcas
+     * @return 
+     * @throws java.lang.ClassNotFoundException 
+     * @throws java.sql.SQLException 
+     */
+    public List<Marca> seleccionarMarcas() throws ClassNotFoundException, SQLException{
+        List<Marca> lista = new ArrayList<Marca>();
+        connect c = new connect();
+        Connection con=c.openConnect();
+        PreparedStatement ps;
+        ResultSet rs;
+        try{
+            ps=con.prepareStatement("SELECT * FROM marca");
+            rs=ps.executeQuery();
+            while(rs.next()){
+                Marca m = new Marca();
+                m.setIdmarca(rs.getInt(1));
+                m.setNombre(rs.getString(2));
+                m.setPath_logo(rs.getString(3));
+                m.setHref_logo(rs.getString(4));
+                m.setColor(rs.getString(5));
+                m.setInterna(rs.getInt(6));
+                m.setReferencia(rs.getString(7));
+                lista.add(m);
+            }
+        }catch(Exception e){
+            System.out.print("Error al seleccionar las marcas "+e);
+        }
+        con.close();
+        return lista;
+    }
+    
+    /**
+     * Insertar marca
+     * @param m
+     * @return 
+     * @throws java.lang.ClassNotFoundException
+     * @throws java.sql.SQLException
+     */
+    public boolean insertarMarca(Marca m) throws ClassNotFoundException, SQLException{
+        boolean correcto = false;
+        connect c = new connect();
+        Connection con=c.openConnect();
+        PreparedStatement ps;
+        try{
+            ps=con.prepareStatement("INSERT INTO marca (nombre,path_logo,href_logo,color,interna,referencia) VALUES(?,?,?,?,?,?)");
+            ps.setString(1, m.getNombre());
+            ps.setString(2, m.getPath_logo());
+            ps.setString(3, m.getHref_logo());
+            ps.setString(4, m.getColor());
+            ps.setInt(5, m.getInterna());
+            ps.setString(6, m.getReferencia());
+            if(ps.executeUpdate()>0){
+                correcto=true;
+            }else{
+                correcto=false;
+            }
+        }catch(Exception e){
+            System.out.print("Error al insertar la marca "+e);
+        }
+        con.close();
+        return correcto;
+    }
+    
+    /**
+     * Modificar marca
+     * @param m
+     * @return 
+     * @throws java.lang.ClassNotFoundException
+     * @throws java.sql.SQLException
+     */
+    public boolean modificarMarca(Marca m) throws ClassNotFoundException, SQLException{
+        boolean correcto=false;
+        connect c = new connect();
+        Connection con=c.openConnect();
+        PreparedStatement ps;
+        try{
+            ps=con.prepareStatement("UPDATE marca SET nombre=?, path_logo=?, href_logo=?, color=?, interna=?, referencia=? WHERE idmarca=?");
+            ps.setString(1, m.getNombre());
+            ps.setString(2, m.getPath_logo());
+            ps.setString(3, m.getHref_logo());
+            ps.setString(4, m.getColor());
+            ps.setInt(5, m.getInterna());
+            ps.setString(6, m.getReferencia());
+            ps.setInt(7, m.getIdmarca());
+            if(ps.executeUpdate()>0){
+                correcto=true;
+            }else{
+                correcto=false;
+            }
+        }catch(Exception e){
+            System.out.print("Error al modificar la marca "+e);
+        }
+        con.close();
+        return correcto;
+    }
+    
+    /**
+     * Borrar marca por ID
+     * @param id
+     * @return 
+     * @throws java.lang.ClassNotFoundException
+     * @throws java.sql.SQLException
+     */
+    public boolean borrarMarca(int id) throws ClassNotFoundException, SQLException{
+        boolean correcto=false;
+        connect c = new connect();
+        Connection con=c.openConnect();
+        PreparedStatement ps;
+        try{
+            ps=con.prepareStatement("DELETE FROM dintea.marca WHERE idmarca=?");
+            ps.setInt(1, id);
+            if(ps.executeUpdate()>0){
+                correcto=true;
+            }else{
+                correcto=false;
+            }
+        }catch(Exception e){
+            System.out.print("Error al borrar la marca "+e);
+        }
+        con.close();
+        return correcto;
+    }
+    public boolean insertarMarcaNombreRef(String m,String uuid) throws ClassNotFoundException, SQLException{
+        boolean correcto = false;
+        connect c = new connect();
+        Connection con=c.openConnect();
+        PreparedStatement ps;
+        try{
+            ps=con.prepareStatement("INSERT INTO marca (nombre,referencia) VALUES(?,?)");
+            ps.setString(1, m);
+            ps.setString(2, uuid);
+            if(ps.executeUpdate()>0){
+                correcto=true;
+            }else{
+                correcto=false;
+            }
+        }catch(Exception e){
+            System.out.print("Error al insertar la marca "+e);
+        }
+        con.close();
+        return correcto;
+    }
+    public Marca seleccionarMarcaID(String ref) throws ClassNotFoundException, SQLException{
+        Marca m = new Marca();
+        connect c = new connect();
+        Connection con=c.openConnect();
+        PreparedStatement ps;
+        ResultSet rs;
+        try{
+            ps=con.prepareStatement("SELECT * FROM marca WHERE referencia=?");
+            ps.setString(1, ref);
+            rs=ps.executeQuery();
+            if(rs.next()){
+                m.setIdmarca(rs.getInt(1));
+                m.setNombre(rs.getString(2));
+                m.setPath_logo(rs.getString(3));
+                m.setHref_logo(rs.getString(4));
+                m.setColor(rs.getString(5));
+                m.setInterna(rs.getInt(6));
+                m.setReferencia(rs.getString(7));
+            }
+        }catch(Exception e){
+            System.out.print("Error al seleccionar la marca por id "+e);
+        }
+        con.close();
+        return m;
+    }
+}

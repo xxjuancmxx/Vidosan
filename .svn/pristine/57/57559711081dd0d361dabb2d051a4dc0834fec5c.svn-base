@@ -1,0 +1,281 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package dao;
+
+import BBDD.connect;
+import entidad.ClienteCurso;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ *
+ * @author samuel.gonzalez
+ */
+public class DaoCursoCliente {
+    
+    public DaoCursoCliente(){}//constructor vacio
+    
+    //seleccionar cursocliente
+    public ClienteCurso DaoCursoCliente(int id) throws ClassNotFoundException, SQLException{
+        ClienteCurso cc = new ClienteCurso();
+        connect c = new connect();
+        Connection con=c.openConnect();
+        PreparedStatement ps;
+        ResultSet rs;
+        try{
+            ps=con.prepareStatement("SELECT * FROM cliente_curso WHERE idcliente_curso=?");
+            ps.setInt(1, id);
+            rs=ps.executeQuery();
+            if(rs.next()){
+                cc.setIdclientecurso(rs.getInt(1));
+                cc.setIdcliente(rs.getInt(2));
+                cc.setIdcurso(rs.getInt(3));
+                cc.setFechaIngreso(rs.getTimestamp(4));
+                
+            }
+        }catch(Exception e){
+            System.out.print("Error al seleccionar cursocliente "+e);
+        }
+        con.close();
+        return cc;
+    }
+    
+    //seleccionar clientes cursos
+    public List<ClienteCurso> seleccionarClientesCursos() throws ClassNotFoundException, SQLException{
+        List<ClienteCurso> lista = new ArrayList<ClienteCurso>();
+        connect c = new connect();
+        Connection con=c.openConnect();
+        PreparedStatement ps;
+        ResultSet rs;
+        try{
+            ps=con.prepareStatement("SELECT * FROM cliente_curso");
+            rs=ps.executeQuery();
+            while(rs.next()){
+                ClienteCurso cc = new ClienteCurso();
+                cc.setIdclientecurso(rs.getInt(1));
+                cc.setIdcliente(rs.getInt(2));
+                cc.setIdcurso(rs.getInt(3));
+                cc.setFechaIngreso(rs.getTimestamp(4));
+                lista.add(cc);
+            }
+        }catch(Exception e){
+            System.out.print("Error al seleccionar los cursos clientes "+e);
+        }
+        con.close();
+        return lista;
+    }
+    //seleccionar curso de un cliente
+    public List<ClienteCurso> seleccionarCursosClientePorIdCliente(int idcliente) throws ClassNotFoundException, SQLException{
+        List<ClienteCurso> lista = new ArrayList<ClienteCurso>();
+        connect c = new connect();
+        Connection con=c.openConnect();
+        PreparedStatement ps;
+        ResultSet rs;
+        try{
+            ps=con.prepareStatement("SELECT * FROM cliente_curso where idcliente=?");
+            ps.setInt(1, idcliente);
+            
+            rs=ps.executeQuery();
+            while(rs.next()){
+                ClienteCurso cc = new ClienteCurso();
+                cc.setIdclientecurso(rs.getInt(1));
+                cc.setIdcliente(rs.getInt(2));
+                cc.setIdcurso(rs.getInt(3));
+                cc.setFechaIngreso(rs.getTimestamp(4));
+                lista.add(cc);
+            }
+        }catch(Exception e){
+            System.out.print("Error al seleccionar los cursos clientes "+e);
+        }
+        con.close();
+        return lista;
+    }
+    
+    //insertar Cursocliente
+    public boolean insertarCursoCliente(ClienteCurso cc) throws ClassNotFoundException, SQLException{
+        boolean correcto=false;
+        connect c = new connect();
+        Connection con=c.openConnect();
+        PreparedStatement ps;
+        try{
+            ps=con.prepareStatement("INSERT INTO cliente_curso (idcliente,idcurso) VALUES(?,?)");
+            ps.setInt(1, cc.getIdcliente());
+            ps.setInt(2, cc.getIdcurso());
+            
+            if(ps.executeUpdate()>0){
+                correcto=true;
+            }else{
+                correcto=false;
+            }
+        }catch(Exception e){
+            System.out.print("Error al insertar el cliente curso "+e);
+        }
+        con.close();
+        return correcto;
+    }
+    
+    //modificar cursocliente
+    public boolean modificarCursoCliente(ClienteCurso cc) throws ClassNotFoundException, SQLException{
+        boolean correcto=false;
+        connect c = new connect();
+        Connection con=c.openConnect();
+        PreparedStatement ps;
+        try{
+            ps=con.prepareStatement("UPDATE cliente_curso SET idcliente=?,idcurso=? WHERE idcliente_curso=?");
+            ps.setInt(1, cc.getIdcliente());
+            ps.setInt(2, cc.getIdcurso());
+            ps.setInt(3, cc.getIdclientecurso());
+            if(ps.executeUpdate()>0){
+                correcto=true;
+            }else{
+                correcto=false;
+            }
+        }catch(Exception e){
+            System.out.print("Error al modificar el cliente curso "+e);
+        }
+        con.close();
+        return correcto;
+    }
+    
+    //borrar cliente curso por idcliente curso
+    public boolean borrarCursoClientePorId(int id) throws ClassNotFoundException, SQLException{
+        boolean correcto=false;
+        connect c = new connect();
+        Connection con=c.openConnect();
+        PreparedStatement ps;
+        try{
+            ps=con.prepareStatement("DELETE FROM cliente_curso WHERE idcliente_curso=?");
+            ps.setInt(1, id);
+            if(ps.executeUpdate()>0){
+                correcto=true;
+            }else{
+                correcto=false;
+            }
+        }catch(Exception e){
+            System.out.print("Error al borrar el cliente curso "+e);
+        }
+        con.close();
+        return correcto;
+    }
+    //borrar cliente curso
+    public boolean borrarCursoClientePorIdCliente(int id) throws ClassNotFoundException, SQLException{
+        boolean correcto=false;
+        connect c = new connect();
+        Connection con=c.openConnect();
+        PreparedStatement ps;
+        try{
+            ps=con.prepareStatement("DELETE FROM cliente_curso WHERE idcliente=?");
+            ps.setInt(1, id);
+            if(ps.executeUpdate()>0){
+                correcto=true;
+            }else{
+                correcto=false;
+            }
+        }catch(Exception e){
+            System.out.print("Error al borrar el cliente curso "+e);
+        }
+        con.close();
+        return correcto;
+    }
+    //insertar primera vez
+    public boolean insertarPrimera(ClienteCurso cc) throws ClassNotFoundException, SQLException{
+        boolean correcto=false;
+        connect c = new connect();
+        Connection con=c.openConnect();
+        PreparedStatement ps;
+        try{
+            ps=con.prepareStatement("INSERT INTO cliente_curso (idcliente,idcurso) VALUES(?,?)");
+            ps.setInt(1, cc.getIdcliente());
+            ps.setInt(2, cc.getIdcurso());
+            if(ps.executeUpdate()>0){
+                correcto=true;
+            }else{
+                correcto=false;
+            }
+        }catch(Exception e){
+            System.out.print("Error al insertar el cliente curso "+e);
+        }
+        con.close();
+        return correcto;
+    }
+    
+    //seleccionar curso interesado por cliente
+    public String seleccionarClienteCursoCliente(int idcliente) throws ClassNotFoundException, SQLException{
+        ClienteCurso cc = new ClienteCurso();
+        connect c = new connect();
+        Connection con=c.openConnect();
+        PreparedStatement ps;
+        ResultSet rs;
+        String nombre = "";
+        try{
+            ps=con.prepareStatement("select nombre from cliente_curso left join curso on cliente_curso.idcurso=curso.idcurso where cliente_curso.idcliente=?");
+            ps.setInt(1, idcliente);
+            rs=ps.executeQuery();
+            if(rs.next()){
+                nombre = rs.getString(1);
+            }
+        }catch(Exception e){
+            System.out.print("Error al seleccionar cursocliente por idcliente "+e);
+        }
+        con.close();
+        return nombre;
+    }
+    
+    //contar numero de clientes en un curso pasando como aprametros idcurso y numero de meses atras que quermmos contar
+    
+    public int contarClientesPorCursoMes(int idcurso,int mes) throws SQLException, ClassNotFoundException{ 
+        connect c = new connect();
+        Connection con=c.openConnect();
+        PreparedStatement ps;
+        ResultSet rs;
+        int total = 0;
+        try{
+            ps=con.prepareStatement("SELECT count(*) FROM cliente_curso  WHERE idcurso=? and fecha_ingreso BETWEEN date_sub(now(), interval ? month)  AND NOW()");
+            ps.setInt(1, idcurso);
+            ps.setInt(2, mes);
+            rs=ps.executeQuery();
+            if(rs.next()){
+                total = rs.getInt(1);
+            }
+        }catch(Exception e){
+            System.out.print("Error al seleccionar cursocliente por idcliente "+e);
+        }
+        con.close();
+        
+        
+        return  total;
+    }
+    //contar numero de clientes en un curso por idcurso y numero de semanas atas que quramos contar
+    public int contarClientesPorCursoSemana(int idcurso,int semana) throws SQLException, ClassNotFoundException{
+       
+        
+        connect c = new connect();
+        Connection con=c.openConnect();
+        PreparedStatement ps;
+        ResultSet rs;
+        int total = 0;
+        try{
+            ps=con.prepareStatement("SELECT count(*) FROM cliente_curso  WHERE idcurso=? and fecha_ingreso BETWEEN date_sub(now(), interval ? week)  AND NOW()");
+            ps.setInt(1, idcurso);
+            ps.setInt(2, semana);
+            rs=ps.executeQuery();
+            if(rs.next()){
+                total = rs.getInt(1);
+            }
+        }catch(Exception e){
+            System.out.print("Error al seleccionar cursocliente por idcliente "+e);
+        }
+        con.close();
+        
+        
+        return  total;
+    }
+    
+}

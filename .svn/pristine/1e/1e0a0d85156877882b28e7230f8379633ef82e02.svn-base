@@ -1,0 +1,52 @@
+<%-- 
+    Document   : CONTROLADORNuevaTarea
+    Created on : 18-abr-2017, 11:04:54
+    Author     : juan.carrasco
+--%>
+<%@page import="dao.intea.DaoUsuario"%>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page import="dao.DaoAcciones"%>
+<%@page import="entidad.Acciones"%>
+<%@page import="dao.DaoCursoCliente"%>
+<%@page import="entidad.ClienteCurso"%>
+<%@page import="java.util.Date"%>
+<%@page import="java.text.SimpleDateFormat"%>
+<%@page import="entidad.Cliente"%>
+<%@page import="dao.DaoCliente"%>
+<%
+    try{
+        //CONTROALDORES
+        DaoAcciones daoacc = new DaoAcciones();
+        dao.intea.DaoUsuario  daouser= new DaoUsuario();
+        //OBJETOS
+        Acciones a = new Acciones();
+        
+        //REQUEST
+        int idcliente = Integer.parseInt(request.getParameter("idcliente"));
+        
+        String nobservaciones = request.getParameter("nuevatarea_observaciones");
+        String volverallamar = (request.getParameter("nuevatarea_volverallamar")==null)?"0":"1";
+        int contactarcon = Integer.parseInt(request.getParameter("nuevatarea_contactarcon"));
+        if(nobservaciones !=null && nobservaciones!=""){
+           a.setIdcliente(idcliente);
+           a.setComentario(nobservaciones);
+           a.setVolver_llamar(Integer.parseInt(volverallamar));
+           if(daoacc.insertarAcciones(a)){
+               if(contactarcon>0){
+                   daoacc.anadirUsuarioTarea(daouser.seleccionarUsuario(contactarcon).getNombrecompleto(), contactarcon, daoacc.ultimaaccion());
+               }
+                out.print("{\"tipo\":1,\"msg\":\"Tarea guardada correctamente.\"}");
+            } else {
+                System.out.print("Ocurrio un error al insertar un cliente.");
+
+                out.print("{\"tipo\":0,\"msg\":\"Ocurrio un error al guardar la tarea.\"}");
+                //response.sendRedirect("/InSeguimientoClientes/home.jsp?clm=1");
+            }
+       }
+        
+        
+
+    }catch(Exception e){
+        System.out.print("Error al añadir tarea "+e);
+    }
+%>

@@ -1,0 +1,105 @@
+<%-- 
+    Document   : recuentosClientesCurso
+    Created on : 10-feb-2016, 17:30:07
+    Author     : Hector
+--%>
+
+<%@page import="entidad.Curso"%>
+<%@page import="java.util.List"%>
+<%@page import="dao.DaoCursoCliente"%>
+<%@page import="dao.DaoCurso"%>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%
+DaoCurso cc = new DaoCurso();
+DaoCursoCliente ccc = new DaoCursoCliente();
+
+List<Curso> lc = cc.seleccionarCursos();
+
+%>
+<style>
+    .panel-heading{
+        
+    }
+    .panel-body{
+        font-size: .8em;
+    }
+   
+</style>
+        <div class="col-lg-4">
+            <div class="panel panel-default">
+                <div class="panel-heading" style="padding:5px 10px;">
+                   Total clientes interesados última semana
+                </div>
+                <div class="panel-body" style="padding:5px;">
+                    <table class="table table-condensed" style="margin-bottom: 0px;" >
+                    <%
+                    for(Curso c : lc){
+                        int total = ccc.contarClientesPorCursoSemana(c.getIdcurso(), 1);
+                        String text = (total==0)?"Sin llamadas":String.valueOf(total);
+                        if(total!=0){
+                        %>
+                        <tr>
+                            <td><%=c.getNombre()%></td>
+                            <td><%=text %></td>
+                        </tr>
+
+                        <%
+                        }
+                    }
+                    %>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="panel panel-default">
+                <div class="panel-heading" style="padding:5px 10px;">
+                     Total clientes interesados últimas 2 semanas
+                </div>
+                <div class="panel-body" style="padding:5px;">
+                    <table class="table table-condensed" style="margin-bottom: 0px;">
+                    <%
+                    for(Curso c : lc){
+                        int total = ccc.contarClientesPorCursoSemana(c.getIdcurso(), 2);
+                        String text = (total==0)?"Sin llamadas":String.valueOf(total);
+                        if(total!=0){
+                        %>
+                        <tr>
+                            <td><%=c.getNombre()%></td>
+                            <td><%=text%></td>
+                        </tr>
+
+                        <%
+                        }
+                    }
+                    %>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="panel panel-default"> 
+                <div class="panel-heading" style="padding:5px 10px;">
+                    Total clientes interesados último mes
+                </div>
+                <div class="panel-body" style="padding:5px;">
+                    <table class="table table-condensed" style="margin-bottom: 0px;">
+                    <%
+                    for(Curso c : lc){
+                        int total = ccc.contarClientesPorCursoMes(c.getIdcurso(), 1);
+                        String text = (total==0)?"Sin llamadas":String.valueOf(total);
+                        if(total!=0){
+                        %>
+                        <tr>
+                            <td><%=c.getNombre()%></td>
+                            <td><%=text %></td>
+                        </tr>
+
+                        <%
+                        }
+                    }
+                    %>
+                    </table>
+                </div>
+            </div>
+        </div>

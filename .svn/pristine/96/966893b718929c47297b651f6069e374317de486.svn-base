@@ -1,0 +1,45 @@
+<%-- 
+    Document   : CONTROLADOREstatusAccion
+    Created on : 18-abr-2017, 12:51:47
+    Author     : juan.carrasco
+--%>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page import="dao.DaoAcciones"%>
+<%@page import="entidad.Acciones"%>
+<%@page import="dao.DaoCursoCliente"%>
+<%@page import="entidad.ClienteCurso"%>
+<%@page import="java.util.Date"%>
+<%@page import="java.text.SimpleDateFormat"%>
+<%@page import="entidad.Cliente"%>
+<%@page import="dao.DaoCliente"%>
+<%
+    try{
+        //CONTROALDORES
+        DaoAcciones daoacc = new DaoAcciones();
+        
+        //OBJETOS
+       
+        
+        //REQUEST
+        int idaccion = Integer.parseInt(request.getParameter("idaccion"));
+        int valor1=Integer.parseInt(request.getParameter("botontarea"));
+        String valor;
+        if(valor1==0){
+            valor="RESUELTO"; 
+        }else{
+             valor="PENDIENTE";
+        }
+        
+        
+        if(daoacc.modificarStatusAccion(valor,idaccion)){
+             out.print("{\"tipo\":1");
+         } else {
+             System.out.print("Ocurrio un error al modificar la tarea.");
+
+             out.print("{\"tipo\":0");
+             //response.sendRedirect("/InSeguimientoClientes/home.jsp?clm=1");
+         }
+    }catch(Exception e){
+        System.out.print("Error al modificar tarea "+e);
+    }
+%>

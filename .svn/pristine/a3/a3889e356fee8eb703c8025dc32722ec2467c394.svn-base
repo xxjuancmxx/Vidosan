@@ -1,0 +1,45 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package entidad;
+
+import java.io.Serializable;
+
+/**
+ *
+ * @author samuel.gonzalez
+ */
+public class Curso implements Serializable{
+    
+    private static final long serialVersionUID =1L ;
+    
+    private int idcurso;
+    private String nombre;
+    
+    public Curso(){}//constructor vacio
+    
+    public Curso(int id,String n){
+        this.idcurso=id;
+        this.nombre=n;
+    }
+
+    public int getIdcurso() {
+        return idcurso;
+    }
+
+    public void setIdcurso(int idcurso) {
+        this.idcurso = idcurso;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+    
+    
+}

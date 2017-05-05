@@ -1,0 +1,56 @@
+<%-- 
+    Document   : index
+    Created on : 18-nov-2014, 10:20:10
+    Author     : hector.heras
+--%>
+
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+    <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="/InSeguimientoClientes/src/css/bootstrap.css" rel="stylesheet">
+    <link href="/InSeguimientoClientes/src/css/login.css" rel="stylesheet">
+    <link rel="shortcut icon" href="/InSeguimientoClientes/src/images/favicon.ico">
+        <title>Login</title>
+   
+    </head>
+    <body align="center">
+        <div class="container" id="login-block">
+            
+    		<div class="row">
+			    <div class="col-sm-6 col-md-4 col-sm-offset-3 col-md-offset-4">
+			    	
+			       <div class="login-box clearfix">
+			        	<div class="login-logo">
+			        		<a href="#"><img src="/InSeguimientoClientes/src/images/logo2.jpg" alt="Company Logo" /></a>
+			        	</div> 
+			        	<hr />
+			        	<div class="login-form">
+                                            <%if(request.getParameter("p")!=null){%>
+                                                <p class="alert alert-danger">El usuario no existe.</p>
+                                            <%}%>
+                                            <%if(request.getParameter("no_session_or_cookie")!=null){%>
+                                                <p class="alert alert-danger">La sesión ha expirado, vuelva a iniciar sesión.</p>
+                                            <%}%>
+                                            <p>
+                                                <b>Acceso Restringido:</b><br>
+                                                Está accediendo a un área con acceso protegido.<br>
+                                                Por favor, escriba su usuario y contraseña
+                                            </p>
+     			        		<form action="/InSeguimientoClientes/CONTROLADORlogin.jsp" method="post">
+						   		 <input type="text" name="usuario" placeholder="User name" required/> 
+						   		 <input type="password" name="password" placeholder="Password" required/> 
+						   		 <button type="submit" class="btn btn-red">Login</button> 
+						</form>	
+							    		
+			        	</div> 			        	
+			       </div>
+			  	
+			    </div>
+			</div>
+    	</div>
+    </body>
+    <script src="src/js/access/ca.js"></script>
+</html>

@@ -1,0 +1,119 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package dto.dao;
+
+import BBDD.connect;
+import dto.entidad.DTOCuentaCurso;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ *
+ * @author juan.carrasco
+ */
+public class DaoCuentaCurso {
+
+    public DaoCuentaCurso() {
+    }
+    
+    public List<DTOCuentaCurso> contarClientesPorCursoSemana(int numsemana) throws SQLException, ClassNotFoundException{ 
+        List<DTOCuentaCurso> lista = new ArrayList<DTOCuentaCurso>();
+        connect c = new connect();
+        Connection con=c.openConnect();
+        PreparedStatement ps;
+        ResultSet rs;
+        try{
+            ps=con.prepareStatement("select " +
+                    " cu.idcurso,cu.nombre,count(*) as cuenta" +
+                    " from " +
+                    " cliente c inner join cliente_curso cc " +
+                    " on c.idcliente=cc.idcliente" +
+                    " inner join curso cu " +
+                    " on cc.idcurso=cu.idcurso" +
+                    " where cc.fecha_ingreso BETWEEN date_sub(now(), interval ? week)  AND NOW()" +
+                    " group by cu.idcurso order by cuenta desc limit 3;");
+            ps.setInt(1, numsemana);
+            rs=ps.executeQuery();
+            while(rs.next()){
+                DTOCuentaCurso dcc = new DTOCuentaCurso();
+                dcc.setIdcurso(rs.getInt(1));
+                dcc.setNombrecurso(rs.getString(2));
+                dcc.setCuentacurso(rs.getInt(3));
+                lista.add(dcc);
+            }
+        }catch(Exception e){
+            System.out.print("Error al contar clientes "+e);
+        }
+        con.close();
+        return  lista;
+    }
+    public List<DTOCuentaCurso> contarClientesPorAnio(int anio) throws SQLException, ClassNotFoundException{ 
+        List<DTOCuentaCurso> lista = new ArrayList<DTOCuentaCurso>();
+        connect c = new connect();
+        Connection con=c.openConnect();
+        PreparedStatement ps;
+        ResultSet rs;
+        try{
+            ps=con.prepareStatement("select " +
+                    " cu.idcurso,cu.nombre,count(*) as cuenta" +
+                    " from " +
+                    " cliente c inner join cliente_curso cc " +
+                    " on c.idcliente=cc.idcliente" +
+                    " inner join curso cu " +
+                    " on cc.idcurso=cu.idcurso" +
+                    " where year(cc.fecha_ingreso)=?" +
+                    " group by cu.idcurso order by cuenta desc");
+            ps.setInt(1, anio);
+            rs=ps.executeQuery();
+            while(rs.next()){
+                DTOCuentaCurso dcc = new DTOCuentaCurso();
+                dcc.setIdcurso(rs.getInt(1));
+                dcc.setNombrecurso(rs.getString(2));
+                dcc.setCuentacurso(rs.getInt(3));
+                lista.add(dcc);
+            }
+        }catch(Exception e){
+            System.out.print("Error al contar clientes "+e);
+        }
+        con.close();
+        return  lista;
+    }
+    public List<DTOCuentaCurso> contarClientesPorCursoMes(int numsemana) throws SQLException, ClassNotFoundException{ 
+        List<DTOCuentaCurso> lista = new ArrayList<DTOCuentaCurso>();
+        connect c = new connect();
+        Connection con=c.openConnect();
+        PreparedStatement ps;
+        ResultSet rs;
+        try{
+            ps=con.prepareStatement("select " +
+                    " cu.idcurso,cu.nombre,count(*) as cuenta" +
+                    " from " +
+                    " cliente c inner join cliente_curso cc " +
+                    " on c.idcliente=cc.idcliente" +
+                    " inner join curso cu " +
+                    " on cc.idcurso=cu.idcurso" +
+                    " where cc.fecha_ingreso BETWEEN date_sub(now(), interval ? month)  AND NOW()" +
+                    " group by cu.idcurso order by cuenta desc limit 3;");
+            ps.setInt(1, numsemana);
+            rs=ps.executeQuery();
+            while(rs.next()){
+                DTOCuentaCurso dcc = new DTOCuentaCurso();
+                dcc.setIdcurso(rs.getInt(1));
+                dcc.setNombrecurso(rs.getString(2));
+                dcc.setCuentacurso(rs.getInt(3));
+                lista.add(dcc);
+            }
+        }catch(Exception e){
+            System.out.print("Error al contar clientes "+e);
+        }
+        con.close();
+        return  lista;
+    }
+}

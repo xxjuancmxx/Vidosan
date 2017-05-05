@@ -1,0 +1,188 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package dao;
+
+import BBDD.connect;
+import entidad.TipoCurso;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ *
+ * @author samuel.gonzalez
+ */
+public class DaoTipoCurso {
+    
+    /**
+     * Seleccionar tipo curso por id
+     * @param id
+     * @return 
+     * @throws java.lang.ClassNotFoundException
+     * @throws java.sql.SQLException
+     */
+    public TipoCurso seleccionarTipoCurso(int id) throws ClassNotFoundException, SQLException{
+        TipoCurso tp = new TipoCurso();
+        connect c = new connect();
+        Connection con=c.openConnect();
+        PreparedStatement ps;
+        ResultSet rs;
+        try{
+            ps=con.prepareStatement("SELECT * FROM intea_tipo_curso WHERE idtipocurso=?");
+            ps.setInt(1, id);
+            rs=ps.executeQuery();
+            if(rs.next()){
+                tp.setIdtipocurso(rs.getInt(1));
+                tp.setCodigo(rs.getString(2));
+                tp.setNombre(rs.getString(3));
+            }
+        }catch(Exception e){
+            System.out.print("Error al seleccionar por id el tipo de curso "+e);
+        }
+        con.close();
+        return tp;
+    }
+    
+    public List<TipoCurso> seleccionarTipoCursoporIdcliente(int id) throws ClassNotFoundException, SQLException{
+        List<TipoCurso> lista = new ArrayList<TipoCurso>();
+        connect c = new connect();
+        Connection con=c.openConnect();
+        PreparedStatement ps;
+        ResultSet rs;
+        try{
+            ps=con.prepareStatement("SELECT * FROM intea_tipo_curso WHERE idcliente=?");
+            ps.setInt(1, id);
+            rs=ps.executeQuery();
+            if(rs.next()){
+                TipoCurso tp = new TipoCurso();
+                tp.setIdtipocurso(rs.getInt(1));
+                tp.setCodigo(rs.getString(2));
+                tp.setNombre(rs.getString(3));
+                lista.add(tp);
+            }
+        }catch(Exception e){
+            System.out.print("Error al seleccionar por id el tipo de curso "+e);
+        }
+        con.close();
+        return lista;
+    }
+    
+    /**
+     * Seleccionar tipos de curso
+     * @return 
+     * @throws java.lang.ClassNotFoundException
+     * @throws java.sql.SQLException
+     */
+    public List<TipoCurso> seleccionarTiposCurso() throws ClassNotFoundException, SQLException{
+        List<TipoCurso> lista = new ArrayList<TipoCurso>();
+        connect c = new connect();
+        Connection con=c.openConnect();
+        PreparedStatement ps;
+        ResultSet rs;
+        try{
+            ps=con.prepareStatement("SELECT * FROM intea_tipo_curso");
+            rs=ps.executeQuery();
+            while(rs.next()){
+                TipoCurso tp = new TipoCurso();
+                tp.setIdtipocurso(rs.getInt(1));
+                tp.setCodigo(rs.getString(2));
+                tp.setNombre(rs.getString(3));
+                lista.add(tp);
+            }
+        }catch(Exception e){
+            System.out.print("Error al seleccionar los tipos de curso "+e);
+        }
+        con.close();
+        return lista;
+    }
+    
+    /**
+     * Insertar tipo curso
+     * @param tp
+     * @return 
+     * @throws java.lang.ClassNotFoundException
+     * @throws java.sql.SQLException
+     */
+    public boolean insertarTipoCurso(TipoCurso tp) throws ClassNotFoundException, SQLException{
+        boolean correcto = false;
+        connect c = new connect();
+        Connection con=c.openConnect();
+        PreparedStatement ps;
+        try{
+            ps=con.prepareStatement("INSERT INTO intea_tipo_curso (codigo,nombre) VALUES(?,?)");
+            ps.setString(1, tp.getCodigo());
+            ps.setString(2, tp.getNombre());
+            if(ps.executeUpdate()>0){
+                correcto=true;
+            }else{
+                correcto=false;
+            }
+        }catch(Exception e){
+            System.out.print("Error al insertar tipo curso "+e);
+        }
+        con.close();
+        return correcto;
+    }
+    
+    /**
+     * Modificar tipo curso
+     * @param tp
+     * @return 
+     * @throws java.lang.ClassNotFoundException
+     * @throws java.sql.SQLException
+     */
+    public boolean modificarTipoCurso(TipoCurso tp) throws ClassNotFoundException, SQLException{
+        boolean correcto = false;
+        connect c = new connect();
+        Connection con=c.openConnect();
+        PreparedStatement ps;
+        try{
+            ps=con.prepareStatement("UPDATE intea_tipo_curso SET codigo=?,nombre=? WHERE idtipocurso=?");
+            ps.setString(1, tp.getCodigo());
+            ps.setString(2, tp.getNombre());
+            ps.setInt(3, tp.getIdtipocurso());
+            if(ps.executeUpdate()>0){
+                correcto=true;
+            }else{
+                correcto=false;
+            }
+        }catch(Exception e){
+            System.out.print("Error al modificar tipo curso "+e);
+        }
+        con.close();
+        return correcto;
+    }
+    
+    /**
+     * Borrar tipo de curso
+     * @param id
+     * @return 
+     * @throws java.lang.ClassNotFoundException
+     * @throws java.sql.SQLException
+     */
+    public boolean borrarTipoCurso(int id) throws ClassNotFoundException, SQLException{
+        boolean correcto = false;
+        connect c = new connect();
+        Connection con=c.openConnect();
+        PreparedStatement ps;
+        try{
+            ps=con.prepareStatement("DELETE FROM intea_tipo_curso WHERE idtipocurso=?");
+            ps.setInt(1, id);
+            if(ps.executeUpdate()>0){
+                correcto=true;
+            }else{
+                correcto=false;
+            }
+        }catch(Exception e){
+            System.out.print("Error al borrar el tipo curso "+e);
+        }
+        con.close();
+        return correcto;
+    }
+}

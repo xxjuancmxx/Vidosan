@@ -1,0 +1,86 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package dao;
+
+import BBDD.connect;
+import entidad.Hash;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+/**
+ *
+ * @author juan.carrasco
+ */
+public class DaoHash {
+    public boolean insertarHash(Hash hs) throws ClassNotFoundException, SQLException{
+        boolean correcto = false;
+        connect c = new connect();
+        Connection con=c.openConnect();
+        PreparedStatement ps;
+       
+        
+        try{
+            
+            ps=con.prepareStatement("INSERT INTO hash_table (iduser,hash)"
+                    + " values(?,?)");
+            ps.setInt(1, hs.getIduser());
+            ps.setString(2, hs.getHash());
+            
+            if(ps.executeUpdate()>0){
+                correcto=true;
+            }else{
+                correcto=false;
+            }
+        }catch(Exception e){
+            System.out.print("Error al insertar hash :"+e);
+        }
+        con.close();
+        return correcto;
+    }
+    public boolean borrarHash(int iduser) throws ClassNotFoundException, SQLException{
+        boolean correcto = false;
+        connect c = new connect();
+        Connection con=c.openConnect();
+        PreparedStatement ps;
+        try{
+            ps=con.prepareStatement("DELETE FROM hash_table WHERE iduser=?");
+            ps.setInt(1, iduser);
+            if(ps.executeUpdate()>0){
+                correcto=true;
+            }else{
+                correcto=false;
+            }
+        }catch(Exception e){
+            System.out.print("Error al borrar hash "+e);
+        }
+        con.close();
+        return correcto;
+    }
+    //seleccionar clientes
+    public boolean seleccionarHashPorIdUsuarioHash(int id,String hash) throws ClassNotFoundException, SQLException{
+        connect c = new connect();
+        Connection con=c.openConnect();
+        PreparedStatement ps;
+        ResultSet rs;
+        boolean existe = false;
+        try{
+            ps=con.prepareStatement("SELECT iduser,hash "
+                    + " FROM hash_table where  iduser=? and hash=?;");
+            ps.setInt(1, id);
+            ps.setString(2, hash);
+            rs=ps.executeQuery();
+            if(rs.next()){       
+                existe=true;
+            }
+        }catch(Exception e){
+            System.out.print("Error al idusuario y hash de la tabla hash_table "+e);
+        }
+        con.close();
+        return existe;
+    }
+}

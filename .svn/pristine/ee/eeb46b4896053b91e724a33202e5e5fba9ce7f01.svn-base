@@ -1,0 +1,204 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package dao;
+
+import BBDD.connect;
+import entidad.Contacto;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ *
+ * @author samuel.gonzalez
+ */
+public class DaoContacto {
+    
+    /**
+     * Seleccionar contacto por ID
+     * @param id
+     * @return 
+     * @throws java.lang.ClassNotFoundException
+     * @throws java.sql.SQLException
+     */
+    public Contacto seleccionarContactoID(int id) throws ClassNotFoundException, SQLException{
+        Contacto ct = new Contacto();
+        connect c = new connect();
+        Connection con=c.openConnect();
+        PreparedStatement ps;
+        ResultSet rs;
+        try{
+            ps=con.prepareStatement("SELECT * FROM dseguimiento.contacto WHERE idcontacto=?");
+            ps.setInt(1, id);
+            rs=ps.executeQuery();
+            if(rs.next()){
+                ct.setIdcontacto(rs.getInt(1));
+                ct.setIdcliente(rs.getInt(2));
+                ct.setNombre(rs.getString(3));
+                ct.setApellidos(rs.getString(4));
+                ct.setTelefono(rs.getString(5));
+                ct.setMovil_profesional(rs.getString(6));
+                ct.setMovil_personal(rs.getString(7));
+                ct.setCargo(rs.getString(8));
+                ct.setCorreo(rs.getString(9));
+                ct.setObservaciones(rs.getString(10));
+                ct.setFecha_inserccion(rs.getDate(11));
+                ct.setFecha_modificacion(rs.getDate(12));
+                ct.setIsDelete(rs.getInt(13));
+            }
+        }catch(Exception e){
+            System.out.print("Error al seleccionar contacto por id "+e);
+        }
+        con.close();
+        return ct;
+    }
+    
+    /**
+     * Seleccionar contactos
+     * @return 
+     * @throws java.lang.ClassNotFoundException
+     * @throws java.sql.SQLException
+     */
+    public List<Contacto> seleccionarContactos() throws ClassNotFoundException, SQLException{
+        List<Contacto> lista = new ArrayList<Contacto>();
+        connect c = new connect();
+        Connection con=c.openConnect();
+        PreparedStatement ps;
+        ResultSet rs;
+        try{
+            ps=con.prepareStatement("SELECT * FROM dseguimiento.contacto");
+            rs=ps.executeQuery();
+            while(rs.next()){
+                Contacto ct = new Contacto();
+                ct.setIdcontacto(rs.getInt(1));
+                ct.setIdcliente(rs.getInt(2));
+                ct.setNombre(rs.getString(3));
+                ct.setApellidos(rs.getString(4));
+                ct.setTelefono(rs.getString(5));
+                ct.setMovil_profesional(rs.getString(6));
+                ct.setMovil_personal(rs.getString(7));
+                ct.setCargo(rs.getString(8));
+                ct.setCorreo(rs.getString(9));
+                ct.setObservaciones(rs.getString(10));
+                ct.setFecha_inserccion(rs.getDate(11));
+                ct.setFecha_modificacion(rs.getDate(12));
+                ct.setIsDelete(rs.getInt(13));
+                lista.add(ct);
+            }
+        }catch(Exception e){
+            System.out.print("Error al seleccionar contactos "+e);
+        }
+        con.close();
+        return lista;
+    }
+    
+    /**
+     * Insertar contacto
+     * @param ct
+     * @return 
+     * @throws java.lang.ClassNotFoundException
+     * @throws java.sql.SQLException
+     */
+    public boolean insertarContactos(Contacto ct) throws ClassNotFoundException, SQLException{
+        boolean correcto=false;
+        connect c = new connect();
+        Connection con=c.openConnect();
+        PreparedStatement ps;
+        try{
+            ps=con.prepareStatement("INSERT INTO dseguimiento.contacto (idcliente,nombre,apellidos,"
+                    + "telefono,movil_profesional,movil_personal,"
+                    + "cargo,correo,observaciones,isDeleted) VALUES(?,?,?,?,?,?,?,?,?,?)");
+            ps.setInt(1, ct.getIdcliente());
+            ps.setString(2, ct.getNombre());
+            ps.setString(3, ct.getApellidos());
+            ps.setString(4, ct.getTelefono());
+            ps.setString(5, ct.getMovil_profesional());
+            ps.setString(6, ct.getMovil_personal());
+            ps.setString(7, ct.getCargo());
+            ps.setString(8, ct.getCorreo());
+            ps.setString(9, ct.getObservaciones());
+            ps.setInt(10, ct.getIsDelete());
+            if(ps.executeUpdate()>0){
+                correcto=true;
+            }else{
+                correcto=false;
+            }
+        }catch(Exception e){
+            System.out.print("Error al insertar el contacto "+e);
+        }
+        con.close();
+        return correcto;
+    }
+    
+    /**
+     * Modificar contacto
+     * @param ct
+     * @return 
+     * @throws java.lang.ClassNotFoundException
+     * @throws java.sql.SQLException
+     */
+    public boolean modificarContacto(Contacto ct) throws ClassNotFoundException, SQLException{
+        boolean correcto=false;
+        connect c = new connect();
+        Connection con=c.openConnect();
+        PreparedStatement ps;
+        try{
+            ps=con.prepareStatement("UPDATE dseguimiento.contacto SET idcliente=?, nombre=?, apellidos=?,"
+                    + "telefono=?,movil_profesional=?,movil_personal=?,"
+                    + "cargo=?,correo=?,observaciones=?,fecha_modificacion=?,isDeleted=? WHERE idcontacto=?");
+            ps.setInt(1, ct.getIdcliente());
+            ps.setString(2, ct.getNombre());
+            ps.setString(3, ct.getApellidos());
+            ps.setString(4, ct.getTelefono());
+            ps.setString(5, ct.getMovil_profesional());
+            ps.setString(6, ct.getMovil_personal());
+            ps.setString(7, ct.getCargo());
+            ps.setString(8, ct.getCorreo());
+            ps.setString(9, ct.getObservaciones());
+            ps.setInt(10, ct.getIsDelete());
+            ps.setInt(11, ct.getIdcontacto());
+            if(ps.executeUpdate()>0){
+                correcto=true;
+            }else{
+                correcto=false;
+            }
+        }catch(Exception e){
+            System.out.print("Error al modificar el contacto "+e);
+        }
+        con.close();
+        return correcto;
+    }
+    
+    /**
+     * Borrar contacto
+     * @param id
+     * @return 
+     * @throws java.lang.ClassNotFoundException
+     * @throws java.sql.SQLException
+     */
+    public boolean borrarContacto(int id) throws ClassNotFoundException, SQLException{
+        boolean correcto=false;
+        connect c = new connect();
+        Connection con=c.openConnect();
+        PreparedStatement ps;
+        try{
+            ps=con.prepareStatement("DELETE FROM dseguimiento.contacto WHERE idcontacto=?");
+            ps.setInt(1, id);
+            if(ps.executeUpdate()>0){
+                correcto=true;
+            }else{
+                correcto=false;
+            }
+        }catch(Exception e){
+            System.out.print("Error al borrar el contacto "+e);
+        }
+        con.close();
+        return correcto;
+    }
+}

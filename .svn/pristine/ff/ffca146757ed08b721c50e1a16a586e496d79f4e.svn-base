@@ -1,0 +1,176 @@
+<%-- 
+    Document   : home
+    Created on : 24-jun-2015, 14:02:14
+    Author     : samuel.gonzalez
+--%>
+
+<%@page import="entidad.ClienteCurso"%>
+<%@page import="dao.DaoCursoCliente"%>
+<%@page import="java.util.Date"%>
+<%@page import="java.util.List"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="dao.DaoAcciones"%>
+<%@page import="java.text.SimpleDateFormat"%>
+<%@page import="entidad.Acciones"%>
+<%@page import="entidad.Cliente"%>
+<%@page import="dao.DaoCliente"%>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="shortcut icon" href="/InSeguimientoClientes/src/images/favicon.ico">
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>Seguimiento Clientes</title>
+    
+        <style>
+           
+            html,body {
+                  height: 100%;
+                  /* The html and body elements cannot have any padding or margin. */
+                }
+
+                /* Wrapper for page content to push down footer */
+                #wrap {
+                  min-height: 100%;
+                  height: auto;
+                  /* Negative indent footer by its height */
+                  margin: 0 auto -60px;
+                  /* Pad bottom by footer height */
+                  padding: 0 0 60px;
+                  
+                }
+
+                /* Set the fixed height of the footer here */
+                #footer {
+                  height: 60px;
+                  background-color: #f5f5f5;
+                }
+                #numero{
+                    width:140px;
+                }
+                .ContactError{
+                    color:red;
+                }
+                
+        </style>
+       
+    </head>
+    
+        
+    <body class="container">
+        <div id="wrap">
+        <%@include file="src/includes/cabecera.jsp"%>
+        
+        <div id="count_window" class="row">
+        
+        </div>
+        <div id="last_window" class="row">
+        
+        </div>
+        <hr>
+<!--        <h1>Seguimiento de Clientes</h1><hr>-->
+        <%
+            if(request.getParameter("ab")!=null){
+                %>
+                <div class="alert alert-success text-center">Informacion guardada con exito.</div>
+                <%
+            }
+            if(request.getParameter("am")!=null){
+                %>
+                <div class="alert alert-danger text-center">Error al guardar la informacion.</div>
+                <%
+            }
+            if(request.getParameter("mb")!=null){
+                %>
+                <div class="alert alert-success text-center">Informacion guardada con exito.</div>
+                <%
+            }
+            if(request.getParameter("mm")!=null){
+                %>
+                <div class="alert alert-danger text-center">Error al guardar la informacion del cliente, avise al informatico.</div>
+                <%
+            }
+            if(request.getParameter("mab")!=null){
+                %>
+                <div class="alert alert-success text-center">Accion del cliente guardada correctamente.</div>
+                <%
+            }
+            if(request.getParameter("mam")!=null){
+                %>
+                <div class="alert alert-danger text-center">Error al guardar la accion del cliente, avise al informatico.</div>
+                <%
+            }
+            if(request.getParameter("im")!=null){
+                %>
+                <div class="alert alert-danger text-center">Error al meter el interes del cliente.</div>
+                <%
+            }
+            if(request.getParameter("aab")!=null){
+                %>
+                <div class="alert alert-success text-center">Accion añadida con exito.</div>
+                <%
+            }
+            if(request.getParameter("aam")!=null){
+                %>
+                <div class="alert alert-danger text-center">Error al añadir la accion, pongase en contacto con el informatico.</div>
+                <%
+            }
+            if(request.getParameter("eab")!=null){
+                %>
+                <div class="alert alert-success text-center">Accion modificada con exito.</div>
+                <%
+            }
+            if(request.getParameter("eam")!=null){
+                %>
+                <div class="alert alert-danger">Error al modificar la accion, avise al informatico.</div>
+                <%
+            }
+            if(request.getParameter("clb")!=null){
+                %>
+                <div class="alert alert-success text-center">Cliente creado con exito</div>
+                <%
+            }
+            if(request.getParameter("clm")!=null){
+                %>
+                <div class="alert alert-danger text-center">Error al crear un nuevo cliente, pongase en contacto con el informatico.</div>
+                <%
+            }
+            
+             
+        %>
+        <div class="row">
+            <div class="col-lg-12" id="top">
+                <!--Formulario para la busqueda de clientes--> 
+                <form class="form-horizontal" name="search_client">
+                    <fieldset>
+                        <legend>
+                            Buscar Cliente <span class="glyphicon glyphicon-question-sign" data-toggle="tooltip" title="Para buscar un cliente escribe el numero en el campo de formulario situado en la parte inferior y haz enter o pincha fuera del campo para realizar la busqueda."></span>
+                        </legend>
+                    <!-- Text input-->
+                    <div class="form-inline">
+                      <label for="numero">Numero de Contacto:</label>  
+                      <input type="text" class="form-control" id="numero" name="numero" 
+                             pattern="[1-9]{9}" maxlength="9" max="9" placeholder="EJ:611111111" data-toggle="tooltip" title="Facilita un número para buscar en base de datos, se mostraran los datos del cliente que coincidan con el número."/>
+                      <input type="text" class="form-control" id="hide" name="hide" 
+                                 style="display:none;" />
+                      <span class="ContactError"></span>
+                    </div>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+            
+        <!--Area de Respuesta-->
+        <div class="row" >
+            <div class="col-lg-12" id="respuesta">
+                
+            </div>
+        </div>
+        
+        
+        </div>
+     
+        <%@include file="src/includes/pie.html" %>
+
+    </body>
+</html>

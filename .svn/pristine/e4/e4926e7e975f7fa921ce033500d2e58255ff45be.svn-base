@@ -1,0 +1,28 @@
+<%-- 
+    Document   : CONTROLADORRespuesta
+    Created on : 05-feb-2016, 13:16:06
+    Author     : hector.heras
+--%>
+
+<%@page import="java.util.List"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="entidad.Cliente"%>
+<%@page import="dao.DaoCliente"%>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%
+DaoCliente cc = new DaoCliente();
+
+List<Cliente> lc = new ArrayList();
+String contacto = request.getParameter("contacto");
+
+lc=cc.seleccionarClientePorTelefono(contacto);
+
+if(lc.isEmpty()){
+    out.print("Clientes/Formularios/nuevoCliente.jsp?contacto="+contacto);
+}else if(lc.size()==1){
+    Cliente c = lc.get(0);
+    out.print("Clientes/Formularios/editarCliente.jsp?idcliente="+c.getIdcliente()+"&mi=1");
+}else{
+    out.print("Clientes/Formularios/listadoClientesCoincidencia.jsp?contacto="+contacto);
+}
+%>

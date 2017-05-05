@@ -1,0 +1,39 @@
+<div id="footer">
+   
+        <div class="row">
+            <div class="col-lg-12">
+            <table class="table">
+                 <tr>
+                     <td style="vertical-align: middle;"> 
+                         
+                     </td>
+                     <td class="text-center">
+                         <b style="color:black;font-size: 12px;letter-spacing: 2px;">Powered By-Intea 2016</b> 
+                        <img src="/InSeguimientoClientes/src/images/logoCabeza80x100.png" style="height: 25px;width: 30px"/>
+                         
+                     </td>
+                     <td></td>
+                 </tr>
+             </table>
+            </div>
+        </div>
+
+</div>
+<script>
+    function cargarEditarCliente(id){
+        
+        if(document.getElementById("respuesta")==null){
+             $("#wrap").load("Clientes/Formularios/editarCliente.jsp?idcliente="+id);
+            
+        }else{
+            $("#respuesta").load("Clientes/Formularios/editarCliente.jsp?idcliente="+id);
+            
+        }
+               
+
+    }
+     $('[data-toggle="tooltip"]').tooltip({'placement': 'bottom'});        
+</script>
+<script src="/InSeguimientoClientes/src/js/bootstrap.js" type="text/javascript"></script>
+<script src="/InSeguimientoClientes/src/js/funciones/funcionesHome.js" type="text/javascript"></script>
+<script src="/InSeguimientoClientes/src/js/funciones/funcionesCliente.js" type="text/javascript"></script>

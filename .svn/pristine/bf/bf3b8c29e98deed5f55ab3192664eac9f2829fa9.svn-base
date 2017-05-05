@@ -1,0 +1,115 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package dto.dao;
+
+import BBDD.connect;
+import dto.entidad.DTOTareasPersona;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ *
+ * @author juan.carrasco
+ */
+public class DaoTareasPersona {
+
+    public DaoTareasPersona() {
+    }
+    
+    public List<DTOTareasPersona> listarTareas() throws SQLException, ClassNotFoundException{ 
+        List<DTOTareasPersona> lista = new ArrayList<DTOTareasPersona>();
+        connect c = new connect();
+        Connection con=c.openConnect();
+        PreparedStatement ps;
+        ResultSet rs;
+        try{
+            ps=con.prepareStatement("select " +
+                " a.idacciones,c.nombre,c.apellidos,a.fecha,a.volver_llamar,a.status,a.comentario,c.idcliente,a.idusuarios " +
+                " from" +
+                " acciones a inner join cliente c" +
+                " on a.idcliente=c.idcliente order by a.status asc,a.fecha desc;");
+            rs=ps.executeQuery();
+            while(rs.next()){
+                DTOTareasPersona dcc = new DTOTareasPersona();
+                dcc.setIdacciones(rs.getInt(1));
+                dcc.setNombre(rs.getString(2));
+                dcc.setApellidos(rs.getString(3));
+                dcc.setFecha(rs.getDate(4));
+                dcc.setVolverallamar(rs.getInt(5));
+                dcc.setStatus(rs.getString(6));
+                dcc.setComentario(rs.getString(7));
+                dcc.setIdcliente(rs.getInt(8));
+                dcc.setIdusuarios(rs.getInt(9));
+                lista.add(dcc);
+            }
+        }catch(Exception e){
+            System.out.print("Error al listar tarea "+e);
+        }
+        con.close();
+        return  lista;
+    }
+    public List<DTOTareasPersona> listarTareasporId(int id) throws SQLException, ClassNotFoundException{ 
+        List<DTOTareasPersona> lista = new ArrayList<DTOTareasPersona>();
+        connect c = new connect();
+        Connection con=c.openConnect();
+        PreparedStatement ps;
+        ResultSet rs;
+        try{
+            ps=con.prepareStatement("select " +
+                " a.idusuarios,a.idacciones,c.nombre,c.apellidos,a.fecha,a.volver_llamar,a.status,a.comentario,c.idcliente,a.idusuarios " +
+                " from" +
+                " acciones a inner join cliente c" +
+                " on a.idcliente=c.idcliente where a.idusuarios=? order by a.status asc,a.fecha desc;");
+            ps.setInt(1,id);
+            rs=ps.executeQuery();
+            while(rs.next()){
+                DTOTareasPersona dcc = new DTOTareasPersona();
+                dcc.setIdusuarios(rs.getInt(1));
+                dcc.setIdacciones(rs.getInt(2));
+                dcc.setNombre(rs.getString(3));
+                dcc.setApellidos(rs.getString(4));
+                dcc.setFecha(rs.getDate(5));
+                dcc.setVolverallamar(rs.getInt(6));
+                dcc.setStatus(rs.getString(7));
+                dcc.setComentario(rs.getString(8));
+                dcc.setIdcliente(rs.getInt(9));
+                dcc.setIdusuarios(rs.getInt(10));
+                lista.add(dcc);
+            }
+        }catch(Exception e){
+            System.out.print("Error al listar tarea "+e);
+        }
+        con.close();
+        return  lista;
+    }
+    public int notificacionesTareasporID(int id) throws ClassNotFoundException, SQLException{
+        int valor=0;
+        connect c = new connect();
+        Connection con=c.openConnect();
+        PreparedStatement ps;
+        ResultSet rs;
+        try{
+            ps=con.prepareStatement("select" +
+                        " count(c.nombre)" +
+                        " from" +
+                        " acciones a inner join cliente c" +
+                        " on a.idcliente=c.idcliente where a.idusuarios=? and a.status=\"PENDIENTE\";");
+            ps.setInt(1,id);
+            rs=ps.executeQuery();
+                if(rs.next()){
+                    valor=rs.getInt(1);
+                }
+        }catch(Exception e){
+            System.out.print("Error al sacar notificaciones las acciones "+e);
+        }
+        con.close();
+        return valor;
+    }
+}

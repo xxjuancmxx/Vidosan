@@ -1,0 +1,642 @@
+ <%@page import="entidad.intea.Usuario"%>
+<%@page import="dao.intea.DaoUsuario"%>
+<%@page import="entidad.TipoCurso"%>
+<%@page import="dao.DaoTipoCurso"%>
+<%@page import="org.apache.jasper.tagplugins.jstl.core.ForEach"%>
+<%@page import="entidad.Acciones"%>
+<%@page import="dao.DaoAcciones"%>
+<%-- 
+    Document   : editarCliente
+    Created on : 08-feb-2016, 16:04:02
+    Author     : hector.heras
+--%>
+
+<%@page import="entidad.Municipio"%>
+<%@page import="dao.DaoMunicipio"%>
+<%@page import="entidad.Provincia"%>
+<%@page import="dao.DaoProvincia"%>
+<%@page import="dao.DaoMarca"%>
+<%@page import="entidad.Marca"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="entidad.ClienteCurso"%>
+<%@page import="dao.DaoCursoCliente"%>
+<%@page import="entidad.Cliente"%>
+<%@page import="dao.DaoCliente"%>
+<%@page import="entidad.Curso"%>
+<%@page import="java.util.List"%>
+<%@page import="dao.DaoCurso"%>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%
+    int idcliente = Integer.parseInt(request.getParameter("idcliente"));
+    DaoCurso cc = new DaoCurso();
+    DaoCliente ccli = new DaoCliente();
+    DaoMarca daom = new DaoMarca();
+    List<Marca> listaMarcas = new ArrayList<Marca>();
+    listaMarcas = daom.seleccionarMarcas();
+    DaoCursoCliente daocc = new DaoCursoCliente();
+    Cliente c = ccli.seleccionarClientePorId(idcliente);
+    List<Curso> lc = cc.seleccionarCursos();
+    List<ClienteCurso> cursosInteresCliente = daocc.seleccionarCursosClientePorIdCliente(idcliente);
+    DaoProvincia daoProvincia =  new DaoProvincia();
+    DaoMunicipio daoMunicipio =  new DaoMunicipio();
+    List<Provincia> listaProvincias = daoProvincia.seleccionarProvincias();
+    DaoAcciones daoacc = new DaoAcciones();
+    List<Acciones> listaAcciones = new ArrayList<Acciones>();
+    DaoTipoCurso daotipc = new DaoTipoCurso();
+    List<TipoCurso> listaTipocurso = new ArrayList<TipoCurso>();
+    List<Municipio> listaMunicipio = daoMunicipio.seleccionarMunicipiosPorNombreProvincia(c.getProvincia());
+    
+%>
+
+<%    if (request.getParameter("mi") != null) {
+        out.print("<div class='alert alert-info' style='margin-top:.7em;'>Este contacto ya existe en nuestra base de datos, si quieres modificar algun dato hazlo desde el formulario siguiente</div>");
+    }
+    if (c.isDeleted()) {
+        out.print("<div class='alert alert-danger' style='margin-top:.7em;'>El contacto actualmente se encuentra en la lista de eliminados.</div>");
+    }
+%>
+<div class="col-lg-12">
+
+    <input type="hidden" id="nombre" name="nombre" value="<%= c.getNombre()%>"/>
+     <input type="hidden" id="apellidos" name="apellidos"  value="<%= c.getApellidos()%>"/>
+    <fieldset>
+        <form class="form" id="new_client" onsubmit="return checkFormEditClient()">
+            <legend>Editar Contacto:<%= c.getNombre()%> <%= c.getApellidos()%> </legend>
+            <div class="col-lg-6">
+                <div class="row">
+
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label class="col-md-6 control-label" for="tipoCliente">Tipo Cliente</label>
+                            <div class="col-md-6"> 
+                                <label  for="tipoCliente-0">
+                                    <input type="radio" name="tipoCliente" id="tipoCliente-0" value="Empresa"
+                                           <%if (c.getTipoCliente().equals("Empresa")) {
+                                           %> checked <%
+                                               }
+                                           %> onclick="cargarMarca('Empresa')">
+                                    Empresa
+                                </label> 
+                                <label  for="tipoCliente-1">
+                                    <input type="radio" name="tipoCliente" id="tipoCliente-1" value="Particular" <%
+                                        if (c.getTipoCliente().equals("Particular")) {
+                                           %> checked <%
+                                               }%> onclick="cargarMarca('Particular')">
+                                    Particular
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+        <!--            <div class="col-lg-6" id="marcas" on="cargar">
+                        <div class="form-group">
+                            <label class="col-md-4 control-label" for="marca">Marca:</label>
+                            <div class="col-md-4">
+                                <select id="marca" name="marca" class="form-control">
+                                    <option value="0" <%if (c.getIdmarca() == 0) {%> selected <%}%> </option>
+                                    <%
+                                        for (Marca m : listaMarcas) {
+
+                                    %>
+                                    <option value="<%=m.getIdmarca()%>" <%if (c.getIdmarca() == m.getIdmarca()) {%> selected <%}%>><%=m.getNombre()%></option>
+                                    <%
+                                        }
+                                    %>
+                                </select>
+                            </div>
+                        </div>
+                    </div>-->
+                    <script>
+                        $(function () {
+                            <%
+                                        if(c.getTipoCliente().equals("Empresa")){
+                                            %>
+                                                    $("#marcas").show();
+                                                   <%
+                                        }else{
+                                            %>
+                                                    $("#marcas").hide();
+                                                    <%
+                                        }
+                            %>
+
+                        });
+
+                    </script>
+
+                </div>
+
+                <br>
+                <input type="hidden" name="idcliente" value="<%=c.getIdcliente()%>"/>
+                <input type="hidden" name="nombre" value="<%=c.getNombre()%>"/>
+                <input type="hidden" name="apellidos" value="<%=c.getApellidos()%>"/>
+                <div class="row">
+                    <div class="form-group col-lg-6">
+                        <label for="telefono_fijo">
+                            Telefono Fijo:
+                        </label>
+                        <input type="text" id="telefono_fijo" name="telefono_fijo" value="<%=c.getTelefono_fijo()%>" class="form-control"/>
+                        <span class="error error_fijo"></span>
+                        <button id="btf" type="button" onclick="limpiar('telefono_fijo')"><span class="glyphicon glyphicon-remove"></span></button>
+                    </div>
+                    <div class="form-group col-lg-6">
+                        <label for="telefono_movil">
+                            Telefono Movil:
+                        </label>
+                        <input type="text" id="telefono_movil" name="telefono_movil" value="<%=c.getTelefono_movil()%>" class="form-control"/>
+                        <span class="error error_movil"></span>
+                        <button id="btm" type="button" onclick="limpiar('telefono_movil')"><span class="glyphicon glyphicon-remove"></span></button>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-lg-6">
+                        <label for="telefono_otro">
+                            Telefono Otro:
+                        </label>
+                        <input type="text" id="telefono_otro" name="telefono_otro" value="<%=c.getTelefono_otro()%>" class="form-control"/>
+                        <span class="error error_otro"></span>
+                        <button id="bto" type="button" onclick="limpiar('telefono_otro')"><span class="glyphicon glyphicon-remove" ></span></button>
+                    </div>
+
+            <!--        <div class="form-group col-lg-4">
+                        <label for="nombre">
+                            Nombre:
+                        </label>
+                        <input type="text" id="nombre" name="nombre" value="<%= c.getNombre()%>" class="form-control"/>
+                    </div>
+                    <div class="form-group col-lg-4">
+                        <label for="telefono_fijo">
+                            Apellidos:
+                        </label>
+                        <input type="text" id="apellidos" name="apellidos"  value="<%= c.getApellidos()%>" class="form-control"/>
+                    </div>-->
+
+                    <div class="form-group col-lg-6">
+                        <label for="mail">
+                            Mail:
+                        </label>
+                        <input type="text" id="mail" name="mail"  value="<%= c.getMail()%>"  class="form-control"/>
+                        <span class="error_mail"></span>
+                    </div>
+                </div>
+                <div class="row">
+                <div class="form-group col-lg-6">
+                    <label for="provincia">
+                        Provincia:
+                    </label>
+                   <select id="provincia" name="provincia" class="form-control">
+                            <option value=" ">Selecciona Provincia... </option>
+                            <%
+                            for (Provincia m : listaProvincias) {
+                                if(!m.getProvincia().equals(c.getProvincia())){
+
+
+                                %>
+                                <option value="<%=m.getIdProvincia()%>"><%=m.getProvincia()%></option>
+                                <%
+                                }else{
+                                 %>
+                                <option selected value="<%=m.getIdProvincia()%>"><%=m.getProvincia()%></option>
+                                <%       
+                                }
+                            }
+                            %>
+                        </select>
+                </div>
+                <div class="form-group col-lg-6">
+                    <label for="localidad">
+                        Localidad:
+                    </label>
+                    <select id="localidad" name="localidad" class="form-control">
+                        <option value=" ">Selecciona Localidad... </option>
+                        <%
+                            for (Municipio m : listaMunicipio) {
+                                if(!m.getMunicipio().equals(c.getLocalidad())){
+
+
+                                %>
+                                <option value="<%=m.getMunicipio()%>"><%=m.getMunicipio()%></option>
+                                <%
+                                }else{
+                                 %>
+                                <option selected value="<%=m.getMunicipio()%>"><%=m.getMunicipio()%></option>
+                                <%       
+                                }
+                            }
+                        %>
+                    </select>
+                </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-lg-6">
+                        <label for="cp">
+                            C.P:
+                        </label>
+                        <input type="text" id="cp" name="cp" value="<%=c.getCp()%>" class="form-control"/>
+                    </div>
+                </div>
+                <div class="form-group col-lg-12">
+                    <button class="btn btn-info">Editar Cliente</button>
+                </div>
+            </div>
+       </form>
+        <div class="col-lg-6">
+            <div class="row">
+                <form class="form" id="new_formacion">
+                    <input type="hidden" name="idcliente" value="<%=c.getIdcliente()%>"/>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <label><h4><b>Formación:</b></h4></label><br>
+                            <label for="interesado">
+                               Interesado en:
+                           </label>
+                            <select id="interesado" name="interesado" class="form-control" multiple>
+                                <%
+                                    for (Curso cu : lc) {
+                                        int cont = 0;
+                                        for (ClienteCurso ccu : cursosInteresCliente) {
+
+                                            if (ccu.getIdcurso() == cu.getIdcurso()) {
+                                %>
+                                <option value="<%=cu.getIdcurso()%>" selected><%=cu.getCodigo()%> - (<%=cu.getNombre()%>)</option>
+                                <%
+                                            cont++;
+                                        }
+                                    }
+                                    if (cont == 0) {
+                                %>
+                                <option value="<%=cu.getIdcurso()%>"><%=cu.getCodigo()%> - (<%=cu.getNombre()%>)</option>
+                                <%
+
+                                        }
+
+                                    }
+                                %>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-lg-12">
+                            <label for="certificados" style="display: block;">
+                                Interesado en Certificados de Profesionalidad:
+                            </label>
+
+                            <label class="radio-inline">
+                                <input type="radio" name="certificados" id="certificados" value="1" 
+                                       <%
+                                           if (c.getCertificados() == 1) {
+                                               out.print(" checked ");
+                                           }
+
+                                       %>/>Si
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" name="certificados" id="certificados" value="0" 
+                                       <%                           if (c.getCertificados() == 0) {
+                                               out.print(" checked ");
+                                           }
+
+                                       %>/>No
+                            </label>   
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-lg-12">
+                            <label for="otro" style="display: block;">
+                                Interesado en otro tipo de curso:
+                            </label>
+
+                            <input type="text" name="otro" id="otro" value="<%=c.getOtro()%>" class="form-control"/> 
+                            <button type="button" class="btn btn-info" style='margin: 15px;' onclick="checkFormacion()">Editar formación</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="row">
+                <div class="row">
+                    <form class="form" id="new_tarea">
+                    <input type="hidden" name="idcliente" value="<%=c.getIdcliente()%>"/>
+                        <div class="col-lg-12" >
+                        <!--                    Sacar las tareas de la tabla acciones-->
+                        <div class="row"><div class="col-lg-12"><h4><b>Tareas:</b></h4></div></div>
+                            <%
+                             listaAcciones =daoacc.seleccionarAccionesCliente(c.getIdcliente());
+                             if(listaAcciones.size()>=1){
+                            %>
+                            <div class="row">
+                                <div class="col-lg-12 col-sm-12 col-xs-12">Nueva Tarea:</div>
+                                <div class="col-lg-12 col-sm-12 col-xs-12"><textarea class='form-control' style='resize: none' name='nuevatarea_observaciones' maxlength="450"></textarea></div>
+                                <div class="col-lg-8 col-sm-8 col-xs-8">
+                                    <div class="row">
+                                        <div class="col-lg-6 col-sm-6 col-xs-6">
+                                            <label>Volver a llamar</label>
+                                            <select name='nuevatarea_volverallamar' class="form-control" style="width: 40%;">
+                                                <option value='1'>SI</option>
+                                                <option value='0'>NO</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-lg-6 col-sm-6 col-xs-6">
+                                            <label>Contactar con:</label>
+                                            <select name='nuevatarea_contactarcon' class="form-control">
+                                                <option >Nadie en particular</option>
+                                                <%
+                                                    dao.intea.DaoUsuario daouser = new DaoUsuario();
+                                                    List<Usuario> listausuario = new ArrayList<Usuario>();
+                                                    listausuario=daouser.seleccionarUsuariosIntea();
+                                                    for(Usuario u:listausuario){
+                                                        if(u.getEstado()==1)
+                                                            out.print("<option value="+u.getIduser()+">"+u.getNombrecompleto()+"</option>");
+                                                    }
+                                                 %>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                             <div class="row" style="font-weight: bold;">
+                                <div class="col-lg-1 col-sm-1 col-xs-1 " ></div>
+                                <div class="col-lg-1 col-sm-1 col-xs-1" >Estado</div>
+                                <div class="col-lg-1 col-sm-1 col-xs-1" >Fecha</div>
+                                <div class="col-lg-2 col-sm-1 col-xs-1">Llamar</div>
+                                <div class="col-lg-6 col-sm-6 col-xs-6" >Comentario</div>
+                             </div>
+
+                              <div class="row" style="overflow: scroll;max-height: 150px;overflow-x: hidden;margin-top:5px;font-size: 10px;"> 
+                             <div class="col-lg-12">     
+                             <%
+                             for (Acciones acc : listaAcciones) {
+                                 int valor=acc.getIdaccion();
+                                 out.print("<div class='row'>");
+                                 out.print("<form id='cambio_estatus'>");
+                                 out.print("<input type='hidden' name='idcliente' value='"+c.getIdcliente()+"'/>");
+                                 out.print("<input type='hidden' name='idaccion' value="+acc.getIdaccion()+"/>");
+                                 out.print("<div class='col-lg-1 col-sm-1 col-xs-1' '><button id='botontarea'   type='button' onclick='modificartarea("+valor+",0)'><span class='glyphicon glyphicon-ok' style='margin=2px;></span></button></div>");
+                                 out.print("<div class='col-lg-1 col-sm-1 col-xs-1' ><button id='botontarea'  type='button' onclick='modificartarea("+valor+",1)'><span class='glyphicon glyphicon-remove' ></span></button></div>");
+                                 if(acc.getStatus().equals("RESUELTO")){
+                                     out.print("<div class='col-lg-1 col-sm-1 col-xs-1' style='color:green'>"+acc.getStatus()+"</div>");
+                                 }else{
+                                     out.print("<div class='col-lg-1 col-sm-1 col-xs-1' style='color:red'>"+acc.getStatus()+"</div>");
+                                 }
+
+                                 out.print("<div class='col-lg-2 col-sm-2 col-xs-2'style='text-align:right;'>"+" "+acc.getFecha()+"</div>");
+                                 if(acc.getVolver_llamar()==1){
+                                    out.print("<div class='col-lg-1 col-sm-1 col-xs-1' style='text-align:center'>SI</div>");   
+                                 }else{
+                                    out.print("<div class='col-lg-1 col-sm-1 col-xs-1' style='text-align:center'>NO</div>");   
+                                 }
+                                out.print("<div class='col-lg-6 col-sm-6 col-xs-6'><textarea class='form-control' readonly style='background-color:white;resize:none;width:100%;'>"+acc.getComentario()+"</textarea></div>");
+                                out.print("</form>");
+                                out.print("</div>");
+                             }
+
+                            %>
+                                  </div >
+                              </div >
+                            <%
+                             }else{
+                                 %>
+
+                                 <div class="alert alert-warning">Sin tareas por ahora..</div>
+                                 <table>
+                                    <tr>
+                                        <th>Volver a llamar</th>
+                                        <td style="text-align: left;">
+                                           <select name='nuevatarea_volverallamar' class="form-control">
+                                               <option value='1'>SI</option>
+                                               <option value='0'>NO</option>
+                                           </select>
+                                       </td>
+                                    </tr>
+                                    <tr>
+                                       <th>Comentario</th>
+                                       <td>
+                                           <textarea class='form-control' style='resize: none;width: 300px' name='nuevatarea_observaciones'></textarea>
+                                       </td>
+                                   </tr>
+                                   <tr>
+                                       <th>Contactar con:</th>
+                                       <td>
+                                          <select name='nuevatarea_contactarcon' class="form-control">
+                                                <option >Nadie en particular</option>
+                                                <%
+                                                    dao.intea.DaoUsuario daouser = new DaoUsuario();
+                                                    List<Usuario> listausuario = new ArrayList<Usuario>();
+                                                    listausuario=daouser.seleccionarUsuariosIntea();
+                                                    for(Usuario u:listausuario){
+                                                        if(u.getEstado()==1)
+                                                            out.print("<option value="+u.getIduser()+">"+u.getNombrecompleto()+"</option>");
+                                                    }
+                                                 %>
+                                            </select>
+                                       </td>
+                                   </tr>
+                                 </table>
+                                 <%
+                             }
+                             %>
+                             <button type="button" class="btn btn-info" style="margin: 5px;float: right;" onclick="checkNuevaTarea()">Nueva Tareas</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+                    
+    </fieldset>
+
+</div>
+<script type="text/javascript">
+    $(document).ready(function(){
+        $("#telefono_fijo").focus();
+    }); 
+    
+//function cargarMarca(t){
+//        var tipo = t;
+//        if(tipo=="Empresa"){
+//            $("#marcas").show();
+//            $("#marcas").load("/InSeguimientoClientes/Clientes/Formularios/formuMarca.jsp");
+//        }
+//        if(tipo=="Particular"){
+//             $("#marcas").hide();
+//        }
+//    }
+    function limpiar(a){
+        document.getElementById(a).value="";
+    }
+//function cargarMarca(t){
+//        alert(t);
+//        var tipo = t;
+//        if(tipo=="Empresa"){
+//            $("#marcas").load("/InSeguimientoClientes/Clientes/Formularios/formuMarca.jsp");
+//        }else{
+//            $("#marcas").show();
+//        }
+//    }
+//    $("#btf").click(function(e){
+//        e.preventDefault();
+//        $("#telefono_fijo").val("");
+//    });
+//    $("#btm").click(function(e){
+//        e.preventDefault();
+//        $("#telefono_movil").val("");
+//    });
+//    $("#bto").click(function(e){
+//        e.preventDefault();
+//        $("#telefono_otro").val("");
+//    });
+//     $("#mail").blur(checkIfMailIsValid);
+//    function checkMail(m){
+//        var re = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+//        return re.test(m);
+//    }
+//    function checkIfMailIsValid(){
+//        
+//        if(checkMail($("#mail").val())){
+//            
+//            $("#mail").attr("style","background-color:#ABEBC6;");
+//        }else{
+//            
+//            $("#mail").attr("style","background-color:#F5B7B1;");
+//        }
+//    }
+    function validarmail(){
+        var expr=/^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+        var mail=document.getElementById('mail').value;
+        if(mail===""){
+            return true;
+        }else{
+             return expr.test(mail);
+        }
+    }
+    function validarvacio(valor){
+        var val=$("#"+valor).val();
+        if(val == "" || val == null){
+            return false;
+        }else{
+            return true;
+        }
+    }
+    function checkFormacion(){
+        $.ajax({
+                url: "Clientes/Controladores/CONTROLADORModificarFormacion.jsp",
+                type: 'POST',
+                data:  $("#new_formacion").serialize(),
+                success: function () {
+                    cargarEditarCliente(<%=c.getIdcliente()%>);
+                }
+                
+            }); 
+    }
+    function modificartarea(a,b){
+        $.ajax({
+                url: "Clientes/Controladores/CONTROLADOREstatusAccion.jsp",
+                type: 'POST',
+                data: "idaccion="+a+"&botontarea="+b,
+                success: function (data) {
+                    mensaje(data.trim());
+                    cargarEditarCliente(<%=c.getIdcliente()%>);
+                }
+
+            });
+        
+    }
+    function checkFormEditClient() {
+//        alert($("#interesado").val());
+        var conte = 0;
+//        alert($("#telefono_fijo").val().length); 
+
+        if(!validarvacio("nombre")){
+            conte++;
+            $(".error_nombre").html("El nombre no puede estar vacío.");
+            $(".error_nombre").attr("style", "color:red;");
+            $("#nombre").attr("style", "box-shadow:0px 0px 5px #DF0101");
+        }else{
+            $(".error_nombre").html("");
+             $("#nombre").attr("style", "box-shadow:0px 0px 0px #DF0101");
+        }
+        if(!validarmail()){
+            conte++;
+            $(".error_mail").html("El email no es valido.");
+            $(".error_mail").attr("style", "color:red;");
+            $("#mail").attr("style", "box-shadow:0px 0px 5px #DF0101");
+        }else{
+            $(".error_mail").html("");
+            $("#mail").attr("style", "box-shadow:0px 0px 0px #DF0101");
+        }
+        if(!validarvacio("apellidos")){
+            conte++;
+            $(".error_apellido").html("El apellido no puede estar vacío.");
+            $(".error_apellido").attr("style", "color:red;");
+            $("#apellidos").attr("style", "box-shadow:0px 0px 5px #DF0101");
+        }else{
+            $(".error_apellido").html("");
+            $("#apellidos").attr("style", "box-shadow:0px 0px 0px #DF0101");
+        }
+        if ($("#telefono_fijo").val() !== "" && $("#telefono_fijo").val().length !== 9) {
+            $(".error_fijo").html("El numero indicado no es valido.");
+            conte++;
+        } else {
+            $(".error_fijo").html("");
+        }
+        if ($("#telefono_movil").val() !== "" && $("#telefono_movil").val().length !== 9) {
+            $(".error_movil").html("El numero indicado no es valido.");
+            conte++;
+        } else {
+            $(".error_movil").html("");
+        }
+        
+        if ($("#telefono_otro").val() !== "" && $("#telefono_otro").val().length !== 9) {
+            $(".error_otro").html("El numero indicado no es valido.");
+            conte++;
+        } else {
+            $(".error_otro").html("");
+        }
+
+        if (conte === 0) {
+            var cont = 0;
+            if (cont === 0) {
+                if (confirm("¿Estas seguro que quieres editar al cliente?")) {
+                    $.ajax({
+                        url: "Clientes/Controladores/CONTROLADORmodificarCliente.jsp",
+                        type: 'POST',
+                        data: $("#new_client").serialize(),
+                        success: function (data) {
+                            mensaje(data.trim());
+                            cargarEditarCliente(<%=c.getIdcliente()%>);
+                        }
+
+                    });
+                }
+            } else {
+                $.ajax({
+                    url: "Clientes/Controladores/CONTROLADORmodificarCliente.jsp",
+                    type: 'POST',
+                    data: $("#new_client").serialize(),
+                    success: function (data) {
+                        mensaje(data.trim());
+                        cargarEditarCliente(<%=c.getIdcliente()%>);
+                    }
+
+                });
+
+
+            }
+
+        }
+        return false;
+        
+    }
+    function checkNuevaTarea(){
+        if (confirm("¿Estas seguro que quieres añadir una tarea del cliente?")) {
+                    $.ajax({
+                        url: "Clientes/Controladores/CONTROLADORNuevaTarea.jsp",
+                        type: 'POST',
+                        data: $("#new_tarea").serialize(),
+                        success: function (data) {
+                            mensaje(data.trim());
+                            cargarEditarCliente(<%=c.getIdcliente()%>);
+                        }
+
+                    });
+
+                }
+    }
+</script>

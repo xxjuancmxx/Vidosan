@@ -1,0 +1,21 @@
+<%      
+//                   Cookie[] valor2 = request.getCookies(); 
+//                   int cont=0;
+//                    for(Cookie c : valor2){
+//                        if(c.getName().equals("id")){
+//                            c.setMaxAge(0);
+//                              response.addCookie(c);
+//                              cont++;
+//                        }
+//                         if(c.getName().equals("hash")){
+//                            c.setMaxAge(0);
+//                            response.addCookie(c);
+//                            cont++;
+//                            
+//                        }
+//                    }
+//                    if(cont==2){
+//                        response.sendRedirect("/InSeguimientoClientes/index.jsp"); 
+//                    }
+                
+%>

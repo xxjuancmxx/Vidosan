@@ -1,0 +1,530 @@
+package entidad.intea;
+
+import java.sql.Date;
+import java.sql.Time;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+
+
+public class Usuario {
+    private int iduser;
+    private String name;
+    private String pass;
+    private int permiso;
+    private int departamento;
+    private String nombrecompleto;
+    private String email;
+    private String color;
+    private int idmarca;
+    private int funcion;
+    private String correocliente;
+    private String tlfCliente;
+    private String tlfIntea;
+    private String tlfOtro;
+    private int idpromuser;
+    private int lider;
+    private int idlms;
+    private int estado;
+    private int reportes;
+    private int calendario;
+    private int seguimiento;
+    private int formularios;
+    private int inventario;
+    private int comunicacion;
+    private int gestion_usuarios;
+    private Timestamp fecha_insercion;
+    private Timestamp fecha_modificacion;
+    private String ref_promotor;
+    private String ref_lms;
+    private String referencia;
+    private String nif;
+    private String naf;
+    private float horas;
+    private Time manana_entrada;
+    private Time manana_salida;
+    private Time tarde_entrada;
+    private Time tarde_salida;
+    private Date fecha_nac;
+    private String path_cv;
+    private String href_cv;
+    private String path_foto;
+    private String href_foto;
+    private Date fecha_modificacion_cv;
+    private Date fecha_modificacion_foto;
+    private int iso;
+    private int or;
+    private String correoPersonal;
+    private String ccc;
+
+    
+    
+    public Usuario(){}//constructor
+
+    public Usuario(int iduser, String name, String pass, int permiso, int departamento, String nombrecompleto, String email, String color, int idmarca, int funcion, String correocliente, String tlfCliente, String tlfIntea, String tlfOtro, int idpromuser, int lider, int idlms, int estado, int reportes, int calendario, int seguimiento, int formularios, int inventario, int comunicacion, int gestion_usuarios, Timestamp fecha_insercion, Timestamp fecha_modificacion, String ref_promotor, String ref_lms, String referencia, String nif, String naf, float horas, Time manana_entrada, Time manana_salida, Time tarde_entrada, Time tarde_salida, Date fecha_nac, String path_cv, String href_cv, String path_foto, String href_foto, Date fecha_modificacion_cv, Date fecha_modificacion_foto, int iso, int or, String correoPersonal,String ccc) {
+        this.iduser = iduser;
+        this.name = name;
+        this.pass = pass;
+        this.permiso = permiso;
+        this.departamento = departamento;
+        this.nombrecompleto = nombrecompleto;
+        this.email = email;
+        this.color = color;
+        this.idmarca = idmarca;
+        this.funcion = funcion;
+        this.correocliente = correocliente;
+        this.tlfCliente = tlfCliente;
+        this.tlfIntea = tlfIntea;
+        this.tlfOtro = tlfOtro;
+        this.idpromuser = idpromuser;
+        this.lider = lider;
+        this.idlms = idlms;
+        this.estado = estado;
+        this.reportes = reportes;
+        this.calendario = calendario;
+        this.seguimiento = seguimiento;
+        this.formularios = formularios;
+        this.inventario = inventario;
+        this.comunicacion = comunicacion;
+        this.gestion_usuarios = gestion_usuarios;
+        this.fecha_insercion = fecha_insercion;
+        this.fecha_modificacion = fecha_modificacion;
+        this.ref_promotor = ref_promotor;
+        this.ref_lms = ref_lms;
+        this.referencia = referencia;
+        this.nif = nif;
+        this.naf = naf;
+        this.horas = horas;
+        this.manana_entrada = manana_entrada;
+        this.manana_salida = manana_salida;
+        this.tarde_entrada = tarde_entrada;
+        this.tarde_salida = tarde_salida;
+        this.fecha_nac = fecha_nac;
+        this.path_cv = path_cv;
+        this.href_cv = href_cv;
+        this.path_foto = path_foto;
+        this.href_foto = href_foto;
+        this.fecha_modificacion_cv = fecha_modificacion_cv;
+        this.fecha_modificacion_foto = fecha_modificacion_foto;
+        this.iso = iso;
+        this.or = or;
+        this.correoPersonal = correoPersonal;
+        this.ccc=ccc;
+    }
+
+    
+    
+
+    public int getIduser() {
+        return iduser;
+    }
+
+    public void setIduser(int iduser) {
+        this.iduser = iduser;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getPass() {
+        return pass;
+    }
+
+    public void setPass(String pass) {
+        this.pass = pass;
+    }
+
+    public int getPermiso() {
+        return permiso;
+    }
+
+    public void setPermiso(int permiso) {
+        this.permiso = permiso;
+    }
+
+    public int getDepartamento() {
+        return departamento;
+    }
+
+    public void setDepartamento(int departamento) {
+        this.departamento = departamento;
+    }
+
+    
+
+    public String getNombrecompleto() {
+        return nombrecompleto;
+    }
+
+    public void setNombrecompleto(String nombrecompleto) {
+        this.nombrecompleto = nombrecompleto;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
+    }
+
+    public int getIdmarca() {
+        return idmarca;
+    }
+
+    public void setIdmarca(int idmarca) {
+        this.idmarca = idmarca;
+    }
+
+    public int getFuncion() {
+        return funcion;
+    }
+
+    public void setFuncion(int funcion) {
+        this.funcion = funcion;
+    }
+
+    public String getCorreocliente() {
+        return correocliente;
+    }
+
+    public void setCorreocliente(String correocliente) {
+        this.correocliente = correocliente;
+    }
+
+    public String getTlfCliente() {
+        return tlfCliente;
+    }
+
+    public void setTlfCliente(String tlfCliente) {
+        this.tlfCliente = tlfCliente;
+    }
+
+    public String getTlfIntea() {
+        return tlfIntea;
+    }
+
+    public void setTlfIntea(String tlfIntea) {
+        this.tlfIntea = tlfIntea;
+    }
+
+    public String getTlfOtro() {
+        return tlfOtro;
+    }
+
+    public void setTlfOtro(String tlfOtro) {
+        this.tlfOtro = tlfOtro;
+    }
+
+    public int getIdpromuser() {
+        return idpromuser;
+    }
+
+    public void setIdpromuser(int idpromuser) {
+        this.idpromuser = idpromuser;
+    }
+
+    public int getLider() {
+        return lider;
+    }
+
+    public void setLider(int lider) {
+        this.lider = lider;
+    }
+
+    public int getIdlms() {
+        return idlms;
+    }
+
+    public void setIdlms(int idlms) {
+        this.idlms = idlms;
+    }
+
+    public int getEstado() {
+        return estado;
+    }
+
+    public void setEstado(int estado) {
+        this.estado = estado;
+    }
+    
+    public int getReportes() {
+        return reportes;
+    }
+
+    public void setReportes(int reportes) {
+        this.reportes = reportes;
+    }
+
+    public int getCalendario() {
+        return calendario;
+    }
+
+    public void setCalendario(int calendario) {
+        this.calendario = calendario;
+    }
+
+    public int getSeguimiento() {
+        return seguimiento;
+    }
+
+    public void setSeguimiento(int seguimiento) {
+        this.seguimiento = seguimiento;
+    }
+
+    public int getFormularios() {
+        return formularios;
+    }
+
+    public void setFormularios(int formularios) {
+        this.formularios = formularios;
+    }
+
+    public int getInventario() {
+        return inventario;
+    }
+
+    public void setInventario(int inventario) {
+        this.inventario = inventario;
+    }
+
+    public int getComunicacion() {
+        return comunicacion;
+    }
+
+    public void setComunicacion(int comunicacion) {
+        this.comunicacion = comunicacion;
+    }
+
+    public int getGestion_usuarios() {
+        return gestion_usuarios;
+    }
+
+    public void setGestion_usuarios(int gestion_usuarios) {
+        this.gestion_usuarios = gestion_usuarios;
+    }
+
+    public Timestamp getFecha_insercion() {
+        return fecha_insercion;
+    }
+
+    public void setFecha_insercion(Timestamp fecha_insercion) {
+        this.fecha_insercion = fecha_insercion;
+    }
+
+    public Timestamp getFecha_modificacion() {
+        return fecha_modificacion;
+    }
+
+    public void setFecha_modificacion(Timestamp fecha_modificacion) {
+        this.fecha_modificacion = fecha_modificacion;
+    }
+
+    public String getRef_promotor() {
+        return ref_promotor;
+    }
+
+    public void setRef_promotor(String ref_promotor) {
+        this.ref_promotor = ref_promotor;
+    }
+
+    public String getRef_lms() {
+        return ref_lms;
+    }
+
+    public void setRef_lms(String ref_lms) {
+        this.ref_lms = ref_lms;
+    }
+
+    public String getReferencia() {
+        return referencia;
+    }
+
+    public void setReferencia(String referencia) {
+        this.referencia = referencia;
+    }
+
+    public String getNif() {
+        return nif;
+    }
+
+    public void setNif(String nif) {
+        this.nif = nif;
+    }
+
+    public String getNaf() { 
+        return naf;
+    }
+
+    public void setNaf(String naf) {
+        this.naf = naf;
+    }
+
+    public float getHoras() {
+        return horas;
+    }
+
+    public void setHoras(float horas) {
+        this.horas = horas;
+    }
+
+    public Time getManana_entrada() {
+        return manana_entrada;
+    }
+
+    public void setManana_entrada(Time manana_entrada) {
+        this.manana_entrada = manana_entrada;
+    }
+
+    public Time getManana_salida() {
+        return manana_salida;
+    }
+
+    public void setManana_salida(Time manana_salida) {
+        this.manana_salida = manana_salida;
+    }
+
+    public Time getTarde_entrada() {
+        return tarde_entrada;
+    }
+
+    public void setTarde_entrada(Time tarde_entrada) {
+        this.tarde_entrada = tarde_entrada;
+    }
+
+    public Time getTarde_salida() {
+        return tarde_salida;
+    }
+
+    public void setTarde_salida(Time tarde_salida) {
+        this.tarde_salida = tarde_salida;
+    }
+
+    public Date getFecha_nac() {
+        return fecha_nac;
+    }
+
+    public void setFecha_nac(Date fecha_nac) {
+        this.fecha_nac = fecha_nac;
+    }
+    public String getFechaNacimientoFormat(){
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String fechac = sdf.format(fecha_nac);
+        return fechac;
+    }
+    public String getFechaModificacionFormat(){
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+        String fecham = sdf.format(fecha_modificacion);
+        return fecham;
+    }
+    public String getFechaModificacionCVFormat(){
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+        String fechamcv = sdf.format(fecha_modificacion_cv);
+        return fechamcv;
+    }
+    public String getFechaModificacionFotoFormat(){
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+        String fechamfoto = sdf.format(fecha_modificacion_foto);
+        return fechamfoto;
+    }
+    public String getPath_cv() {
+        return path_cv;
+    }
+
+    public void setPath_cv(String path_cv) {
+        this.path_cv = path_cv;
+    }
+
+    public String getHref_cv() {
+        return href_cv;
+    }
+
+    public void setHref_cv(String href_cv) {
+        this.href_cv = href_cv;
+    }
+
+    public String getPath_foto() {
+        return path_foto;
+    }
+
+    public void setPath_foto(String path_foto) {
+        this.path_foto = path_foto;
+    }
+
+    public String getHref_foto() {
+        return href_foto;
+    }
+
+    public void setHref_foto(String href_foto) {
+        this.href_foto = href_foto;
+    }
+    
+    public Date getFecha_modificacion_cv() {
+        return fecha_modificacion_cv;
+    }
+
+    public void setFecha_modificacion_cv(Date fecha_modificacion_cv) {
+        this.fecha_modificacion_cv = fecha_modificacion_cv;
+    }
+
+    public Date getFecha_modificacion_foto() {
+        return fecha_modificacion_foto;
+    }
+
+    public void setFecha_modificacion_foto(Date fecha_modificacion_foto) {
+        this.fecha_modificacion_foto = fecha_modificacion_foto;
+    }
+
+    public int getIso() {
+        return iso;
+    }
+
+    public void setIso(int iso) {
+        this.iso = iso;
+    }
+
+    public int getOr() {
+        return or;
+    }
+
+    public void setOr(int or) {
+        this.or = or;
+    }
+
+    public String getCorreoPersonal() {
+        return correoPersonal;
+    }
+
+    public void setCorreoPersonal(String correoPersonal) {
+        this.correoPersonal = correoPersonal;
+    }
+
+    public String getCcc() {
+        return ccc;
+    }
+
+    public void setCcc(String ccc) {
+        this.ccc = ccc;
+    }  
+    public boolean checkPermiso(){
+     boolean a = false;   
+        if(this.permiso==1){
+            a=true;
+        } 
+     return    a;
+    }
+
+    
+}

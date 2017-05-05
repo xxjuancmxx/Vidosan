@@ -1,0 +1,55 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package dao;
+
+import BBDD.connect;
+import entidad.Provincia;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ *
+ * @author hector.heras
+ */
+public class DaoProvincia {
+    public List<Provincia> seleccionarProvincias() throws ClassNotFoundException, SQLException{
+        
+    List<Provincia> l = new ArrayList<Provincia>();
+    connect c = new connect();
+    
+    Connection con=c.openConnect();
+    PreparedStatement ps;   
+    ResultSet rs;   
+    ps=con.prepareStatement("select id_provincia,provincia from provincias");
+    rs=ps.executeQuery();
+        while(rs.next()){
+            Provincia p =  new Provincia(rs.getInt(1),rs.getString(2));
+            l.add(p);
+        }    
+    return l;
+    }
+    public Provincia seleccionarProvinciaPorId(int id) throws ClassNotFoundException, SQLException{
+        
+    Provincia p = null;
+    connect c = new connect();
+    
+    Connection con=c.openConnect();
+    PreparedStatement ps;   
+    ResultSet rs;   
+    ps=con.prepareStatement("select id_provincia,provincia from provincias where id_provincia=?");
+    ps.setInt(1, id);
+    rs=ps.executeQuery();
+        if(rs.next()){
+            p =  new Provincia(rs.getInt(1),rs.getString(2));
+        }    
+    return p;
+    
+    }
+}

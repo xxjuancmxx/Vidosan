@@ -1,0 +1,97 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package entidad;
+
+/**
+ *
+ * @author samuel.gonzalez
+ */
+public class Marca {
+    
+    private int idmarca;
+    private String nombre;
+    private String path_logo;
+    private String href_logo;
+    private String color;
+    private int interna;
+    private String referencia;
+
+    public Marca() {
+    }
+
+    public Marca(int idmarca, String nombre, String path_logo, String href_logo, String color, int interna, String referencia) {
+        this.idmarca = idmarca;
+        this.nombre = nombre;
+        this.path_logo = path_logo;
+        this.href_logo = href_logo;
+        this.color = color;
+        this.interna = interna;
+        this.referencia = referencia;
+    }
+
+    public int getIdmarca() {
+        return idmarca;
+    }
+
+    public void setIdmarca(int idmarca) {
+        this.idmarca = idmarca;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public String getPath_logo() {
+        return path_logo;
+    }
+
+    public void setPath_logo(String path_logo) {
+        this.path_logo = path_logo;
+    }
+
+    public String getHref_logo() {
+        return href_logo;
+    }
+
+    public void setHref_logo(String href_logo) {
+        this.href_logo = href_logo;
+    }
+
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
+    }
+
+    public int getInterna() {
+        return interna;
+    }
+
+    public void setInterna(int interna) {
+        this.interna = interna;
+    }
+
+    public String getReferencia() {
+        return referencia;
+    }
+
+    public void setReferencia(String referencia) {
+        this.referencia = referencia;
+    }
+
+    @Override
+    public String toString() {
+        return "Marca{" + "idmarca=" + idmarca + ", nombre=" + nombre + ", path_logo=" + path_logo + ", href_logo=" + href_logo + ", color=" + color + ", interna=" + interna + ", referencia=" + referencia + '}';
+    }
+    
+    
+}

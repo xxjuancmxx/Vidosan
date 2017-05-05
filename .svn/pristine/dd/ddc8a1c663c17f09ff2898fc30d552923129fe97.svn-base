@@ -1,0 +1,70 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package entidad;
+
+import java.io.Serializable;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+
+/**
+ *
+ * @author samuel.gonzalez
+ */
+public class ClienteCurso implements Serializable{
+    
+    private static final long serialVersionUID =1L ;
+    
+    private int idclientecurso;
+    private int idcliente;
+    private int idcurso;
+    private Timestamp fecha_ingreso;
+
+    
+    
+    public ClienteCurso(){}//constructor vacio
+    
+    public ClienteCurso(int id,int idcl,int idc,String c,Timestamp fi,String r){
+        this.idclientecurso=id;
+        this.idcliente=idcl;
+        this.idcurso=idc;
+        this.fecha_ingreso=fi;
+        
+    }
+
+    public int getIdclientecurso() {
+        return idclientecurso;
+    }
+
+    public void setIdclientecurso(int idclientecurso) {
+        this.idclientecurso = idclientecurso;
+    }
+
+    public int getIdcliente() {
+        return idcliente;
+    }
+
+    public void setIdcliente(int idcliente) {
+        this.idcliente = idcliente;
+    }
+
+    public int getIdcurso() {
+        return idcurso;
+    }
+
+    public void setIdcurso(int idcurso) {
+        this.idcurso = idcurso;
+    }
+
+    public String getFechaIngreso() {
+        String S = new SimpleDateFormat("dd-MM-yyyy").format(fecha_ingreso);
+        return S;
+    }
+    public void setFechaIngreso(Timestamp f){
+        
+        this.fecha_ingreso=f;
+    }
+    
+}

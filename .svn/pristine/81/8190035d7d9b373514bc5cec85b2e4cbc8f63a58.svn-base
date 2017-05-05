@@ -1,0 +1,96 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package dao;
+
+import BBDD.connect;
+import entidad.Municipio;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ *
+ * @author hector.heras
+ */
+public class DaoMunicipio {
+    public List<Municipio> seleccionarMunicipiosPorIdProvincia(int id) throws ClassNotFoundException, SQLException{
+        
+    List<Municipio> l = new ArrayList<Municipio>();
+    connect c = new connect();
+    
+    Connection con=c.openConnect();
+    PreparedStatement ps;    
+    ps=con.prepareStatement("select id_municipio,id_provincia,cod_municipio,DC,nombre from municipios where id_provincia=?");
+    ps.setInt(1, id);
+    ResultSet rs=ps.executeQuery();
+        while(rs.next()){
+            Municipio p =  new Municipio();
+            p.setIdMunicipio(rs.getInt(1));
+            p.setIdProvincia(rs.getInt(2));
+            p.setCodMunicipio(rs.getInt(3));
+            p.setDc(rs.getInt(4));
+            p.setMunicipio(rs.getString(5));
+            l.add(p);
+        }    
+    return l;
+    }
+    public List<Municipio> seleccionarMunicipiosPorNombreProvincia(String nombre) throws ClassNotFoundException, SQLException{
+        
+    List<Municipio> l = new ArrayList<Municipio>();
+    connect c = new connect();
+    
+    Connection con=c.openConnect();
+    PreparedStatement ps;    
+    ps=con.prepareStatement("select "
+            + "id_municipio,"
+            + "p.id_provincia,"
+            + "cod_municipio,"
+            + "DC,"
+            + "nombre "
+            + "from municipios as m inner join provincias as p on m.id_provincia=p.id_provincia where p.provincia=?");
+    ps.setString(1, nombre);
+    ResultSet rs=ps.executeQuery();
+        while(rs.next()){
+            Municipio p =  new Municipio();
+            p.setIdMunicipio(rs.getInt(1));
+            p.setIdProvincia(rs.getInt(2));
+            p.setCodMunicipio(rs.getInt(3));
+            p.setDc(rs.getInt(4));
+            p.setMunicipio(rs.getString(5));
+            l.add(p);
+        }    
+    return l;
+    }
+    public Municipio seleccionarMunicipioPorId(int id) throws ClassNotFoundException, SQLException{
+        
+    Municipio p = new Municipio();
+    connect c = new connect();
+    try{
+    Connection con=c.openConnect();
+    PreparedStatement ps;   
+    ResultSet rs;   
+    ps=con.prepareStatement("select id_municipio,id_provincia,cod_municipio,DC,nombre from municipios where id_municipio=?");
+    ps.setInt(1, id);
+    rs=ps.executeQuery();
+        if(rs.next()){
+            p.setIdMunicipio(rs.getInt(1));
+            p.setIdProvincia(rs.getInt(2));
+            p.setCodMunicipio(rs.getInt(3));
+            p.setDc(rs.getInt(4));
+            p.setMunicipio(rs.getString(5));
+        }    
+    }catch(Exception e){
+        System.out.println("Ha ocurrido un error al seleccionar Municipio por id: "+e.getMessage());
+    }   
+        
+        
+    return p;
+    
+    }
+}

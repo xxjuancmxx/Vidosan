@@ -1,0 +1,51 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package dto.entidad;
+
+/**
+ *
+ * @author juan.carrasco
+ */
+public class DTOCuentaCurso {
+    private int idcurso;
+    private int cuentacurso;
+    private String nombrecurso;
+
+    public DTOCuentaCurso(int idcurso, int cuentacurso, String nombrecurso) {
+        this.idcurso = idcurso;
+        this.cuentacurso = cuentacurso;
+        this.nombrecurso = nombrecurso;
+    }
+
+    public DTOCuentaCurso() {
+      
+    }
+
+    public int getIdcurso() {
+        return idcurso;
+    }
+
+    public void setIdcurso(int idcurso) {
+        this.idcurso = idcurso;
+    }
+
+    public int getCuentacurso() {
+        return cuentacurso;
+    }
+
+    public void setCuentacurso(int cuentacurso) {
+        this.cuentacurso = cuentacurso;
+    }
+
+    public String getNombrecurso() {
+        return nombrecurso;
+    }
+
+    public void setNombrecurso(String nombrecurso) {
+        this.nombrecurso = nombrecurso;
+    }
+    
+}

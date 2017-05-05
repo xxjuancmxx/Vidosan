@@ -1,0 +1,54 @@
+<%-- 
+    Document   : CONTROLADORModificarFormacion
+    Created on : 19-abr-2017, 12:14:47
+    Author     : juan.carrasco
+--%>
+<%@page import="dao.DaoCliente"%>
+<%@page import="entidad.ClienteCurso"%>
+<%@page import="dao.DaoCursoCliente"%>
+<%
+    try{
+        //CONTROALDORES
+        DaoCursoCliente daocc = new DaoCursoCliente();
+        DaoCliente daoclient = new DaoCliente();
+        
+        //OBJETOS
+        ClienteCurso cc = new ClienteCurso();
+        
+        //REQUEST
+        int idcliente = Integer.parseInt(request.getParameter("idcliente"));
+        String interes[] = request.getParameterValues("interesado");
+        String certificados = request.getParameter("certificados");
+        String otro = request.getParameter("otro");
+        
+        //BORRAMOS CURSO CLIENTE PARA VOLVER A METERLO
+        daocc.borrarCursoClientePorIdCliente(idcliente);
+        
+        //METEMOS DE NUEVO LOS CURSOS
+        if (interes != null) { //CONTROLAMOS QUE INTERES NO PUEDA SER NULO
+                        for (int x = 0; x < interes.length; x++) {
+                            cc.setIdcliente(idcliente);
+                            cc.setIdcurso(Integer.parseInt(interes[x]));
+                            if (daocc.insertarCursoCliente(cc)) {
+                                System.out.print("Se ha asignado correctamente un curso a un cliente.");
+                            } else {
+                                System.out.print("Ocurrio un error al asignar un curso a un cliente.");
+
+                            }
+                        }
+                    }
+        //METEMOS LOS CERTIFICADOS Y OTROS
+        
+        if(daoclient.modificarFormacion(certificados, otro, idcliente)){
+             out.print("{\"tipo\":1,\"msg\":\"Tarea Modificada.\"}");
+         } else {
+             System.out.print("Ocurrio un error al modificar la tarea.");
+
+             out.print("{\"tipo\":0,\"msg\":\"Ocurrio un error al modificar tarea.\"}");
+             //response.sendRedirect("/InSeguimientoClientes/home.jsp?clm=1");
+         }
+        
+    }catch(Exception e){
+        System.out.print("Error al modificar informacion "+e);
+    }
+%>

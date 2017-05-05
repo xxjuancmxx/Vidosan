@@ -1,0 +1,53 @@
+<%-- 
+    Document   : CONTROLADORlogin
+    Created on : 24-jun-2015, 10:54:44
+    Author     : samuel.gonzalez
+--%>
+
+<%@page import="java.util.UUID"%>
+<%@page import="java.sql.ResultSet"%>
+<%@page import="java.sql.PreparedStatement"%>
+<%@page import="java.sql.SQLException"%>
+<%@page import="java.sql.Connection"%>
+<%@page import="java.sql.DriverManager"%>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <link href="/InSeguimientoClientes/src/css/bootstrap.css" rel="stylesheet">
+        <link rel="shortcut icon" href="utils/images/intea.ico">
+        <title>InSeguimiento</title>
+    </head>
+    <body>
+        <% 
+            //IMPORTANTE PARA NO VISUALIZAR MAL LOS CARACTERES
+            request.setCharacterEncoding("UTF-8");
+            
+        try{
+             String user = request.getParameter("usuario");
+             String pass = request.getParameter("password");
+             
+             String usuario = "intea";
+             String password = "intea2016";
+
+             if(usuario.equals(user) && password.equals(pass)){
+//                 Cookie cookie = new Cookie("usuario",usuario);
+//                 cookie.setMaxAge(60*60*24*31);
+                   UUID id = UUID.randomUUID();
+                   Cookie cookie = new Cookie("access_token", id.toString());
+                   cookie.setMaxAge(60*60*24*50);
+                   response.addCookie(cookie);
+                  
+                 response.sendRedirect("/InSeguimientoClientes/home.jsp");
+             }else{
+                 response.sendRedirect("/InSeguimientoClientes/index.jsp?p=1");
+             }
+        }catch(Exception e){ 
+             System.out.print("Error al loguearse "+e);
+        }
+        
+        %>
+    </body>
+</html>
+

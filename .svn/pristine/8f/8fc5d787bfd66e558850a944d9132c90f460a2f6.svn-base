@@ -1,0 +1,46 @@
+<%-- 
+    Document   : sessionControl
+    Created on : 15-feb-2016, 10:47:43
+    Author     : hector.heras
+--%>
+
+<%@page import="dao.DaoHash"%>
+<%@page import="java.util.UUID"%>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%
+
+   /*
+    El objetivo de esta cookie es el de validar el acceso a personal intea que se haya logeado anteriormente en 
+    esta aplicacion, se comprobara si existe dicha cookie, si esta existe , permitimos el acceso a la aplicacion
+    de lo contrario devolvemos al login
+    
+    COOKIE : access_token
+    
+    
+    */
+   
+   
+   int idusuario = 0;
+   String hash = "";
+   DaoHash daoHash = new DaoHash();
+   Cookie listaCookie[] = request.getCookies();
+   
+   for(Cookie c : listaCookie){
+   
+       if(c.getName().equals("hash")){
+           
+           hash=c.getValue();
+       }
+       if(c.getName().equals("id")){
+           
+           idusuario = Integer.parseInt(c.getValue());
+       }
+   }
+   
+   if(!daoHash.seleccionarHashPorIdUsuarioHash(idusuario, hash)){
+          response.sendRedirect("/InSeguimientoClientes/index.jsp?no_session_or_cookie=1");
+     
+   }
+   
+
+%>

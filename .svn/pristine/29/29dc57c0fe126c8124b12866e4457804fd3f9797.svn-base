@@ -1,0 +1,119 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package dto.entidad;
+
+import java.sql.Date;
+
+/**
+ *
+ * @author juan.carrasco
+ */
+public class DTOTareasPersona {
+    
+    private int idcliente;
+    private String nombre;
+    private String apellidos;
+    private Date fecha;
+    private String Comentario;
+    private int volverallamar;
+    private String status;
+    private int idacciones;
+    private int idusuarios;
+    
+
+    public DTOTareasPersona(String nombre, String apellidos, Date fecha, String Comentario, int volverallamar, String status,int idacciones,int idusuarios,int idcliente) {
+        this.nombre = nombre;
+        this.apellidos = apellidos;
+        this.fecha = fecha;
+        this.Comentario = Comentario;
+        this.volverallamar = volverallamar;
+        this.status = status;
+        this.idacciones = idacciones;
+        this.idusuarios = idusuarios;
+        this.idcliente = idcliente;
+    }
+
+    public int getIdcliente() {
+        return idcliente;
+    }
+
+    public void setIdcliente(int idcliente) {
+        this.idcliente = idcliente;
+    }
+
+    public int getIdacciones() {
+        return idacciones;
+    }
+
+    public void setIdacciones(int acciones) {
+        this.idacciones = acciones;
+    }
+
+    public DTOTareasPersona() {
+        
+    }
+
+    
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public String getApellidos() {
+        return apellidos;
+    }
+
+    public void setApellidos(String apellidos) {
+        this.apellidos = apellidos;
+    }
+
+    public Date getFecha() {
+        return fecha;
+    }
+
+    public void setFecha(Date fecha) {
+        this.fecha = fecha;
+    }
+
+    public String getComentario() {
+        return Comentario;
+    }
+
+    public void setComentario(String Comentario) {
+        this.Comentario = Comentario;
+    }
+
+    public int getVolverallamar() {
+        return volverallamar;
+    }
+
+    public void setVolverallamar(int volverallamar) {
+        this.volverallamar = volverallamar;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public int getIdusuarios() {
+        return idusuarios;
+    }
+
+    public void setIdusuarios(int idusuarios) {
+        this.idusuarios = idusuarios;
+    }
+    
+
+    
+}

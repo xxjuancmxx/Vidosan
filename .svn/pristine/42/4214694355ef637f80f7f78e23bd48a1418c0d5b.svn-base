@@ -1,0 +1,26 @@
+<%-- 
+    Document   : respuestaMunicipiosIdProvincia
+    Created on : 31-mar-2017, 16:11:06
+    Author     : juan.carrasco
+--%>
+
+<%@page import="entidad.Municipio"%>
+<%@page import="java.util.List"%>
+<%@page import="dao.DaoMunicipio"%>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%
+DaoMunicipio daomun = new DaoMunicipio();
+int p = Integer.parseInt(request.getParameter("provincia"));
+List<Municipio> listamun = daomun.seleccionarMunicipiosPorIdProvincia(p);
+ %>
+    <option value="0">Selecciona Localidad...</option>
+
+<%
+for(Municipio m: listamun){
+    %>
+    <option value="<%=m.getIdMunicipio()%>"><%=m.getMunicipio()%></option>
+
+<%
+}
+
+%>

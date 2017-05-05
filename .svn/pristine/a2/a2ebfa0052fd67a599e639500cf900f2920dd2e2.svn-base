@@ -1,0 +1,147 @@
+<%-- 
+    Document   : listadoClientes
+    Created on : 03-jul-2015, 9:36:42
+    Author     : samuel.gonzalez
+--%>
+
+<%@page import="java.text.SimpleDateFormat"%>
+<%@page import="java.text.DateFormat"%>
+<%@page import="java.sql.Date"%>
+<%@page import="dto.entidad.DTOTareasPersona"%>
+<%@page import="dto.dao.DaoTareasPersona"%>
+<%@page import="java.util.List"%>
+<%@page import="java.util.ArrayList"%> 
+<%@page import="entidad.Cliente"%>
+<%@page import="dao.DaoCliente"%>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+    <head>
+        <LINK REL="stylesheet" HREF="src/css/bootstrap.min.css" TYPE="text/css">
+        <link rel="stylesheet" href="src/css/jquery.dataTables.css" type="text/css">
+       <link rel="shortcut icon" href="/InSeguimientoClientes/src/images/favicon.ico">
+        <title>Treas Usuario</title>
+        <script src="src/js/jquery-1.11.1.min.js" type="text/javascript"></script>
+        <script src="src/js/jquery.dataTables.js" type="text/javascript"></script>
+        <script src="src/js/funciones/funcionesListado.js" type="text/javascript"></script>
+
+        <style>
+            html,body {
+                  height: 100%;
+                  /* The html and body elements cannot have any padding or margin. */
+                }
+
+                /* Wrapper for page content to push down footer */
+                #wrap {
+                  min-height: 100%;
+                  height: auto;
+                  /* Negative indent footer by its height */
+                  margin: 0 auto -60px;
+                  /* Pad bottom by footer height */
+                  padding: 0 0 60px;
+                }
+
+                /* Set the fixed height of the footer here */
+                #footer {
+                  height: 60px;
+                  background-color: #f5f5f5;
+                }
+               
+                
+        </style>
+        
+    </head>
+    <body class="container" id="container">
+        <%@include file="src/includes/cabecera.jsp"%>
+        <div class="col-lg-12">
+            <h3>Tareas pendientes</h3><hr>
+            <%
+            DaoTareasPersona dtp = new DaoTareasPersona();
+            DaoCliente daocl = new DaoCliente();
+                int valor2=0;
+                 valor = request.getCookies(); 
+                    for(Cookie h : valor){
+                        if(h.getName().equals("id")){
+                             valor2=Integer.parseInt(h.getValue());
+                        }
+                    }
+           List<DTOTareasPersona> listatareas = dtp.listarTareasporId(valor2);
+           if(listatareas.size()>0){
+           %>
+           <table class="table" >
+               <tr style="font-size: 15px;">
+                   
+                   <th colspan="2" style="text-align: right">Nombre</th>
+                   <th>Apellidos</th>
+                   <th>Fecha </th>
+                   <th>LLamar</th>
+                   <th>Telefono</th>
+                   <th>Estado</th>
+                   <th>Comentario</th>
+               </tr>
+           <%
+                    for(DTOTareasPersona c : listatareas){
+                        Cliente cl =  daocl.seleccionarClientePorId(c.getIdcliente());
+                        %>
+                        <tr>
+                            <td>
+                                <form id='cambio_estatus'>
+                                    <input type='hidden' name='idaccion' value="+acc.getIdaccion()+"/>
+                                    <button id='botontarea'   type='button' onclick='modificartarea(<%=c.getIdacciones()%>,0)'><span class='glyphicon glyphicon-ok' ></span></button>
+                                    <button id='botontarea'   type='button' onclick='modificartarea(<%=c.getIdacciones()%>,1)'><span class='glyphicon glyphicon-remove' ></span></button>
+                                </form>
+                            </td>
+                            <td><%=c.getNombre()%></td>
+                            <td><%=c.getApellidos()%></td>
+                            <td><%
+                                DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+                                out.print(df.format(c.getFecha())); 
+                            %></td>
+                            <td>
+                                <%if(c.getVolverallamar()==0){
+                                    out.print("NO");
+                            }else{
+                                   out.print("SI"); 
+                                }
+                                    
+                            %></td>
+                            <td><%=cl.getTelefono_fijo()%></td>
+                            <%
+                            if(c.getStatus().equals("PENDIENTE")){
+                                    out.print("<td style='color:red;'>"+c.getStatus()+"</td>");
+                            }else{
+                                   out.print("<td style='color:green;'>"+c.getStatus()+"</td>"); 
+                                }%>
+                            <td ><%=c.getComentario()%></td>
+                        </tr>
+                        <%
+                    }
+                  %>
+           </table>
+           <%
+                }else{
+                %>
+                <div class="alert alert-warning">Sin tareas por ahora...</div>
+                <%
+           }
+            %>
+        </div>
+        <script>
+            function modificartarea(a,b){
+        $.ajax({
+                url: "Clientes/Controladores/CONTROLADOREstatusAccion.jsp",
+                type: 'POST',
+                data: "idaccion="+a+"&botontarea="+b,
+                success: function (data) {
+                    mensaje(data.trim());
+                    cargarListadotareas();
+                }
+
+            });
+        location.reload();
+    }
+            
+        </script>
+        <%@include file="src/includes/pie.html"%>
+    </body>
+</html>

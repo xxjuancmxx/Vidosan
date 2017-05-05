@@ -1,0 +1,163 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package dao;
+
+import BBDD.connect;
+import entidad.Curso;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ *
+ * @author samuel.gonzalez
+ */
+public class DaoCurso {
+    
+    public DaoCurso(){}//constructor vacio
+    
+    //seleccionar curso
+    public Curso seleccionarCurso(int id) throws ClassNotFoundException, SQLException{
+        Curso cu = new Curso();
+        connect c = new connect();
+        Connection con=c.openConnect();
+        PreparedStatement ps;
+        ResultSet rs;
+        try{
+            ps=con.prepareStatement("SELECT * FROM curso WHERE idcurso=?");
+            ps.setInt(1, id);
+            rs=ps.executeQuery();
+            if(rs.next()){
+                cu.setIdcurso(rs.getInt(1));
+                cu.setNombre(rs.getString(2));
+                cu.setCodigo(rs.getString(3));
+                cu.setIdtipo(rs.getInt(4));
+            }
+        }catch(Exception e){
+            System.out.print("Error al seleccionar curso "+e);
+        }
+        
+        con.close();
+        return cu;
+    }
+
+    //seleccionar cursos
+    public List<Curso> seleccionarCursos() throws ClassNotFoundException, SQLException{
+        List<Curso> lista = new ArrayList<Curso>();
+        connect c = new connect();
+        Connection con=c.openConnect();
+        PreparedStatement ps;
+        ResultSet rs;
+        try{
+            ps=con.prepareStatement("SELECT * FROM curso");
+            rs=ps.executeQuery();
+            while(rs.next()){
+                Curso cu = new Curso();
+                cu.setIdcurso(rs.getInt(1));
+                cu.setNombre(rs.getString(2));
+                cu.setCodigo(rs.getString(3));
+                cu.setIdtipo(rs.getInt(4));
+                lista.add(cu);
+            }
+        }catch(Exception e){
+            System.out.print("Error al seleccionar los cursos "+e);
+        }
+        con.close();
+        return lista;
+    }
+    
+    //insertar curso
+    public boolean insertarCurso(Curso cu) throws ClassNotFoundException, SQLException{
+        boolean correcto=false;
+        connect c = new connect();
+        Connection con=c.openConnect();
+        PreparedStatement ps;
+        try{
+            ps=con.prepareStatement("INSERT INTO curso (nombre,idtipo) VALUES(?,?)");
+            ps.setString(1, cu.getNombre());
+            ps.setInt(2, cu.getIdtipo());
+            if(ps.executeUpdate()>0){
+                correcto=true;
+            }else{
+                correcto=false;
+            }
+        }catch(Exception e){
+            System.out.print("Error al insertar curso "+e);
+        }
+        con.close();
+        return correcto;
+    }
+    
+    //modificar curso
+    public boolean modificarCurso(Curso cu) throws ClassNotFoundException, SQLException{
+        boolean correcto=false;
+        connect c = new connect();
+        Connection con=c.openConnect();
+        PreparedStatement ps;
+        try{
+            ps=con.prepareStatement("UPDATE curso SET nombre=?,idtipo=? WHERE idcurso=?");
+            ps.setString(1, cu.getNombre());
+            ps.setInt(2, cu.getIdtipo());
+            ps.setInt(3, cu.getIdcurso());
+            if(ps.executeUpdate()>0){
+                correcto=true;
+            }else{
+                correcto=false;
+            }
+        }catch(Exception e){
+            System.out.print("Error al modificar curso "+e);
+        }
+        con.close();
+        return correcto;
+    }
+    
+    //borrar curso
+    public boolean borrarCurso(int id) throws ClassNotFoundException, SQLException{
+        boolean correcto=false;
+        connect c = new connect();
+        Connection con=c.openConnect();
+        PreparedStatement ps;
+        try{
+            ps=con.prepareStatement("DELETE FROM curso WHERE idcurso=?");
+            ps.setInt(1,id);
+            if(ps.executeUpdate()>0){
+                correcto=true;
+            }else{
+                correcto=false;
+            }
+        }catch(Exception e){
+            System.out.print("Error al borrar el curso "+e);
+        }
+        con.close();
+        return correcto;
+    }
+    public Curso seleccionarCursoporHash(String sha) throws ClassNotFoundException, SQLException{
+        Curso cu = new Curso();
+        connect c = new connect();
+        Connection con=c.openConnect();
+        PreparedStatement ps;
+        ResultSet rs;
+        try{
+            ps=con.prepareStatement("SELECT * FROM curso WHERE sha=?");
+            ps.setString(1, sha);
+            rs=ps.executeQuery();
+            if(rs.next()){
+                cu.setIdcurso(rs.getInt(1));
+                cu.setNombre(rs.getString(2));
+                cu.setCodigo(rs.getString(3));
+                cu.setIdtipo(rs.getInt(4));
+            }
+        }catch(Exception e){
+            System.out.print("Error al seleccionar curso "+e);
+        }
+        
+        con.close();
+        return cu;
+    }
+}

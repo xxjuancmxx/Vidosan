@@ -1,0 +1,258 @@
+<%-- 
+    Document   : nuevoCliente
+    Created on : 05-feb-2016, 13:48:31
+    Author     : hector.heras
+--%>
+
+<%@page import="entidad.Marca"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="dao.DaoMarca"%>
+<%@page import="entidad.Curso"%>
+<%@page import="java.util.List"%>
+<%@page import="dao.DaoCurso"%>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%
+    String contacto = request.getParameter("contacto");
+    DaoCurso cc = new DaoCurso();
+    DaoMarca daom = new DaoMarca();
+    List<Marca> listaMarcas = new ArrayList<Marca>();
+    listaMarcas=daom.seleccionarMarcas();
+    List<Curso> lc = cc.seleccionarCursos();
+%>
+<hr>
+<form class="form" id="new_client" onsubmit="return checkFormNewClient()">
+    <fieldset>
+        <legend>Formulario Nuevo Contacto</legend>
+       <div class="row">
+            <div class="col-lg-6">
+                <!-- Multiple Radios (inline) -->
+                <div class="form-group">
+                    <label class="col-md-6 control-label" for="tipoCliente">Tipo Cliente</label>
+                    <div class="col-md-6"> 
+                        <label class="radio-inline" for="tipoCliente-0">
+                            <input type="radio" name="tipoCliente" id="tipoCliente-0" value="Empresa" onclick="cargarMarca('Empresa')">
+                            Empresa
+                        </label> 
+                        <label class="radio-inline" for="tipoCliente-1">
+                            <input type="radio" name="tipoCliente" id="tipoCliente-1" value="Particular" onclick="cargarMarca('Particular')">
+                            Particular
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6" id="marcas">
+                 
+            </div>
+<!--            <div class="col-lg-6" id="marcas">
+                <div class="form-group">
+                    <label class="col-md-4 control-label" for="marca">Marca:</label>
+                    <div class="col-md-4">
+                        <select id="marca" name="marca" class="form-control">
+                            <option value=" "> </option>
+                            <%
+                                for(Marca m : listaMarcas){
+                            %>
+                                    <option value="<%=m.getIdmarca()%>"><%=m.getNombre()%></option>
+                            <%
+                                }
+                            %>
+                        </select>
+                    </div>
+                </div> 
+            </div>-->
+        </div><br>
+        <div class="form-group col-lg-4">
+            <label for="telefono_fijo">
+                Telefono Fijo:
+            </label>
+            <input type="text" id="telefono_fijo" name="telefono_fijo" value="<%=contacto%>" class="form-control"/>
+            <span class="error error_fijo"></span>
+            <button id="btf"><span class="glyphicon glyphicon-remove"></span></button>
+        </div>
+        <div class="form-group col-lg-4">
+            <label for="telefono_movil">
+                Telefono Movil:
+            </label>
+            <input type="text" id="telefono_movil" name="telefono_movil" value="<%=contacto%>" class="form-control"/>
+            <span class="error error_movil"></span>
+            <button id="btm"><span class="glyphicon glyphicon-remove"></span></button>
+        </div>
+        <div class="form-group col-lg-4">
+            <label for="telefono_otro">
+                Telefono Otro:
+            </label>
+            <input type="text" id="telefono_otro" name="telefono_otro" value="<%=contacto%>" class="form-control"/>
+            <span class="error error_otro"></span>
+            <button id="bto"><span class="glyphicon glyphicon-remove"></span></button>
+        </div>
+        <div class="form-group col-lg-4">
+            <label for="nombre">
+                Nombre:
+            </label>
+            <input type="text" id="nombre" name="nombre" class="form-control"/>
+        </div>
+        <div class="form-group col-lg-4">
+            <label for="telefono_fijo">
+                Apellidos:
+            </label>
+            <input type="text" id="apellidos" name="apellidos" class="form-control"/>
+        </div>
+        <div class="form-group col-lg-4">
+            <label for="mail">
+                Mail:
+            </label>
+            <input type="text" id="mail" name="mail"  class="form-control"/>
+        </div>
+            <div class="form-group col-lg-4">
+                <label for="fax">
+                Fax:
+            </label>
+                <input type="text" id="fax" name="fax"  class="form-control"/>
+            </div>
+            <div class="form-group col-lg-4">
+                <label for="localidad">
+                Localidad:
+            </label>
+                <input type="text" id="localidad" name="localidad"  class="form-control"/>
+            </div>
+            <div class="form-group col-lg-4">
+                <label for="provincia">
+                Provincia:
+            </label>
+                <input type="text" id="provincia" name="provincia"  class="form-control"/>
+            </div>
+            <div class="form-group col-lg-4">
+                <label for="cp">
+                C.P:
+            </label>
+                <input type="text" id="cp" name="cp"  class="form-control"/>
+            </div>
+        <div class="form-group col-lg-6">
+            <label for="interesado">
+                Interesado en:
+            </label>
+            <select id="interesado" name="interesado" class="form-control" multiple>
+                <%
+                    for (Curso c : lc) {
+                %>
+                <option value="<%=c.getIdcurso()%>"><%=c.getCodigo()%> - (<%=c.getNombre()%>)</option>
+                <%
+                    }
+                %>
+            </select>
+        </div>
+        <div class="form-group col-lg-6">
+            <label for="certificados" style="display: block;">
+                Interesado en Certificados de Profesionalidad:
+            </label>
+
+            <label class="radio-inline">
+                <input type="radio" name="certificados" id="certificados" value="1"/>Si
+            </label>
+            <label class="radio-inline">
+                <input type="radio" name="certificados" id="certificados" value="0" checked/>No
+            </label>   
+        </div>
+        <div class="form-group col-lg-12">
+            <label for="otro" style="display: block;">
+                Interesado en otro tipo de curso:
+            </label>
+            <input type="text" name="otro" id="otro" class="form-control"/>  
+        </div>
+
+        <div class="form-group col-lg-12">
+            <button class="btn btn-info">Nuevo Cliente</button>
+        </div>
+    </fieldset>
+</form>
+<script type="text/javascript">
+   
+   
+    
+    function cargarMarca(t){
+        var tipo = t;
+        if(tipo=="Empresa"){
+            $("#marcas").load("/InSeguimientoClientes/Clientes/Formularios/formuMarca.jsp");
+        }
+    }
+
+    function checkFormNewClient() {
+        var conte = 0;
+        alert($("#telefono_fijo").val().length);
+        if ($("#telefono_fijo").val() != "" && $("#telefono_fijo").val().length != 9) {
+            $(".error_fijo").html("El numero indicado no es invalido.");
+            conte++;
+        } else {
+            $(".error_fijo").html("");
+        }
+        if ($("#telefono_movil").val() != "" && $("#telefono_movil").val().length != 9) {
+            $(".error_movil").html("El numero indicado no es invalido.");
+            conte++;
+        } else {
+            $(".error_movil").html("");
+
+        }
+
+        if ($("#telefono_otro").val() != "" && $("#telefono_otro").val().length != 9) {
+            $(".error_otro").html("El numero indicado no es invalido.");
+            conte++;
+        } else {
+            $(".error_otro").html("");
+        }
+
+        if (conte != 3) {
+            var cont = 0;
+            $("#interesado option:selected").each(function () {
+                cont++;
+            });
+            if (cont === 0) {
+                if (confirm("¿Estas seguro que quieres continuar sin asignar un curso de interes al cliente?")) {
+                    $.ajax({
+                        url: "Clientes/Controladores/CONTROLADORnuevoCliente.jsp",
+                        type: 'POST',
+                        data: $("#new_client").serialize(),
+                        success: function (data) {
+                            mensaje(data);
+                            cargarContadores();
+                            cargarUltimosContactos();
+                            $('#new_client').each(function () {
+                                this.reset();
+                                $("#mail").attr("style", "background-color:white;");
+                            });
+                        }
+
+                    });
+
+                }
+            } else {
+                $.ajax({
+                    url: "Clientes/Controladores/CONTROLADORnuevoCliente.jsp",
+                    type: 'POST',
+                    data: $("#new_client").serialize(),
+                    success: function (data) {
+                        mensaje(data);
+                        cargarContadores();
+                        cargarUltimosContactos();
+                        $('#new_client').each(function () {
+                            this.reset();
+                            $("#mail").attr("style", "background-color:white;");
+
+                        });
+                    }
+
+                });
+
+
+            }
+
+        }
+        return false;
+    }
+    function cargarContadores() {
+
+        $("#count_window").load("/InSeguimientoClientes/Clientes/Formularios/recuentosClientesCurso.jsp");
+    }
+    function cargarUltimosContactos() {
+        $("#last_window").load("/InSeguimientoClientes/Clientes/Formularios/ultimosClientes.jsp");
+    }
+</script>

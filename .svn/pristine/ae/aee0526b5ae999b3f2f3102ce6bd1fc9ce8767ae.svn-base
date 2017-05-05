@@ -1,0 +1,262 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package dao;
+
+
+
+import BBDD.connect;
+import entidad.Acciones;
+import java.sql.Connection;
+import java.sql.Date;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ *
+ * @author samuel.gonzalez
+ */
+public class DaoAcciones {
+    
+    public DaoAcciones(){}//constructor vacio
+    
+    
+    //seleccionar accion
+    public Acciones seleccionarAccion(int id) throws ClassNotFoundException, SQLException{
+        Acciones a = new Acciones();
+        connect c = new connect();
+        Connection con=c.openConnect();
+        PreparedStatement ps;
+        ResultSet rs;
+        try{
+            ps=con.prepareStatement("SELECT * FROM acciones WHERE idacciones=?");
+            ps.setInt(1, id);
+            rs=ps.executeQuery();
+            if(rs.next()){
+                a.setIdaccion(rs.getInt(1));
+                a.setIdcliente(rs.getInt(2));
+                a.setComentario(rs.getString(3));
+                a.setFecha(rs.getDate(4));
+                a.setVolver_llamar(rs.getInt(5));
+                a.setStatus(rs.getString(6));
+            }
+        }catch(Exception e){
+            System.out.print("Error al seleccionar la accion "+e);
+        }
+        con.close();
+        return a;
+    }
+    
+    //seleccionar acciones
+    public List<Acciones> seleccionarAcciones() throws ClassNotFoundException, SQLException{
+        List<Acciones> lista = new ArrayList<Acciones>();
+        connect c = new connect();
+        Connection con=c.openConnect();
+        PreparedStatement ps;
+        ResultSet rs;
+        try{
+            ps=con.prepareStatement("SELECT * FROM acciones");
+            rs=ps.executeQuery();
+            while(rs.next()){
+                Acciones a = new Acciones();
+                a.setIdaccion(rs.getInt(1));
+                a.setIdcliente(rs.getInt(2));
+                a.setComentario(rs.getString(3));
+                a.setFecha(rs.getDate(4));
+                a.setVolver_llamar(rs.getInt(5));
+                a.setStatus(rs.getString(6));
+                lista.add(a);
+            }
+        }catch(Exception e){
+            System.out.print("Error al seleccionar acciones "+e);
+        }
+        con.close();
+        return lista;
+    }
+    
+    //insertar acciones
+    public boolean insertarAcciones(Acciones a) throws ClassNotFoundException, SQLException{
+        boolean correcto = false;
+        connect c = new connect();
+        Connection con=c.openConnect();
+        PreparedStatement ps;
+        try{
+            ps=con.prepareStatement("INSERT INTO acciones (idcliente,comentario,volver_llamar) VALUES(?,?,?)");
+            ps.setInt(1, a.getIdcliente());
+            ps.setString(2, a.getComentario());
+            ps.setInt(3, a.getVolver_llamar());
+            if(ps.executeUpdate()>0){
+                correcto=true;
+            }else{
+                correcto=false;
+            }
+        }catch(Exception e){
+            System.out.print("Error al insertar las acciones "+e);
+        }
+        con.close();
+        return correcto;
+    }
+    
+    //modificar accion
+    public boolean modificarAcciones(Acciones a) throws ClassNotFoundException, SQLException{
+        boolean correcto = false;
+        connect c = new connect();
+        Connection con=c.openConnect();
+        PreparedStatement ps;
+        try{
+            ps=con.prepareStatement("UPDATE acciones SET idcliente=?, comentario=?, fecha=?, volver_llamar=?, status=? WHERE idacciones=?");
+            ps.setInt(1, a.getIdcliente());
+            ps.setString(2, a.getComentario());
+            ps.setDate(3, (Date) a.getFecha());
+            ps.setInt(4, a.getVolver_llamar());
+            ps.setString(5,a.getStatus());
+            ps.setInt(6, a.getIdaccion());
+            if(ps.executeUpdate()>0){
+                correcto=true;
+            }else{
+                correcto=false;
+            }
+        }catch(Exception e){
+            System.out.print("Error al modificar las acciones "+e);
+        }
+        con.close();
+        return correcto;
+    } 
+    
+    //borrar accion
+    public boolean borrarAcciones(int id) throws ClassNotFoundException, SQLException{
+        boolean correcto = false;
+        connect c = new connect();
+        Connection con=c.openConnect();
+        PreparedStatement ps;
+        try{
+            ps=con.prepareStatement("DELETE FROM acciones WHERE idacciones=?");
+            ps.setInt(1, id);
+            if(ps.executeUpdate()>0){
+                correcto=true;
+            }else{
+                correcto=false;
+            }
+        }catch(Exception e){
+            System.out.print("Error al borrar las acciones "+e);
+        }
+        con.close();
+        return correcto;
+    }
+    
+    //seleccionar acciones por cliente
+    public List<Acciones> seleccionarAccionesCliente(int idcliente) throws ClassNotFoundException, SQLException{
+       
+        List<Acciones> lista = new ArrayList<Acciones>();
+        connect c = new connect();
+        Connection con=c.openConnect();
+        PreparedStatement ps;
+        ResultSet rs;
+        try{
+            ps=con.prepareStatement("SELECT * FROM acciones WHERE idcliente=? ORDER BY idacciones DESC");
+            ps.setInt(1, idcliente);
+            rs=ps.executeQuery();
+            while(rs.next()){
+                Acciones a = new Acciones();
+                a.setIdaccion(rs.getInt(1));
+                a.setIdcliente(rs.getInt(2));
+                a.setComentario(rs.getString(3));
+                a.setFecha(rs.getDate(4));
+                a.setVolver_llamar(rs.getInt(5));
+                a.setStatus(rs.getString(6));
+                lista.add(a);
+            }
+        }catch(Exception e){
+            System.out.print("Error al seleccionar las acciones "+e);
+        }
+        con.close();
+        return lista;
+    }
+    
+    //cambiar estado llamar
+    public boolean cambiarLlamar(Acciones a) throws ClassNotFoundException, SQLException{
+        boolean correcto=false;
+        connect c = new connect();
+        Connection con=c.openConnect();
+        PreparedStatement ps;
+        ResultSet rs;
+        try{
+            ps=con.prepareStatement("UPDATE acciones SET volver_llamar=? where idacciones=?");
+            ps.setInt(1, a.getVolver_llamar());
+            ps.setInt(2, a.getIdaccion());
+            if(ps.executeUpdate()>0){
+                correcto=true;
+            }else{
+                correcto=false;
+            }
+        }catch(Exception e){
+            System.out.print("Error al cambiar la llamada "+e);
+        }
+        con.close();
+        return correcto;
+    }
+   public boolean modificarStatusAccion(String status, int id) throws ClassNotFoundException, SQLException{
+        boolean correcto = false;
+        connect c = new connect();
+        Connection con=c.openConnect();
+        PreparedStatement ps;
+        try{
+            ps=con.prepareStatement("UPDATE acciones SET status=? WHERE idacciones=?");
+            ps.setString(1,status);
+            ps.setInt(2, id);
+            if(ps.executeUpdate()>0){
+                correcto=true;
+            }else{
+                correcto=false;
+            }
+        }catch(Exception e){
+            System.out.print("Error al modificar las acciones "+e);
+        }
+        con.close();
+        return correcto;
+    } 
+   public boolean anadirUsuarioTarea(String usuario,int idusuario, int idacciones) throws ClassNotFoundException, SQLException{
+        boolean correcto = false;
+        connect c = new connect();
+        Connection con=c.openConnect();
+        PreparedStatement ps;
+        try{
+            ps=con.prepareStatement("UPDATE acciones SET usuarios=?, idusuarios=? WHERE idacciones=?");
+            ps.setString(1,usuario);
+            ps.setInt(2, idusuario);
+            ps.setInt(3, idacciones);
+            if(ps.executeUpdate()>0){
+                correcto=true;
+            }else{
+                correcto=false;
+            }
+        }catch(Exception e){
+            System.out.print("Error al modificar las acciones "+e);
+        }
+        con.close();
+        return correcto;
+    } 
+   public int ultimaaccion() throws ClassNotFoundException, SQLException{
+        int valor=0;
+        connect c = new connect();
+        Connection con=c.openConnect();
+        PreparedStatement ps;
+        ResultSet rs;
+        try{
+            ps=con.prepareStatement("SELECT max(idacciones) from acciones");
+            rs=ps.executeQuery();
+                if(rs.next()){
+                    valor=rs.getInt(1);
+                }
+        }catch(Exception e){
+            System.out.print("Error al modificar las acciones "+e);
+        }
+        con.close();
+        return valor;
+    }
+}
