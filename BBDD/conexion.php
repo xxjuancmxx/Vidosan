@@ -11,7 +11,7 @@
        
   }
   function buscarmedico($user,$conexion){
-       $consulta1 = mysql_query("select * from medico where user_medico='$user'",$conexion) or die ("Fallo en Consulta");
-       return $consulta1;
+       $consulta = mysql_query("select * from medico where user_medico='$user'",$conexion) or die ("Fallo en Consulta");
+       return $consulta;
   }
 ?>
