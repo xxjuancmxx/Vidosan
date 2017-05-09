@@ -51,12 +51,13 @@
     </body>
     <?php
         if (isset($_POST['submit_login'])) {
+            // Contiene la conexion y metodos para encontrar usuarios
             include("BBDD/conexion.php");
 
             $user=$_POST['user'];
             $pass=$_POST['pass'];
 
-            $consulta=buscarcliente($user,$conexion);
+            $consulta=buscarcliente($user,$pass);
             $consulta1=buscarmedico($user,$conexion);
 
             $rows_cliente=mysql_num_rows($consulta);
@@ -65,6 +66,11 @@
             if($rows_medico>0){
                 header('Location: modules/Medicos/index.php');
             }else if($rows_cliente>0){
+                // Creamos un array con el cliente
+                $client = mysql_fetch_array($consulta);
+                // Creamos una variable de sesion con el nombre del usuario
+                $_SESSION['nombre_cliente'] = $client['nombre_cliente'];
+                // Redirigimos a la plantilla de cliente
                 header('Location: modules/Clientes/production/index.php');
             }else{
                 echo "El usuario no existe";
