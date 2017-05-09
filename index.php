@@ -68,8 +68,9 @@
             }else if($rows_cliente>0){
                 // Creamos un array con el cliente
                 $client = mysql_fetch_array($consulta);
-                // Creamos una variable de sesion con el nombre del usuario
+                // Creamos una variable de sesion con el nombre del usuario y otra con los apellidos
                 $_SESSION['nombre_cliente'] = $client['nombre_cliente'];
+                $_SESSION['apellidos'] = $client['apellidos_cliente'];
                 // Redirigimos a la plantilla de cliente
                 header('Location: modules/Clientes/production/index.php');
             }else{

@@ -41,7 +41,7 @@
             <div class="navbar nav_title" style="border: 0;">
               <a href="index.php" class="site_title"><i class="fa fa-paw"></i>
                 <span>
-                  <?php echo $_SESSION['nombre_cliente']; ?>
+                  <?php echo $_SESSION['nombre_cliente'] . " " . $_SESSION['apellidos']; ?>
                 </span>
               </a>
             </div>
