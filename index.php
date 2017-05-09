@@ -1,4 +1,5 @@
 ﻿<?php
+    session_start();
     if(@$_COOKIE['rol']=="1"){
         header('Location: modules/Medicos/index.php');
     }
@@ -37,12 +38,12 @@
                 <div class="col-lg-12">
                     <label>Usuario</label>
                     <input type="text" id="user" name="user" class="form-control" required>
-		</div>
-		<div class="col-lg-12">
+    		</div>
+    		<div class="col-lg-12">
                     <label>Contraseña</label>
                     <input type="password" id="pass" name="pass" class="form-control" required><br>
-		</div>
-		<div class="col-lg-12">
+    		</div>
+    		<div class="col-lg-12">
                     <button class="btn btn-block btn-primary" id="boton_submit" name="submit_login">Enviar</button>
                 </div>
             </form>
@@ -58,13 +59,13 @@
             $consulta=buscarcliente($user,$conexion);
             $consulta1=buscarmedico($user,$conexion);
 
-            //$rowers_cliente=mysql_num_rows($consulta);
-            //$columns_cliente=mysql_num_fields($consulta);
-            $rowers_medico=mysql_num_rows($consulta1);
-            $columns_medico=mysql_num_fields($consulta1);
+            $rows_cliente=mysql_num_rows($consulta);
+            $rows_medico=mysql_num_rows($consulta1);
 
-            if($rowers_medico>0){
+            if($rows_medico>0){
                 header('Location: modules/Medicos/index.php');
+            }else if($rows_cliente>0){
+                header('Location: modules/Clientes/production/index.php');
             }else{
                 echo "El usuario no existe";
             }

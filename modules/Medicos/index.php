@@ -1,9 +1,4 @@
 <!DOCTYPE html>
-<?php
-    if(@$_COOKIE['rol']!="1"){
-        header('Location: ../index.php');
-    }
-?>
 <html lang="en">
 
 <head>
