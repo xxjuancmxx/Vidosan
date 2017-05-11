@@ -65,6 +65,9 @@
 
             if($rows_medico>0){
                 header('Location: modules/Medicos/index.php');
+                setcookie("user",$user);
+                setcookie("pass",$pass);
+                setcookie(rol,"1");
             }else if($rows_cliente>0){
                 // Creamos un array con el cliente
                 $client = mysql_fetch_array($consulta);

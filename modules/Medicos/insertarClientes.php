@@ -1,10 +1,11 @@
 <!DOCTYPE html>
-<html lang="en">
 <?php
     if(@$_COOKIE['rol']!="1"){
-        header('Location: ../../index.php');
+        header('Location: ../index.php');
     }
 ?>
+<html lang="en">
+
 <head>
 
     <meta charset="utf-8">
@@ -155,10 +156,10 @@
                                <button class="btn btn-block btn-default " style="text-align: left;border:0px;margin-left: 10px;" name="cerrar_sesion"><i class="fa fa-fw fa-power-off" > Cerrar Sesión</i></button>
                                 </form>
                                     <?php
-                                          if(isset($_POST["cerrar_sesion"])){
-                                              setcookie("rol", "", -1, "/Vidosan");
-                                              header('Location: ../../index.php');
-                                          }
+                                        if(isset($_POST["cerrar_sesion"])){
+                                            setcookie("rol", "", -1, "/Vidosan");
+                                            header('Location: ../../index.php');
+                                        }
                                     ?>
 
 
@@ -167,7 +168,7 @@
                 </li>
             </ul>
             <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
-            <div class="collapse navbar-collapse navbar-ex1-collapse">
+           <div class="collapse navbar-collapse navbar-ex1-collapse">
                 <ul class="nav navbar-nav side-nav">
                     <li class="active">
                         <a href="index.php"><i class="fa fa-fw fa-dashboard"></i> Inicio</a>
@@ -212,124 +213,124 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <h1 class="page-header">
-                            Inicio <small>Statistics Overview</small>
+                            Pacientes <small>Insertar/Modificar Pacientes</small>
                         </h1>
-                        <ol class="breadcrumb">
+                        <button class="btn btn-primary" onclick="sacarinsertar()">Insertar</button>
+                        <button class="btn btn-warning"  onclick="sacarmodificar()">Modificar</button><br><br>
+
+                    </div>
+                </div>
+                <!-- /.row -->
+                <div class="col-lg-12 col-md-12 col-xs-12"  id="divinsertar" style="display:none">
+                     <ol class="breadcrumb">
                             <li class="active">
-                                <i class="fa fa-dashboard"></i> Inicio
+                                <i class="fa fa-dashboard"></i> Insertar Paciente
                             </li>
                         </ol>
-                    </div>
+                    <form action="#" method="POST" class="form" onsubmit="return validarInsertarClientes()">
+                        <div class="row">
+                            <div class="col-lg-6 col-md-6 col-xs-6">
+                                <label>Nombre</label>
+                                <input type="text" name="nombcli" id="nombcli" class="form-control">
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-xs-6">
+                                 <label>Apellidos</label>
+                                 <input type="text" name="apellcli" id="apellcli" class="form-control">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-6 col-md-6 col-xs-6">
+                                <label>Usuario</label>
+                                <input type="text" name="Usuario" id="Usuario" class="form-control">
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-xs-6">
+                                <label>Contraseña </label> <input type="checkbox" onclick="mostrarPass()" style="float: right;"><label style="float: right;font-size: 10px;margin-right: 2px;font-style: italic;">Mostrar contraseña</label>
+                                <input type="password" name="contracli" id="contracli" class="form-control">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-6 col-md-6 col-xs-6">
+                                <label>Teléfono de contacto</label>
+                                <input type="text" name="telefonocli" id="telefonocli"  class="form-control" maxlength="9">
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-xs-6">
+                                 <label>Email</label>
+                                 <input type="text" name="mailcli" id="mailcli" class="form-control">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-6 col-md-6 col-xs-6">
+                                <label>Provincia</label>
+                                <input type="text" name="provcli" class="form-control">
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-xs-6">
+                                 <label>Municipio</label>
+                                 <input type="text" name="muncli" class="form-control">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12 col-xs-12">
+                                <br>
+                                <input type="submit" name="insertcli" class="btn btn-success">
+                            </div>
+                        </div>
+                    </form>
+                    <?php
+                            if(isset($_POST['insertcli'])){
+                                $nombre=$_POST['nombcli'];
+                                $apellidos=$_POST['apellcli'];
+                                $user=$_POST['Usuario'];
+                                $pass=$_POST['contracli'];
+                                $telefono=$_POST['telefonocli'];
+                                $email=$_POST['mailcli'];
+                                $provincia=$_POST['provcli'];
+                                $municipio=$_POST['muncli'];
+                                include $_SERVER['DOCUMENT_ROOT']."Vidosan/modules/Medicos/EntidadMedico/cliente.php";
+                                include $_SERVER['DOCUMENT_ROOT']."Vidosan/modules/Medicos/DaoMedico/DaoCliente.php";
+                                $objeto=new Cliente($user,$pass,$nombre,$apellidos,$telefono,$email,$provincia,$municipio);
+                                insertarClientes($objeto);
+                            }
+                        ?>
                 </div>
-                <!-- /.row -->
-                <div class="row">
-                    <div class="col-lg-3 col-md-6">
-                        <div class="panel panel-primary">
-                            <div class="panel-heading">
-                                <div class="row">
-                                    <div class="col-xs-3">
-                                        <i class="fa fa-comments fa-5x"></i>
-                                    </div>
-                                    <div class="col-xs-9 text-right">
-                                        <div class="huge">26</div>
-                                        <div>Nuevas Consultas</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <a href="#">
-                                <div class="panel-footer">
-                                    <span class="pull-left">View Details</span>
-                                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                                    <div class="clearfix"></div>
-                                </div>
-                            </a>
+                <div class="col-lg-12 col-md-12 col-xs-12"  id="divmodificar" style="display:none">
+                    <form class="form"  method="POST" id="form_buscar" onsubmit="return false;">
+                        <div class="col-lg-3 col-md-3 cols-xs-3">
+                            <label style="font-size: 16px;">Buscar por Núm. de Teléfono:</label>
                         </div>
-                    </div>
-                    <div class="col-lg-3 col-md-6">
-                        <div class="panel panel-green">
-                            <div class="panel-heading">
-                                <div class="row">
-                                    <div class="col-xs-3">
-                                        <i class="fa fa-tasks fa-5x"></i>
-                                    </div>
-                                    <div class="col-xs-9 text-right">
-                                        <div class="huge">12</div>
-                                        <div>Por pensar aun</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <a href="#">
-                                <div class="panel-footer">
-                                    <span class="pull-left">View Details</span>
-                                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                                    <div class="clearfix"></div>
-                                </div>
-                            </a>
+                        <div class="col-lg-3 col-md-3 cols-xs-3">
+                            <input type="text" name="num_buscar" id="num_buscar" maxlength="9" class="form-control">
                         </div>
-                    </div>
-                    <div class="col-lg-3 col-md-6">
-                        <div class="panel panel-yellow">
-                            <div class="panel-heading">
-                                <div class="row">
-                                    <div class="col-xs-3">
-                                        <i class="fa fa-shopping-cart fa-5x"></i>
-                                    </div>
-                                    <div class="col-xs-9 text-right">
-                                        <div class="huge">124</div>
-                                        <div>Por pensar aun</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <a href="#">
-                                <div class="panel-footer">
-                                    <span class="pull-left">View Details</span>
-                                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                                    <div class="clearfix"></div>
-                                </div>
-                            </a>
+                        <div class="col-lg-6 col-md-6 cols-xs-6">
+                            <button type="button" name="buscarnum" class="btn btn-success btn-primary" onclick="buscarnumero()">Enviar</button>
+                            <br><br>
                         </div>
-                    </div>
-                    <div class="col-lg-3 col-md-6">
-                        <div class="panel panel-red">
-                            <div class="panel-heading">
-                                <div class="row">
-                                    <div class="col-xs-3">
-                                        <i class="fa fa-support fa-5x"></i>
-                                    </div>
-                                    <div class="col-xs-9 text-right">
-                                        <div class="huge">
-                                            <?php
-                                                include $_SERVER['DOCUMENT_ROOT']."Vidosan/modules/Medicos/DaoMedico/DaoCliente.php";
-                                                echo contarClientes();
-                                            ?>
-                                        </div>
-                                        <div>Numero de Clientes</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <a href="#">
-                                <div class="panel-footer">
-                                    <span class="pull-left" onclick="enviartables()">Ver Detalles</span>
-                                            <span class="pull-right"><i class="fa fa-arrow-circle-right" name="enviar_tables">
-                                       </i></span>
-                                    <div class="clearfix"></div>
-                                </div>
-                            </a>
-                        </div>
-                    </div>
+                    </form>
                 </div>
-                <!-- /.row -->
-
-
-                <!-- /.row -->
+                <div class="col-lg-12 col-md-12 col-xs-12"  id="divmodificar1">
+<?php
+                  if(isset($_POST['modificarcli'])){
+                     $nombremod=$_POST['nombmodcli'];
+                     $apellidosmod=$_POST['apellmodcli'];
+                     $usermod=$_POST['usermodcli'];
+                     $passmod="s";
+                     $telefonomod=$_POST['telefonomodcli'];
+                     $emailmod=$_POST['mailmodcli'];
+                     $provinciamod=$_POST['provmodcli'];
+                     $municipiomod=$_POST['munmodcli'];
+                     $idCliente=$_POST['idCliente'];
+                     include $_SERVER['DOCUMENT_ROOT']."Vidosan/web/Medicos/EntidadMedico/cliente.php";
+                     include $_SERVER['DOCUMENT_ROOT']."Vidosan/web/Medicos/DaoMedico/DaoCliente.php";
+                     $objeto1=new Cliente($usermod,$passmod,$nombremod,$apellidosmod,$telefonomod,$emailmod,$provinciamod,$municipiomod);
+                     modificarCliente($objeto1,$idCliente);
+                 }
+                 ?>
+                </div>
+             </div>
 
             </div>
             <!-- /.container-fluid -->
-
         </div>
-        <!-- /#page-wrapper -->
-
-    </div>
+        <!-- /#page-wrapper -->¡
     <!-- /#wrapper -->
 
     <!-- jQuery -->
@@ -341,9 +342,104 @@
     <!-- Morris Charts JavaScript -->
     <script src="js/plugins/morris/raphael.min.js"></script>
     <script>
-        function enviartables(){
-            window.location.href = "tables.php";
+        function sacarinsertar(){
+            $("#divinsertar").toggle();
+            $("#divmodificar").hide();
+            $("#divmodificar1").hide();
         }
+        function mostrarPass() {
+            var obj = document.getElementById('contracli');
+            if(obj.type.valueOf()==="text"){
+                obj.type = "password";
+            }else{
+                obj.type = "text";
+            }
+        }
+        function sacarmodificar(){
+            $("#divmodificar").toggle();
+            $("#divinsertar").hide();
+            $("#divmodificar1").hide();
+        }
+        function validarvacio(valor){
+            var val=$("#"+valor).val();
+            if(val == "" || val == null){
+                return false;
+            }else{
+                return true;
+            }
+        }
+        function validarmail(){
+            var expr=/^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+            var mail=document.getElementById('mailcli').value;
+            return expr.test(mail);
+        }
+        function validarcontra(){
+            var expr = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d$@$!%*?&]{6,15}/;
+            var contra=document.getElementById('contracli').value;
+            return expr.test(contra);
+        }
+        function validarInsertarClientes(){
+            var cont=0;
+            if(!validarvacio("nombcli")){
+                cont++;
+                $("#nombcli").attr("style", "box-shadow:0px 0px 5px #DF0101");
+            }else{
+                $("#nombcli").attr("style", "box-shadow:0px 0px 0px #DF0101");
+            }
+
+            if(!validarvacio("apellcli")){
+                cont++;
+                $("#apellcli").attr("style", "box-shadow:0px 0px 5px #DF0101");
+            }else{
+                $("#apellcli").attr("style", "box-shadow:0px 0px 0px #DF0101");
+            }
+            if(!validarvacio("Usuario")){
+                cont++;
+                $("#Usuario").attr("style", "box-shadow:0px 0px 5px #DF0101");
+            }else{
+                $("#Usuario").attr("style", "box-shadow:0px 0px 0px #DF0101");
+            }
+            if(!validarcontra()){
+                cont++;
+                $("#contracli").attr("style", "box-shadow:0px 0px 5px #DF0101");
+            }else{
+                $("#contracli").attr("style", "box-shadow:0px 0px 0px #DF0101");
+            }
+            if(!validarmail()){
+                cont++;
+                $("#mailcli").attr("style", "box-shadow:0px 0px 5px #DF0101");
+            }else{
+                $("#mailcli").attr("style", "box-shadow:0px 0px 0px #DF0101");
+            }
+            if ($("#telefonocli").val() === "" && $("#telefonocli").val().length !== 9) {
+                $("#telefonocli").attr("style", "box-shadow:0px 0px 5px #DF0101");
+                cont++;
+            } else {
+               $("#telefonocli").attr("style", "box-shadow:0px 0px 0px #DF0101");
+            }
+
+            if(cont==0){
+                return true;
+            }else{
+                return false;
+            }
+
+        }
+        function buscarnumero(){
+
+            $.ajax({
+                url: "Formularios/editarCliente.php",
+                type:'post',
+                data: $("#form_buscar").serialize(),
+                success: function (data) {
+                    $("#divmodificar1").html(data);
+                }
+            });
+
+           $("#divmodificar").show();
+           $("#divmodificar1").show();
+        }
+
     </script>
 </body>
 </html>
