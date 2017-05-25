@@ -14,6 +14,8 @@
 		$citas[$iterator]['title'] = "Cita del " . $citas[$iterator]['fechaFormateada'];
 		$citas[$iterator]['description'] = $cita['descripcion'];
 
+		$citas[$iterator]['status'] = $cita['status'];
+
 		$iterator++;
 	}
 

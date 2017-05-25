@@ -61,31 +61,28 @@
                 events: [
                     <?php
                         for($i=0;$i<$rows;$i++){
-                            if($i != $rows-1){
                     ?>
                             {
                                 id: '<?php echo $citas[$i]['id'] ?>',
                                 title: '<?php echo $citas[$i]['title'] ?>',
                                 start: '<?php echo $citas[$i]['start'] ?>',
-                                description: '<?php echo $citas[$i]['description'] ?>'
+                                description: '<?php echo $citas[$i]['description'] ?>',
+                                <?php
+                                    if($citas[$i]['status'] == "1"){
+                                    ?>
+                                        backgroundColor: "#ff0000"
+                                    <?php
+                                    }else if($citas[$i]['status'] == "2"){
+                                    ?>
+                                        backgroundColor: "#0B610B"
+                                    <?php
+                                    }
+                                ?>
                             },
                     <?php
-                            }else{
-                    ?>
-                            {
-                                id: '<?php echo $citas[$i]['id'] ?>',
-                                title: '<?php echo $citas[$i]['title'] ?>',
-                                start: '<?php echo $citas[$i]['start'] ?>',
-                                description: '<?php echo $citas[$i]['description'] ?>'
-                            }
-                    <?php
-                            }
                         }
                     ?>
                 ],
-                eventMouseover: function(){
-                    
-                },
                 eventClick: function(event) {
                     popUpEvento(event.title,event.description);
                 }  
