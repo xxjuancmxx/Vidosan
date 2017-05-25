@@ -1,4 +1,4 @@
-﻿<?php
+<?php
     session_start();
     if(@$_COOKIE['rol']=="1"){
         header('Location: modules/Medicos/index.php');
@@ -65,17 +65,26 @@
 
             if($rows_medico>0){
                 header('Location: modules/Medicos/index.php');
+                $medic = mysql_fetch_array($consulta1);
                 setcookie("user",$user);
                 setcookie("pass",$pass);
+                setcookie("id",$medic['id_medico']);
                 setcookie(rol,"1");
             }else if($rows_cliente>0){
                 // Creamos un array con el cliente
                 $client = mysql_fetch_array($consulta);
                 // Creamos una variable de sesion con el nombre del usuario y otra con los apellidos
+                // Creamos variables de sesion con los campos del usuario
+                $_SESSION['id'] = $client['idCliente'];
                 $_SESSION['nombre_cliente'] = $client['nombre_cliente'];
                 $_SESSION['apellidos'] = $client['apellidos_cliente'];
+                $_SESSION['tlf'] = $client['telefono_cliente'];
+                $_SESSION['email'] = $client['email'];
+                $_SESSION['provincia'] = $client['provincia'];
+                $_SESSION['municipio'] = $client['municipio'];
+                $_SESSION['rol'] = "2";
                 // Redirigimos a la plantilla de cliente
-                header('Location: modules/Clientes/production/index.php');
+                header('Location: modules/Clientes/production/index.php') or die("asd");
             }else{
                 echo "El usuario no existe";
             }

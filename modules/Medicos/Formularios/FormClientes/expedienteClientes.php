@@ -16,16 +16,16 @@
     <title>Administrator</title>
 
     <!-- Bootstrap Core CSS -->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="../../css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Custom CSS -->
-    <link href="css/sb-admin.css" rel="stylesheet">
+    <link href="../../css/sb-admin.css" rel="stylesheet">
 
     <!-- Morris Charts CSS -->
-    <link href="css/plugins/morris.css" rel="stylesheet">
+    <link href="../../css/plugins/morris.css" rel="stylesheet">
 
     <!-- Custom Fonts -->
-    <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="../../font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -170,10 +170,10 @@
             <div class="collapse navbar-collapse navbar-ex1-collapse">
                 <ul class="nav navbar-nav side-nav">
                     <li class="active">
-                        <a href="index.php"><i class="fa fa-fw fa-home"></i> Inicio</a>
+                        <a href="../../index.php"><i class="fa fa-fw fa-home"></i> Inicio</a>
                     </li>
                     <li>
-                        <a href="Formularios/FormClientes/tables.php"><i class="fa fa-fw fa-table"></i> Listado Pacientes</a>
+                        <a href="tables.php"><i class="fa fa-fw fa-table"></i> Listado Pacientes</a>
                     </li>
 <!--                    <li>
                         <a href="forms.php"><i class="fa fa-fw fa-edit"></i> Forms</a>
@@ -199,18 +199,18 @@
                         <a href="javascript:;" data-toggle="collapse" data-target="#demo1"><i class="fa fa-fw fa-bolt"></i> Médicos <i class="fa fa-fw fa-caret-down"></i></a>
                         <ul id="demo1" class="collapse">
                             <li>
-                                <a href="Formularios/FormMedicos/insertarMedicos.php">Crear Médicos</a>
+                                <a href="../FormMedicos/insertarMedicos.php">Crear Médicos</a>
                             </li>
                             <li>
-                                <a href="Formularios/FormMedicos/editarMedicos.php">Modificar Médicos</a>
+                                <a href="../FormMedicos/editarMedicos.php">Modificar Médicos</a>
                             </li>
                             <li>
-                                <a href="Formularios/FormMedicos/eliminarMedicos.php">Dar de baja Médico</a>
+                                <a href="../FormMedicos/eliminarMedicos.php">Dar de baja Médico</a>
                             </li>
                         </ul>
                     </li>
                     <li>
-                        <a href="Formularios/FormCitas/misCitas.php"><i class="fa fa-fw fa-cubes"></i> Mis Citas</a>
+                        <a href="../FormCitas/misCitas.php"><i class="fa fa-fw fa-cubes"></i> Mis Citas</a>
                     </li>
 <!--                    <li>
                         <a href="blank-page.php"><i class="fa fa-fw fa-file"></i> Blank Page</a>
@@ -229,116 +229,43 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <h1 class="page-header">
-                            Inicio <small>Estadísticas</small>
+                            Expediente <small>Nombre</small>
                         </h1>
                         <ol class="breadcrumb">
                             <li class="active">
-                                <i class="fa fa-dashboard"></i> Inicio
+                                <i class="fa fa-dashboard"></i> Ver expediente
                             </li>
                         </ol>
                     </div>
                 </div>
                 <!-- /.row -->
                 <div class="row">
-                    <div class="col-lg-3 col-md-6">
-                        <div class="panel panel-primary">
-                            <div class="panel-heading">
-                                <div class="row">
-                                    <div class="col-xs-3">
-                                        <i class="fa fa-user-md fa-5x"></i>
-                                    </div>
-                                    <div class="col-xs-9 text-right">
-                                        <div class="huge">26</div>
-                                        <div>Nuevas Consultas</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <a href="#">
-                                <div class="panel-footer">
-                                    <span class="pull-left">View Details</span>
-                                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                                    <div class="clearfix"></div>
-                                </div>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-md-6">
-                        <div class="panel panel-green">
-                            <div class="panel-heading">
-                                <div class="row">
-                                    <div class="col-xs-3">
-                                        <i class="fa fa-heart-o fa-5x"></i>
-                                    </div>
-                                    <div class="col-xs-9 text-right">
-                                        <div class="huge">12</div>
-                                        <div>Por pensar aun</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <a href="#">
-                                <div class="panel-footer">
-                                    <span class="pull-left">View Details</span>
-                                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                                    <div class="clearfix"></div>
-                                </div>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-md-6">
-                        <div class="panel panel-yellow">
-                            <div class="panel-heading">
-                                <div class="row">
-                                    <div class="col-xs-3">
-                                        <i class="fa fa-plus-square fa-5x"></i>
-                                    </div>
-                                    <div class="col-xs-9 text-right">
-                                        <div class="huge">
-                                          <?php
-                                              include $_SERVER['DOCUMENT_ROOT']."Vidosan/modules/Medicos/DaoMedico/DaoCitas.php";
-                                              echo contarCitas($_COOKIE['id']);
-                                          ?>
-                                        </div>
-                                        <div>Mis Citas</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <a href="#">
-                                <div class="panel-footer">
-                                    <span class="pull-left" onclick="enviarcitas()">Ver Detalles</span>
-                                    <span class="pull-right"><i class="fa fa-arrow-circle-right"  onclick="enviarcitas()"></i></span>
-                                    <div class="clearfix"></div>
-                                </div>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-md-6">
-                        <div class="panel panel-red">
-                            <div class="panel-heading">
-                                <div class="row">
-                                    <div class="col-xs-3">
-                                        <i class="fa fa-stethoscope fa-5x"></i>
-                                    </div>
-                                    <div class="col-xs-9 text-right">
-                                        <div class="huge">
-                                            <?php
-                                                include $_SERVER['DOCUMENT_ROOT']."Vidosan/modules/Medicos/DaoMedico/DaoCliente.php";
-                                                echo contarClientes();
-                                            ?>
-                                        </div>
-                                        <div>Numero de Clientes</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <a href="#">
-                                <div class="panel-footer">
-                                    <span class="pull-left" onclick="enviartables()">Ver Detalles</span>
-                                            <span class="pull-right"><i class="fa fa-arrow-circle-right" name="enviar_tables" onclick="enviartables()">
-                                       </i></span>
-                                    <div class="clearfix"></div>
-                                </div>
-                            </a>
-                        </div>
-                    </div>
+                  <div class="col-lg-12 col-md-12 col-xs-12">
+                    <?php
+                      $valor=$_GET['exp'];
+                      include_once $_SERVER['DOCUMENT_ROOT']."Vidosan/modules/Medicos/DaoMedico/DaoIncidencia.php";
+                      $listaInc=listarIncidenciaporId($valor);
+                      $rowers_incidencia=mysql_num_rows($listaInc);
+                      if($rowers_incidencia>0){
+                        ?>
+                          <table class="table table-responsive">
+                        <?php
+                      for($i=0;$i<$rowers_incidencia;$i++){
+                        $arry =mysql_fetch_array($listaInc);
+                        echo "<tr><td>".$arry["descripcion"]."<td>";
+                        echo "<td>".$arry["fecha_incidencia"]."</td></tr>";
+                      }
+                      ?>
+
+                      </table>
+                      <?php
+                    }else{
+                      ?>
+                      <p class="alert alert-warning">El Paciente aún no ha ingresado ninguna consulta</p>
+                      <?php
+                    }
+                    ?>
+                  </div>
                 </div>
                 <!-- /.row -->
 
@@ -355,20 +282,12 @@
     <!-- /#wrapper -->
 
     <!-- jQuery -->
-    <script src="js/jquery.js"></script>
+    <script src="../../js/jquery.js"></script>
 
     <!-- Bootstrap Core JavaScript -->
-    <script src="js/bootstrap.min.js"></script>
+    <script src="../../js/bootstrap.min.js"></script>
 
     <!-- Morris Charts JavaScript -->
-    <script src="js/plugins/morris/raphael.min.js"></script>
-    <script>
-        function enviartables(){
-            window.location.href = "Formularios/FormClientes/tables.php";
-        }
-        function enviarcitas(){
-          window.location.href = "Formularios/FormCitas/misCitas.php";
-        }
-    </script>
+    <script src="../../js/plugins/morris/raphael.min.js"></script>
 </body>
 </html>
