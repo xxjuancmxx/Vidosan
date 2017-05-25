@@ -36,6 +36,13 @@
         .fc-event{
             cursor: pointer;
         }
+        .aclaracion{
+            width: 15%;
+            text-align:center;
+            margin-top: 0.4%;
+            border-radius: 5px;
+            color: white;
+        }
     </style>
 
     <!-- sweetalert-->
@@ -115,8 +122,11 @@
             <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                     <div class="x_title">
-                        <h2>Calendario de <?php echo $_SESSION['nombre_cliente'] . " " . $_SESSION['apellidos'] ?></h2><br>
-                        <div id="idPrueba"></div>
+                        <h2>Calendario de <?php echo $_SESSION['nombre_cliente'] . " " . $_SESSION['apellidos'] ?></h2>&nbsp;&nbsp;&nbsp;
+                        <label class="aclaracion" style="background-color: #3a87ad">Pendiente de aprobación</label>&nbsp;
+                        <label class="aclaracion" style="background-color: #0B610B">Aceptada</label>
+                        <label class="aclaracion" style="background-color: red">No aceptada</label>
+                        <br>
                         <div class="clearfix"></div>
                     </div>
                     <div class="x_content">
