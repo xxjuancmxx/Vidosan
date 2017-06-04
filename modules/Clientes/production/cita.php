@@ -59,7 +59,10 @@
             }
 
             var datosCorrectos = validarFecha(fecha,diaActual,mesActual,yearActual); // Si la cita se ha pedido para minimo un dia despues de hoy
-            datosCorrectos = validarDescripcion(desc); // true si se ha rellenado la descripcion
+            if(datosCorrectos){
+              datosCorrectos = validarDescripcion(desc); // true si se ha rellenado la descripcion
+            }
+            
             if(datosCorrectos){
                 // Medico seleccionado
                 var idMedico = $("#select-medico").val();
@@ -88,19 +91,18 @@
                 $("#single_cal4").css("box-shadow","0px 0px 13px 2px rgba(255,0,0,1)");
                 popUpFechaCitaNoValida();
                 return false;
-            }
-            if(fechaSplit[2] == yearActual && fechaSplit[1] < mesActual){
+            }else if(fechaSplit[2] == yearActual && fechaSplit[1] < mesActual){
                 $("#single_cal4").css("box-shadow","0px 0px 13px 2px rgba(255,0,0,1)");
                 popUpFechaCitaNoValida();
                 return false;
-            }
-            if(fechaSplit[2] == yearActual && fechaSplit[1] == mesActual && fechaSplit[0] <= diaActual){
+            }else if(fechaSplit[2] == yearActual && fechaSplit[1] == mesActual && fechaSplit[0] <= diaActual){
                 $("#single_cal4").css("box-shadow","0px 0px 13px 2px rgba(255,0,0,1)");
                 popUpFechaCitaNoValida();
                 return false;
+            }else{
+              $("#single_cal4").css("box-shadow","");
+              return true;
             }
-            $("#single_cal4").css("box-shadow","");
-            return true;
         }
 
         function validarDescripcion(descripcion){
