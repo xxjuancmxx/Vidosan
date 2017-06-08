@@ -13,6 +13,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
+    <link rel="shortcut icon" type="image/x-icon" href="/Vidosan/modules/medicos/img/icon_pharmacy.png" />
     <title>Perfil</title>
 
     <!-- Bootstrap Core CSS -->
@@ -51,85 +52,14 @@
             </div>
             <!-- Top Menu Items -->
             <ul class="nav navbar-right top-nav">
+              <li class="dropdown">
+                <?php include $_SERVER['DOCUMENT_ROOT']."Vidosan/modules/Medicos/include/includeNotificaciones.php"; ?>
+              </li>
                 <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-envelope"></i> <b class="caret"></b></a>
-                    <ul class="dropdown-menu message-dropdown">
-                        <li class="message-preview">
-                            <a href="#">
-                                <div class="media">
-                                    <span class="pull-left">
-                                        <img class="media-object" src="http://placehold.it/50x50" alt="">
-                                    </span>
-                                    <div class="media-body">
-                                        <h5 class="media-heading"><strong>John Smith</strong>
-                                        </h5>
-                                        <p class="small text-muted"><i class="fa fa-clock-o"></i> Yesterday at 4:32 PM</p>
-                                        <p>Lorem ipsum dolor sit amet, consectetur...</p>
-                                    </div>
-                                </div>
-                            </a>
-                        </li>
-                        <li class="message-preview">
-                            <a href="#">
-                                <div class="media">
-                                    <span class="pull-left">
-                                        <img class="media-object" src="http://placehold.it/50x50" alt="">
-                                    </span>
-                                    <div class="media-body">
-                                        <h5 class="media-heading"><strong>John Smith</strong>
-                                        </h5>
-                                        <p class="small text-muted"><i class="fa fa-clock-o"></i> Yesterday at 4:32 PM</p>
-                                        <p>Lorem ipsum dolor sit amet, consectetur...</p>
-                                    </div>
-                                </div>
-                            </a>
-                        </li>
-                        <li class="message-preview">
-                            <a href="#">
-                                <div class="media">
-                                    <span class="pull-left">
-                                        <img class="media-object" src="http://placehold.it/50x50" alt="">
-                                    </span>
-                                    <div class="media-body">
-                                        <h5 class="media-heading"><strong>John Smith</strong>
-                                        </h5>
-                                        <p class="small text-muted"><i class="fa fa-clock-o"></i> Yesterday at 4:32 PM</p>
-                                        <p>Lorem ipsum dolor sit amet, consectetur...</p>
-                                    </div>
-                                </div>
-                            </a>
-                        </li>
-                        <li class="message-footer">
-                            <a href="#">Read All New Messages</a>
-                        </li>
-                    </ul>
-                </li>
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-bell"></i> <b class="caret"></b></a>
-                    <ul class="dropdown-menu alert-dropdown">
-                        <li>
-                            <a href="#">Alert Name <span class="label label-default">Alert Badge</span></a>
-                        </li>
-                        <li>
-                            <a href="#">Alert Name <span class="label label-primary">Alert Badge</span></a>
-                        </li>
-                        <li>
-                            <a href="#">Alert Name <span class="label label-success">Alert Badge</span></a>
-                        </li>
-                        <li>
-                            <a href="#">Alert Name <span class="label label-info">Alert Badge</span></a>
-                        </li>
-                        <li>
-                            <a href="#">Alert Name <span class="label label-warning">Alert Badge</span></a>
-                        </li>
-                        <li>
-                            <a href="#">Alert Name <span class="label label-danger">Alert Badge</span></a>
-                        </li>
-                        <li class="divider"></li>
-                        <li>
-                            <a href="#">View All</a>
-                        </li>
-                    </ul>
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-bell"></i> <b class="caret"></b></a>
+                  <ul class="dropdown-menu alert-dropdown">
+                    <?php include $_SERVER['DOCUMENT_ROOT']."Vidosan/modules/Medicos/include/includeCitas.php"; ?>
+                  </ul>
                 </li>
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i>
@@ -140,6 +70,12 @@
                     <ul class="dropdown-menu">
                         <li>
                             <a href="#"><i class="fa fa-fw fa-user"></i> Perfil</a>
+                        </li>
+                        <li>
+                            <a href="/Vidosan/modules/Medicos/Formularios/FormTareas/misTareas.php"><i class="fa fa-fw fa-pencil"></i> Mis Tareas</a>
+                        </li>
+                        <li>
+                            <a href="/Vidosan/modules/Medicos/Formularios/FormTareas/nuevasTareas.php"><i class="fa fa-fw fa-plus"></i> Añadir Tareas</a>
                         </li>
                         <li class="divider"></li>
                         <li>
@@ -161,42 +97,45 @@
             <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
             <div class="collapse navbar-collapse navbar-ex1-collapse">
                 <ul class="nav navbar-nav side-nav">
-                  <li class="active">
-                      <a href="../../index.php"><i class="fa fa-fw fa-home"></i> Inicio</a>
-                  </li>
-                  <li>
-                      <a href="../FormClientes/tables.php"><i class="fa fa-fw fa-table"></i> Listado Pacientes</a>
-                  </li>
-<!--                    <li>
-                      <a href="forms.php"><i class="fa fa-fw fa-edit"></i> Forms</a>
-                  </li>
-                  <li>
-                      <a href="bootstrap-elements.php"><i class="fa fa-fw fa-desktop"></i> Bootstrap Elements</a>
-                  </li>
-                  <li>
-                      <a href="bootstrap-grid.php"><i class="fa fa-fw fa-wrench"></i> Bootstrap Grid</a>
-                  </li>-->
-                  <li>
-                      <a href="javascript:;" data-toggle="collapse" data-target="#demo"><i class="fa fa-fw fa-group"></i> Pacientes <i class="fa fa-fw fa-caret-down"></i></a>
-                      <ul id="demo" class="collapse">
-                          <li>
-                              <a href="../FormClientes/insertarClientes.php">Crear/Modificar Pacientes</a>
-                          </li>
-                          <li>
-                              <a href="#">Eliminar Pacientes</a>
-                          </li>
-                      </ul>
-                  </li>
+                    <li>
+                        <a href="/Vidosan/modules/Medicos/index.php"><i class="fa fa-fw fa-home"></i> Inicio</a>
+                    </li>
+                    <li>
+                        <a href="/Vidosan/modules/Medicos/Formularios/FormClientes/tables.php"><i class="fa fa-fw fa-table"></i> Listado Pacientes</a>
+                    </li>
+                    <li>
+                        <a href="javascript:;" data-toggle="collapse" data-target="#demo"><i class="fa fa-fw fa-group"></i> Pacientes <i class="fa fa-fw fa-caret-down"></i></a>
+                        <ul id="demo" class="collapse">
+                            <li>
+                                <a href="/Vidosan/modules/Medicos/Formularios/FormClientes/insertarClientes.php">Crear/Modificar Pacientes</a>
+                            </li>
+                            <li>
+                                <a href="/Vidosan/modules/Medicos/Formularios/FormClientes/eliminarClientes.php">Eliminar Pacientes</a>
+                            </li>
+                        </ul>
+                    </li>
                     <li>
                         <a href="javascript:;" data-toggle="collapse" data-target="#demo1"><i class="fa fa-fw fa-bolt"></i> Médicos <i class="fa fa-fw fa-caret-down"></i></a>
                         <ul id="demo1" class="collapse">
                             <li>
-                                <a href="Formularios/FormMedicos/insertarMedicos.php">Crear/Modificar Médicos</a>
+                                <a href="/Vidosan/modules/Medicos/Formularios/FormMedicos/insertarMedicos.php">Crear Médicos</a>
                             </li>
                             <li>
-                                <a href="Formularios/FormMedicos/eliminarMedicos.php">Dar de baja Médico</a>
+                                <a href="/Vidosan/modules/Medicos/Formularios/FormMedicos/editarMedicos.php">Modificar Médicos</a>
+                            </li>
+                            <li>
+                                <a href="/Vidosan/modules/Medicos/Formularios/FormMedicos/eliminarMedicos.php">Dar de baja Médico</a>
                             </li>
                         </ul>
+                    </li>
+                    <li>
+                        <a href="/Vidosan/modules/Medicos/Formularios/FormCitas/misCitas.php"><i class="fa fa-fw fa-cubes"></i> Mis Citas</a>
+                    </li>
+                    <li>
+                        <a href="/Vidosan/modules/Medicos/Formularios/FormCitas/aceptarCitas.php"><i class="fa fa-fw fa-check-square"></i> Aceptar Citas</a>
+                    </li>
+                    <li>
+                        <a href="/Vidosan/modules/Medicos/Formularios/FormClientes/misPacientes.php"><i class="fa fa-fw fa-user-md"></i> Mis Pacientes</a>
                     </li>
                 </ul>
             </div>
@@ -211,7 +150,7 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <h1 class="page-header">
-                            Forms
+                            Perfil
                         </h1>
                         <ol class="breadcrumb">
                             <li>
@@ -226,7 +165,8 @@
                 <!-- /.row -->
 
                 <div class="row">
-                    <div class="col-lg-6 col-md-6 col-xs-6">
+                  <div class="col-lg-2 col-md-2 col-xs-2"></div>
+                    <div class="col-lg-8 col-md-8 col-xs-8">
 
                         <form role="form">
                           <?php
@@ -236,9 +176,6 @@
                               $coluwers=mysql_num_fields($consul);
                               $arry =mysql_fetch_array($consul);
                            ?>
-                            <div class="form-group">
-                                  <h1>Perfil</h1>
-                            </div>
                             <div class="col-lg-6 col-md-6 col-xs-6">
                                 <label>Usuario:</label>
                                 <p><?php echo $arry['user_medico'];?></p>
@@ -275,92 +212,8 @@
                         </form>
 
                     </div>
-                    <div class="col-lg-6 col-md-6 col-xs-6">
-                        <h1>Pacientes Atendido</h1>
-
-                        <form role="form">
-
-                            <fieldset disabled>
-
-                                <div class="form-group">
-                                    <label for="disabledSelect">Disabled input</label>
-                                    <input class="form-control" id="disabledInput" type="text" placeholder="Disabled input" disabled>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="disabledSelect">Disabled select menu</label>
-                                    <select id="disabledSelect" class="form-control">
-                                        <option>Disabled select</option>
-                                    </select>
-                                </div>
-
-                                <div class="checkbox">
-                                    <label>
-                                        <input type="checkbox">Disabled Checkbox
-                                    </label>
-                                </div>
-
-                                <button type="submit" class="btn btn-primary">Disabled Button</button>
-
-                            </fieldset>
-
-                        </form>
-
-                        <h1>Form Validation</h1>
-
-                        <form role="form">
-
-                            <div class="form-group has-success">
-                                <label class="control-label" for="inputSuccess">Input with success</label>
-                                <input type="text" class="form-control" id="inputSuccess">
-                            </div>
-
-                            <div class="form-group has-warning">
-                                <label class="control-label" for="inputWarning">Input with warning</label>
-                                <input type="text" class="form-control" id="inputWarning">
-                            </div>
-
-                            <div class="form-group has-error">
-                                <label class="control-label" for="inputError">Input with error</label>
-                                <input type="text" class="form-control" id="inputError">
-                            </div>
-
-                        </form>
-
-                        <h1>Input Groups</h1>
-
-                        <form role="form">
-
-                            <div class="form-group input-group">
-                                <span class="input-group-addon">@</span>
-                                <input type="text" class="form-control" placeholder="Username">
-                            </div>
-
-                            <div class="form-group input-group">
-                                <input type="text" class="form-control">
-                                <span class="input-group-addon">.00</span>
-                            </div>
-
-                            <div class="form-group input-group">
-                                <span class="input-group-addon"><i class="fa fa-eur"></i></span>
-                                <input type="text" class="form-control" placeholder="Font Awesome Icon">
-                            </div>
-
-                            <div class="form-group input-group">
-                                <span class="input-group-addon">$</span>
-                                <input type="text" class="form-control">
-                                <span class="input-group-addon">.00</span>
-                            </div>
-
-                            <div class="form-group input-group">
-                                <input type="text" class="form-control">
-                                <span class="input-group-btn"><button class="btn btn-default" type="button"><i class="fa fa-search"></i></button></span>
-                            </div>
-
-                        </form>
-
-                        <p>For complete documentation, please visit <a href="http://getbootstrap.com/css/#forms">Bootstrap's Form Documentation</a>.</p>
-
+                    <div class="col-lg-2 col-md-2 col-xs-2">
+                        <img src="../../img/perfil.jpg"/ style="width:100%;border-radius:20px;">
                     </div>
                 </div>
                 <!-- /.row -->

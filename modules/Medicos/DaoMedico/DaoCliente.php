@@ -51,4 +51,13 @@
         $consulta = mysql_query("UPDATE cliente SET isDeleted=1 WHERE idCliente='$valor'",connectbbdd()) or die ("Fallo en eliminar Clientes");
         return $consulta;
     }
+    function buscarPacientesporIdmedico($valor){
+        $consulta = mysql_query("SELECT * FROM cliente_has_medico has inner join cliente c where has.Medico_id_medico = '$valor'",connectbbdd()) or die ("Fallo en buscar pacientes por IDMedico");
+        return $consulta;
+    }
+    function contarPacientesporIdmedico($valor){
+      $consulta = mysql_query("SELECT count(*) as cuentapacientes FROM cliente_has_medico has inner join cliente c where has.Medico_id_medico ='$valor'",connectbbdd()) or die ("Fallo en buscar pacientes por IDMedico");
+      $arry_cliente =mysql_fetch_array($consulta);
+      return $arry_cliente['cuentapacientes'];
+    }
     ?>

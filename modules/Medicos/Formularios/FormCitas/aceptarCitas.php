@@ -1,11 +1,10 @@
 <!DOCTYPE html>
+<html lang="en">
 <?php
     if(@$_COOKIE['rol']!="1"){
-        header('Location: ../index.php');
+        header('Location: /Vidosan/index.php');
     }
 ?>
-<html lang="en">
-
 <head>
 
     <meta charset="utf-8">
@@ -15,16 +14,13 @@
     <meta name="author" content="">
 
     <link rel="shortcut icon" type="image/x-icon" href="/Vidosan/modules/medicos/img/icon_pharmacy.png" />
-    <title>Administrator</title>
+    <title>Administrador</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="../../css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Custom CSS -->
     <link href="../../css/sb-admin.css" rel="stylesheet">
-
-    <!-- Morris Charts CSS -->
-    <link href="../../css/plugins/morris.css" rel="stylesheet">
 
     <!-- Custom Fonts -->
     <link href="../../font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
@@ -35,7 +31,11 @@
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
-
+    <style>
+        .table-hover tbody tr:hover td, .table-hover tbody tr:hover th {
+        background-color: #F0EEFE;
+        }
+    </style>
 </head>
 
 <body>
@@ -47,12 +47,12 @@
             <!-- Brand and toggle get grouped for better mobile display -->
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
-                    <span class="sr-only">Toggle navigation</span>
+                    <span class="sr-only">Pacientes registrados</span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="../../index.php">Administrador</a>
+                <a class="navbar-brand" href="../../index.php"> Administrador</a>
             </div>
             <!-- Top Menu Items -->
             <ul class="nav navbar-right top-nav">
@@ -89,7 +89,7 @@
                                     <?php
                                         if(isset($_POST["cerrar_sesion"])){
                                             setcookie("rol", "", -1, "/Vidosan");
-                                            header('Location: ../index.php');
+                                            header('Location: /Vidosan/index.php');
                                         }
                                     ?>
 
@@ -105,16 +105,16 @@
                         <a href="../../index.php"><i class="fa fa-fw fa-home"></i> Inicio</a>
                     </li>
                     <li>
-                        <a href="tables.php"><i class="fa fa-fw fa-table"></i> Listado Pacientes</a>
+                        <a href="../FormClientes/tables.php"><i class="fa fa-fw fa-table"></i> Listado Pacientes</a>
                     </li>
-                    <li class="active">
+                    <li>
                         <a href="javascript:;" data-toggle="collapse" data-target="#demo"><i class="fa fa-fw fa-group"></i> Pacientes <i class="fa fa-fw fa-caret-down"></i></a>
                         <ul id="demo" class="collapse">
                             <li>
-                                <a href="insertarClientes.php">Crear/Modificar Pacientes</a>
+                                <a href="../FormClientes/insertarClientes.php">Crear/Modificar Pacientes</a>
                             </li>
                             <li>
-                                <a href="eliminarClientes.php">Eliminar Pacientes</a>
+                                <a href="../FormClientes/eliminarClientes.php">Eliminar Pacientes</a>
                             </li>
                         </ul>
                     </li>
@@ -132,20 +132,16 @@
                             </li>
                         </ul>
                         <li>
-                            <a href="../FormCitas/misCitas.php"><i class="fa fa-fw fa-cubes"></i> Mis Citas</a>
+                            <a href="misCitas.php"><i class="fa fa-fw fa-cubes"></i> Mis Citas</a>
+                        </li>
+                        <li class="active">
+                            <a href="#"><i class="fa fa-fw fa-check-square"></i> Aceptar Citas</a>
                         </li>
                         <li>
-                            <a href="../FormCitas/aceptarCitas.php"><i class="fa fa-fw fa-check-square"></i> Aceptar Citas</a>
-                        </li>
-                        <li>
-                            <a href="misPacientes.php"><i class="fa fa-fw fa-user-md"></i> Mis Pacientes</a>
+                            <a href="../FormClientes/misPacientes.php"><i class="fa fa-fw fa-user-md"></i> Mis Pacientes</a>
                         </li>
                     </li>
- <!--                    <li>
-                        <a href="blank-page.php"><i class="fa fa-fw fa-file"></i> Blank Page</a>
-                    </li>-->
-
-                </ul>
+        </ul>
             </div>
             <!-- /.navbar-collapse -->
         </nav>
@@ -158,68 +154,105 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <h1 class="page-header">
-                            Pacientes <small>Eliminar Pacientes</small>
+                            Aceptar Citas
                         </h1>
-
-
+                        <ol class="breadcrumb">
+                            <li>
+                                <i class="fa fa-dashboard"></i>  <a href="../../index.php">Inicio</a>
+                            </li>
+                            <li class="active">
+                                <i class="fa fa-check-square"></i> Mis Citas
+                            </li>
+                        </ol>
                     </div>
                 </div>
                 <!-- /.row -->
-                <div class="col-lg-12 col-md-12 col-xs-12"  id="diveliminar">
-                  <?php
-                  include $_SERVER['DOCUMENT_ROOT']."Vidosan/modules/Medicos/DaoMedico/DaoCliente.php";
-                   $consul=listarClientes();
-                   $rowers=mysql_num_rows($consul);
-                   $coluwers=mysql_num_fields($consul);
-                  if($rowers>0){
-                      ?>
-                  <table class="table table-bordered">
-                      <tr style="font-weight: 700;font-size: 18px;">
-                          <td style="width:4%;"></td>
-                          <td>Apellidos</td>
-                          <td>Nombre</td>
-                          <td>Telefono</td>
-                          <td>Email</td>
-                      </tr>
-                  <?php
-                      for($i=0;$i<$rowers;$i++){
-                        $arry =mysql_fetch_array($consul);
-                        echo "<tr><td>";
+
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-xs-12 col-sm-12" id="tab_pacientes" >
+                        <?php
+                        include_once $_SERVER['DOCUMENT_ROOT']."Vidosan/modules/Medicos/DaoMedico/DaoCitas.php";
+                         $consul=listarCitasClienteporIdsinRespuesta($_COOKIE['id']);
+                         $rowers=mysql_num_rows($consul);
+                         $coluwers=mysql_num_fields($consul);
+                        if($rowers>0){
+                            ?>
+                        <table class="table table-hover">
+                            <tr style="font-weight: 700;font-size: 18px;">
+                                <td style="width:1%;"></td>
+                                <td style="width:1%;"></td>
+                                <td>Fecha de la cita</td>
+                                <td>Descripcion</td>
+                                <td>Apellidos</td>
+                                <td>Nombre</td>
+                                <td>Telefono</td>
+                                <td>Email</td>
+                                <td>Provincia</td>
+                                <td>Municipio</td>
+                            </tr>
+                        <?php
+                            for($i=0;$i<$rowers;$i++){
+                              $arry =mysql_fetch_array($consul);
+                              echo "<tr>";
+                              ?>
+                              <td>
+                                <form action="#" method="post" onsubmit="return confirm('Aceptar cita?')">
+                                  <input type="hidden" name="id_cita1" value="<?php echo $arry['id_cita']; ?>">
+                                  <button class="btn btn-success btn-xs glyphicon glyphicon-ok" name="aceptcita" ></button>
+                                </form>
+                              </td>
+                              <td>
+                              <form action="#" method="post" onsubmit="return confirm('Cancelar cita?')">
+                                <input type="hidden" name="id_cita2" value="<?php echo $arry['id_cita']; ?>">
+                                <button class="btn btn-danger btn-xs glyphicon glyphicon-remove" name="cancelcita"></button>
+                              </form>
+                            </td>
+                              <?php
+                              echo "<td>".$arry['fecha_cita']."</td>";
+                              echo "<td>".$arry['descripcion']."</td>";
+                              echo "<td>".$arry['apellidos_cliente']."</td>";
+                              echo "<td>".$arry['nombre_cliente']."</td>";
+                              echo "<td>".$arry['telefono_cliente']."</td>";
+                              echo "<td>".$arry['email']."</td>";
+                              echo "<td>".$arry['provincia']."</td>";
+                              echo "<td>".$arry['municipio']."</td></tr>";
+                            }
+                            ?>
+                            </table>
+                            <?php
+                            if(isset($_POST['aceptcita'])){
+                              $idCita=$_POST['id_cita1'];
+                              aceptarCita($idCita);
+                              header('Location: #');
+                            }
+                            if(isset($_POST['cancelcita'])){
+                              $idCita=$_POST['id_cita2'];
+                              cancelarCita($idCita);
+                              header('Location: #');
+                            }
+                        }else{
                           ?>
-                            <form action="#" method="post" onsubmit="return confirm('Eliminar cliente ?');">
-                              <input type="hidden" name="id_elimcliente" value="<?php echo $arry['idCliente']; ?>">
-                              <button class="btn btn-danger btn-xs glyphicon glyphicon-remove" name="removeclient"></button>
-                            </form>
+                          <div class="alert alert-warning">No tienes citas por ahora..</div>
                           <?php
+                        }
 
-                        echo"</td>";
-                        echo "<td>".$arry['apellidos_cliente']."</td>";
-                        echo "<td>".$arry['nombre_cliente']."</td>";
-                        echo "<td>".$arry['telefono_cliente']."</td>";
-                        echo "<td>".$arry['email']."</td></tr>";
-                      }
-                      if(isset($_POST['removeclient'])){
-                        $idCliente=$_POST['id_elimcliente'];
-                        eliminarCliente($idCliente);
-                        header('Location: #');
-                      }
-                      ?>
-                      </table>
-                      <?php
+                        ?>
+                    </div>
+                <!-- /.row -->
 
-                  }else{
 
-                  }
+                <!-- /.row -->
 
-                  ?>
-                </div>
 
-             </div>
+                <!-- /.row -->
 
             </div>
             <!-- /.container-fluid -->
+
         </div>
-        <!-- /#page-wrapper -->¡
+        <!-- /#page-wrapper -->
+
+    </div>
     <!-- /#wrapper -->
 
     <!-- jQuery -->
@@ -228,9 +261,7 @@
     <!-- Bootstrap Core JavaScript -->
     <script src="../../js/bootstrap.min.js"></script>
 
-    <!-- Morris Charts JavaScript -->
-    <script src="../../js/plugins/morris/raphael.min.js"></script>
-    <script>
-    </script>
 </body>
+<script>
+</script>
 </html>

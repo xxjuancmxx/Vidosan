@@ -11,6 +11,7 @@
         $consulta = mysql_query("select * from medico where isDeleted=0 order by apellidos_medico",connectbbdd()) or die ("Fallo en Listar medicos");
         return $consulta;
     }
+    
     function eliminarMedico($valor){
         $consulta = mysql_query("UPDATE medico SET isDeleted=1 WHERE id_Medico='$valor'",connectbbdd()) or die ("Fallo en eliminar Medico");
         return $consulta;
@@ -38,7 +39,7 @@
         return $consulta;
     }
     function modificarMedico($obj,$valor){
-        $consulta = mysql_query("UPDATE medico SET user_medico='$obj->userMedico',  nombre_medico='$obj->nombreMedico', apellidos_medico='$obj->apellidosMedico', telefono_medico='$obj->telefonoMedico', email='$obj->email', provincia='$obj->provincia', municipio='$obj->municipio' WHERE id_medico='$valor'",connectbbdd()) or die ("Fallo en modificar Medico");
+        $consulta = mysql_query("UPDATE medico SET user_medico='$obj->userMedico',  nombre_medico='$obj->nombreMedico', apellidos_medico='$obj->apellidosMedico', telefono_medico='$obj->telefonoMedico', email='$obj->email', provincia='$obj->provincia', municipio='$obj->municipio',idCategoria='$obj->idCategoria' WHERE id_medico='$valor'",connectbbdd()) or die ("Fallo en modificar Medico");
         return $consulta;
     }
     function sacarMedicoporId($valor){

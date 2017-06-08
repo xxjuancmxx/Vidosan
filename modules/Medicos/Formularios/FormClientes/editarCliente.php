@@ -57,7 +57,7 @@
             <div class="row">
                 <div class="col-lg-12 col-md-12 col-xs-12">
                     <br>
-                    <input type="submit" name="modificarcli" class="btn btn-success">
+                    <input type="submit" name="modificarcli" class="btn btn-success" onclick="msg2()">
                 </div>
             </div>
         </form>

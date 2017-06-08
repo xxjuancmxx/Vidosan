@@ -12,7 +12,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
-
+    <link rel="shortcut icon" type="image/x-icon" href="/Vidosan/modules/medicos/img/icon_pharmacy.png" />
     <title>Administrator</title>
 
     <!-- Bootstrap Core CSS -->
@@ -26,6 +26,8 @@
 
     <!-- Custom Fonts -->
     <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -55,88 +57,12 @@
             <!-- Top Menu Items -->
             <ul class="nav navbar-right top-nav">
                 <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-envelope"></i> <b class="caret"></b></a>
-                    <ul class="dropdown-menu message-dropdown">
-                        <li class="message-preview">
-                            <a href="#">
-                                <div class="media">
-                                    <span class="pull-left">
-                                        <img class="media-object" src="http://placehold.it/50x50" alt="">
-                                    </span>
-                                    <div class="media-body">
-                                        <h5 class="media-heading">
-                                            <strong>
-                                                <?php
-                                                    echo $_COOKIE['user'];
-                                                ?>
-                                            </strong>
-                                        </h5>
-                                        <p class="small text-muted"><i class="fa fa-clock-o"></i> Yesterday at 4:32 PM</p>
-                                        <p>Lorem ipsum dolor sit amet, consectetur...</p>
-                                    </div>
-                                </div>
-                            </a>
-                        </li>
-                        <li class="message-preview">
-                            <a href="#">
-                                <div class="media">
-                                    <span class="pull-left">
-                                        <img class="media-object" src="http://placehold.it/50x50" alt="">
-                                    </span>
-                                    <div class="media-body">
-                                        <h5 class="media-heading"><strong>John Smith</strong>
-                                        </h5>
-                                        <p class="small text-muted"><i class="fa fa-clock-o"></i> Yesterday at 4:32 PM</p>
-                                        <p>Lorem ipsum dolor sit amet, consectetur...</p>
-                                    </div>
-                                </div>
-                            </a>
-                        </li>
-                        <li class="message-preview">
-                            <a href="#">
-                                <div class="media">
-                                    <span class="pull-left">
-                                        <img class="media-object" src="http://placehold.it/50x50" alt="">
-                                    </span>
-                                    <div class="media-body">
-                                        <h5 class="media-heading"><strong>John Smith</strong>
-                                        </h5>
-                                        <p class="small text-muted"><i class="fa fa-clock-o"></i> Yesterday at 4:32 PM</p>
-                                        <p>Lorem ipsum dolor sit amet, consectetur...</p>
-                                    </div>
-                                </div>
-                            </a>
-                        </li>
-                        <li class="message-footer">
-                            <a href="#">Leer todas las citas..</a>
-                        </li>
-                    </ul>
+                  <?php include $_SERVER['DOCUMENT_ROOT']."Vidosan/modules/Medicos/include/includeNotificaciones.php"; ?>
                 </li>
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-bell"></i> <b class="caret"></b></a>
                     <ul class="dropdown-menu alert-dropdown">
-                        <li>
-                            <a href="#">Alert Name <span class="label label-default">Alert Badge</span></a>
-                        </li>
-                        <li>
-                            <a href="#">Alert Name <span class="label label-primary">Alert Badge</span></a>
-                        </li>
-                        <li>
-                            <a href="#">Alert Name <span class="label label-success">Alert Badge</span></a>
-                        </li>
-                        <li>
-                            <a href="#">Alert Name <span class="label label-info">Alert Badge</span></a>
-                        </li>
-                        <li>
-                            <a href="#">Alert Name <span class="label label-warning">Alert Badge</span></a>
-                        </li>
-                        <li>
-                            <a href="#">Alert Name <span class="label label-danger">Alert Badge</span></a>
-                        </li>
-                        <li class="divider"></li>
-                        <li>
-                            <a href="#">View All</a>
-                        </li>
+                      <?php include $_SERVER['DOCUMENT_ROOT']."Vidosan/modules/Medicos/include/includeCitas.php"; ?>
                     </ul>
                 </li>
                 <li class="dropdown">
@@ -149,6 +75,13 @@
                         <li>
                             <a href="Formularios\FormMedicos\perfilMedico.php"><i class="fa fa-fw fa-user"></i> Perfil</a>
                         </li>
+                        <li>
+                            <a href="/Vidosan/modules/Medicos/Formularios/FormTareas/misTareas.php"><i class="fa fa-fw fa-pencil"></i> Mis Tareas</a>
+                        </li>
+                        <li>
+                            <a href="/Vidosan/modules/Medicos/Formularios/FormTareas/nuevasTareas.php"><i class="fa fa-fw fa-plus"></i> Añadir Tareas</a>
+                        </li>
+
                         <li class="divider"></li>
                         <li>
                              <form method="POST">
@@ -170,28 +103,19 @@
             <div class="collapse navbar-collapse navbar-ex1-collapse">
                 <ul class="nav navbar-nav side-nav">
                     <li class="active">
-                        <a href="index.php"><i class="fa fa-fw fa-home"></i> Inicio</a>
+                        <a href="/Vidosan/modules/Medicos/index.php"><i class="fa fa-fw fa-home"></i> Inicio</a>
                     </li>
                     <li>
-                        <a href="Formularios/FormClientes/tables.php"><i class="fa fa-fw fa-table"></i> Listado Pacientes</a>
+                        <a href="/Vidosan/modules/Medicos/Formularios/FormClientes/tables.php"><i class="fa fa-fw fa-table"></i> Listado Pacientes</a>
                     </li>
-<!--                    <li>
-                        <a href="forms.php"><i class="fa fa-fw fa-edit"></i> Forms</a>
-                    </li>
-                    <li>
-                        <a href="bootstrap-elements.php"><i class="fa fa-fw fa-desktop"></i> Bootstrap Elements</a>
-                    </li>
-                    <li>
-                        <a href="bootstrap-grid.php"><i class="fa fa-fw fa-wrench"></i> Bootstrap Grid</a>
-                    </li>-->
                     <li>
                         <a href="javascript:;" data-toggle="collapse" data-target="#demo"><i class="fa fa-fw fa-group"></i> Pacientes <i class="fa fa-fw fa-caret-down"></i></a>
                         <ul id="demo" class="collapse">
                             <li>
-                                <a href="Formularios/FormClientes/insertarClientes.php">Crear/Modificar Pacientes</a>
+                                <a href="/Vidosan/modules/Medicos/Formularios/FormClientes/insertarClientes.php">Crear/Modificar Pacientes</a>
                             </li>
                             <li>
-                                <a href="Formularios/FormClientes/eliminarClientes.php">Eliminar Pacientes</a>
+                                <a href="/Vidosan/modules/Medicos/Formularios/FormClientes/eliminarClientes.php">Eliminar Pacientes</a>
                             </li>
                         </ul>
                     </li>
@@ -199,23 +123,25 @@
                         <a href="javascript:;" data-toggle="collapse" data-target="#demo1"><i class="fa fa-fw fa-bolt"></i> Médicos <i class="fa fa-fw fa-caret-down"></i></a>
                         <ul id="demo1" class="collapse">
                             <li>
-                                <a href="Formularios/FormMedicos/insertarMedicos.php">Crear Médicos</a>
+                                <a href="/Vidosan/modules/Medicos/Formularios/FormMedicos/insertarMedicos.php">Crear Médicos</a>
                             </li>
                             <li>
-                                <a href="Formularios/FormMedicos/editarMedicos.php">Modificar Médicos</a>
+                                <a href="/Vidosan/modules/Medicos/Formularios/FormMedicos/editarMedicos.php">Modificar Médicos</a>
                             </li>
                             <li>
-                                <a href="Formularios/FormMedicos/eliminarMedicos.php">Dar de baja Médico</a>
+                                <a href="/Vidosan/modules/Medicos/Formularios/FormMedicos/eliminarMedicos.php">Dar de baja Médico</a>
                             </li>
                         </ul>
                     </li>
                     <li>
-                        <a href="Formularios/FormCitas/misCitas.php"><i class="fa fa-fw fa-cubes"></i> Mis Citas</a>
+                        <a href="/Vidosan/modules/Medicos/Formularios/FormCitas/misCitas.php"><i class="fa fa-fw fa-cubes"></i> Mis Citas</a>
                     </li>
-<!--                    <li>
-                        <a href="blank-page.php"><i class="fa fa-fw fa-file"></i> Blank Page</a>
-                    </li>-->
-
+                    <li>
+                        <a href="/Vidosan/modules/Medicos/Formularios/FormCitas/aceptarCitas.php"><i class="fa fa-fw fa-check-square"></i> Aceptar Citas</a>
+                    </li>
+                    <li>
+                        <a href="/Vidosan/modules/Medicos/Formularios/FormClientes/misPacientes.php"><i class="fa fa-fw fa-user-md"></i> Mis Pacientes</a>
+                    </li>
                 </ul>
             </div>
             <!-- /.navbar-collapse -->
@@ -240,51 +166,61 @@
                 </div>
                 <!-- /.row -->
                 <div class="row">
-                    <div class="col-lg-3 col-md-6">
+                    <div class="col-lg-3 col-md-3">
                         <div class="panel panel-primary">
+                            <div class="panel-heading">
+                                <div class="row">
+                                    <div class="col-xs-3">
+                                        <i class="fa fa-pencil fa-5x"></i>
+                                    </div>
+                                    <div class="col-xs-9 text-right">
+                                        <div class="huge">
+                                          <?php
+                                              include_once $_SERVER['DOCUMENT_ROOT']."Vidosan/modules/Medicos/DaoMedico/DaoTareas.php";
+                                              echo contarTareasporIdmedico($_COOKIE['id']);
+                                          ?>
+                                        </div>
+                                        <div>Mis Tareas</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <a href="#">
+                                <div class="panel-footer" onclick="enviarmistareas()">
+                                    <span class="pull-left" onclick="enviarmistareas()">Ver Detalles</span>
+                                    <span class="pull-right"><i class="fa fa-arrow-circle-right" onclick="enviarmistareas()"></i></span>
+                                    <div class="clearfix"></div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-3">
+                        <div class="panel panel-green">
                             <div class="panel-heading">
                                 <div class="row">
                                     <div class="col-xs-3">
                                         <i class="fa fa-user-md fa-5x"></i>
                                     </div>
                                     <div class="col-xs-9 text-right">
-                                        <div class="huge">26</div>
-                                        <div>Nuevas Consultas</div>
+                                        <div class="huge">
+                                          <?php
+                                              include_once $_SERVER['DOCUMENT_ROOT']."Vidosan/modules/Medicos/DaoMedico/DaoCliente.php";
+                                              echo contarPacientesporIdmedico($_COOKIE['id']);
+                                          ?>
+                                        </div>
+                                        <div>Pacientes asignados</div>
                                     </div>
                                 </div>
                             </div>
                             <a href="#">
-                                <div class="panel-footer">
-                                    <span class="pull-left">View Details</span>
-                                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                <div class="panel-footer" onclick="enviarmispacientes()">
+                                    <span class="pull-left" onclick="enviarmispacientes()">Ver Detalles</span>
+                                    <span class="pull-right" ><i class="fa fa-arrow-circle-right" onclick="enviarmispacientes()"></i></span>
                                     <div class="clearfix"></div>
                                 </div>
                             </a>
                         </div>
                     </div>
-                    <div class="col-lg-3 col-md-6">
-                        <div class="panel panel-green">
-                            <div class="panel-heading">
-                                <div class="row">
-                                    <div class="col-xs-3">
-                                        <i class="fa fa-heart-o fa-5x"></i>
-                                    </div>
-                                    <div class="col-xs-9 text-right">
-                                        <div class="huge">12</div>
-                                        <div>Por pensar aun</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <a href="#">
-                                <div class="panel-footer">
-                                    <span class="pull-left">View Details</span>
-                                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                                    <div class="clearfix"></div>
-                                </div>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-md-6">
+                    <div class="col-lg-3 col-md-3">
                         <div class="panel panel-yellow">
                             <div class="panel-heading">
                                 <div class="row">
@@ -294,7 +230,7 @@
                                     <div class="col-xs-9 text-right">
                                         <div class="huge">
                                           <?php
-                                              include $_SERVER['DOCUMENT_ROOT']."Vidosan/modules/Medicos/DaoMedico/DaoCitas.php";
+                                              include_once $_SERVER['DOCUMENT_ROOT']."Vidosan/modules/Medicos/DaoMedico/DaoCitas.php";
                                               echo contarCitas($_COOKIE['id']);
                                           ?>
                                         </div>
@@ -303,7 +239,7 @@
                                 </div>
                             </div>
                             <a href="#">
-                                <div class="panel-footer">
+                                <div class="panel-footer" onclick="enviarcitas()">
                                     <span class="pull-left" onclick="enviarcitas()">Ver Detalles</span>
                                     <span class="pull-right"><i class="fa fa-arrow-circle-right"  onclick="enviarcitas()"></i></span>
                                     <div class="clearfix"></div>
@@ -311,7 +247,7 @@
                             </a>
                         </div>
                     </div>
-                    <div class="col-lg-3 col-md-6">
+                    <div class="col-lg-3 col-md-3">
                         <div class="panel panel-red">
                             <div class="panel-heading">
                                 <div class="row">
@@ -321,7 +257,7 @@
                                     <div class="col-xs-9 text-right">
                                         <div class="huge">
                                             <?php
-                                                include $_SERVER['DOCUMENT_ROOT']."Vidosan/modules/Medicos/DaoMedico/DaoCliente.php";
+                                                include_once $_SERVER['DOCUMENT_ROOT']."Vidosan/modules/Medicos/DaoMedico/DaoCliente.php";
                                                 echo contarClientes();
                                             ?>
                                         </div>
@@ -330,7 +266,7 @@
                                 </div>
                             </div>
                             <a href="#">
-                                <div class="panel-footer">
+                                <div class="panel-footer" onclick="enviartables()">
                                     <span class="pull-left" onclick="enviartables()">Ver Detalles</span>
                                             <span class="pull-right"><i class="fa fa-arrow-circle-right" name="enviar_tables" onclick="enviartables()">
                                        </i></span>
@@ -368,6 +304,12 @@
         }
         function enviarcitas(){
           window.location.href = "Formularios/FormCitas/misCitas.php";
+        }
+        function enviarmispacientes(){
+          window.location.href = "Formularios/FormClientes/misPacientes.php";
+        }
+        function enviarmistareas(){
+            window.location.href = "Formularios/FormTareas/misTareas.php";
         }
     </script>
 </body>

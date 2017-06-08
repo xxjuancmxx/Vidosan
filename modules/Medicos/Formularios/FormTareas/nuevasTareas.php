@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <?php
     if(@$_COOKIE['rol']!="1"){
         header('Location: ../index.php');
@@ -13,8 +13,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
-
-    <link rel="shortcut icon" type="image/x-icon" href="/Vidosan/modules/medicos/img/icon_pharmacy.png" />
+    <link rel="shortcut icon" type="image/x-icon" href="img/icon_pharmacy.png" />
     <title>Administrator</title>
 
     <!-- Bootstrap Core CSS -->
@@ -29,6 +28,9 @@
     <!-- Custom Fonts -->
     <link href="../../font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 
+    <script src="../../js/sweetalert2/sweetalert2.min.js"></script>
+    <link rel="stylesheet" href="../../js/sweetalert2/sweetalert2.min.css">
+    <script src="../../js/popups.js"></script>
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -72,9 +74,9 @@
                         ?>
                         <b class="caret"></b></a>
                     <ul class="dropdown-menu">
-                      <li>
-                          <a href="/Vidosan/modules/Medicos/Formularios\FormMedicos\perfilMedico.php"><i class="fa fa-fw fa-user"></i> Perfil</a>
-                      </li>
+                        <li>
+                            <a href="/Vidosan/modules/Medicos/Formularios\FormMedicos\perfilMedico.php"><i class="fa fa-fw fa-user"></i> Perfil</a>
+                        </li>
                         <li>
                             <a href="/Vidosan/modules/Medicos/Formularios/FormTareas/misTareas.php"><i class="fa fa-fw fa-pencil"></i> Mis Tareas</a>
                         </li>
@@ -89,32 +91,30 @@
                                     <?php
                                         if(isset($_POST["cerrar_sesion"])){
                                             setcookie("rol", "", -1, "/Vidosan");
-                                            header('Location: ../index.php');
+                                            header('Location: ../../index.php');
                                         }
                                     ?>
-
-
                         </li>
                     </ul>
                 </li>
             </ul>
             <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
-            <div class="collapse navbar-collapse navbar-ex1-collapse">
+           <div class="collapse navbar-collapse navbar-ex1-collapse">
                 <ul class="nav navbar-nav side-nav">
-                    <li >
+                    <li>
                         <a href="../../index.php"><i class="fa fa-fw fa-home"></i> Inicio</a>
                     </li>
                     <li>
-                        <a href="tables.php"><i class="fa fa-fw fa-table"></i> Listado Pacientes</a>
+                        <a href="../FormClientes/tables.php"><i class="fa fa-fw fa-table"></i> Listado Pacientes</a>
                     </li>
-                    <li class="active">
+                    <li>
                         <a href="javascript:;" data-toggle="collapse" data-target="#demo"><i class="fa fa-fw fa-group"></i> Pacientes <i class="fa fa-fw fa-caret-down"></i></a>
                         <ul id="demo" class="collapse">
                             <li>
-                                <a href="insertarClientes.php">Crear/Modificar Pacientes</a>
+                                <a href="../FormClientes/insertarClientes.php">Crear/Modificar Pacientes</a>
                             </li>
                             <li>
-                                <a href="eliminarClientes.php">Eliminar Pacientes</a>
+                                <a href="../FormClientes/eliminarClientes.php">Eliminar Pacientes</a>
                             </li>
                         </ul>
                     </li>
@@ -122,13 +122,13 @@
                         <a href="javascript:;" data-toggle="collapse" data-target="#demo1"><i class="fa fa-fw fa-bolt"></i> Médicos <i class="fa fa-fw fa-caret-down"></i></a>
                         <ul id="demo1" class="collapse">
                             <li>
-                                <a href="../FormMedicos/insertarMedicos.php">Crear Médicos</a>
+                                <a href="insertarMedicos.php">Crear Médicos</a>
                             </li>
                             <li>
-                                <a href="../FormMedicos/editarMedicos.php">Modificar Médicos</a>
+                                <a href="editarMedicos.php">Modificar Médicos</a>
                             </li>
                             <li>
-                                <a href="../FormMedicos/eliminarMedicos.php">Dar de baja Médico</a>
+                                <a href="eliminarMedicos.php">Dar de baja Médico</a>
                             </li>
                         </ul>
                         <li>
@@ -138,12 +138,9 @@
                             <a href="../FormCitas/aceptarCitas.php"><i class="fa fa-fw fa-check-square"></i> Aceptar Citas</a>
                         </li>
                         <li>
-                            <a href="misPacientes.php"><i class="fa fa-fw fa-user-md"></i> Mis Pacientes</a>
+                            <a href="../FormClientes/misPacientes.php"><i class="fa fa-fw fa-user-md"></i> Mis Pacientes</a>
                         </li>
                     </li>
- <!--                    <li>
-                        <a href="blank-page.php"><i class="fa fa-fw fa-file"></i> Blank Page</a>
-                    </li>-->
 
                 </ul>
             </div>
@@ -158,62 +155,64 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <h1 class="page-header">
-                            Pacientes <small>Eliminar Pacientes</small>
+                            Tareas <small>Nueva Tarea</small>
                         </h1>
 
 
                     </div>
                 </div>
                 <!-- /.row -->
-                <div class="col-lg-12 col-md-12 col-xs-12"  id="diveliminar">
-                  <?php
-                  include $_SERVER['DOCUMENT_ROOT']."Vidosan/modules/Medicos/DaoMedico/DaoCliente.php";
-                   $consul=listarClientes();
-                   $rowers=mysql_num_rows($consul);
-                   $coluwers=mysql_num_fields($consul);
-                  if($rowers>0){
-                      ?>
-                  <table class="table table-bordered">
-                      <tr style="font-weight: 700;font-size: 18px;">
-                          <td style="width:4%;"></td>
-                          <td>Apellidos</td>
-                          <td>Nombre</td>
-                          <td>Telefono</td>
-                          <td>Email</td>
-                      </tr>
-                  <?php
-                      for($i=0;$i<$rowers;$i++){
-                        $arry =mysql_fetch_array($consul);
-                        echo "<tr><td>";
-                          ?>
-                            <form action="#" method="post" onsubmit="return confirm('Eliminar cliente ?');">
-                              <input type="hidden" name="id_elimcliente" value="<?php echo $arry['idCliente']; ?>">
-                              <button class="btn btn-danger btn-xs glyphicon glyphicon-remove" name="removeclient"></button>
-                            </form>
-                          <?php
+                <div class="col-lg-12 col-md-12 col-xs-12"  id="divinsertar" >
+                     <ol class="breadcrumb">
+                          <li class="active">
+                              <i class="fa fa-dashboard"></i> Añadir Tarea
+                          </li>
+                      </ol>
+                      <p class="alert alert-success" id="mensaje_suc" style="display:none">Médico insertado correctamente!</p>
+                    <form  method="POST" class="form" onsubmit="return validarinsertarTareas()" >
+                        <div class="row">
+                            <div class="col-lg-4 col-md-4 col-xs-4">
+                                <label>Descripcion</label>
+                            </div>
+                            <div class="col-lg-8 col-md-8 col-xs-8">
+                                 <textarea class="form-control" rows="5" name="descripcion" id="descripcion" placeholder="Descripción de la tarea a realizar.." style="resize:none;"></textarea>
+                            </div>
+                        </div>
 
-                        echo"</td>";
-                        echo "<td>".$arry['apellidos_cliente']."</td>";
-                        echo "<td>".$arry['nombre_cliente']."</td>";
-                        echo "<td>".$arry['telefono_cliente']."</td>";
-                        echo "<td>".$arry['email']."</td></tr>";
-                      }
-                      if(isset($_POST['removeclient'])){
-                        $idCliente=$_POST['id_elimcliente'];
-                        eliminarCliente($idCliente);
-                        header('Location: #');
-                      }
-                      ?>
-                      </table>
-                      <?php
-
-                  }else{
-
-                  }
-
-                  ?>
-                </div>
-
+                        <div class="row">
+                            <div class="col-lg-4 col-md-4 col-xs-4">
+                              <label>Elegir Médico</label>
+                            </div>
+                            <div class="col-lg-8 col-md-8 col-xs-8">
+                                <br>
+                                <select name="an_medico" class="form-control">
+                                <?php
+                                include_once $_SERVER['DOCUMENT_ROOT']."Vidosan/modules/Medicos/DaoMedico/DaoMedico.php";
+                                $consul=listarMedicos();
+                                $rows=mysql_num_rows(listarMedicos());
+                            for($i=0;$i<$rows;$i++){
+                                  $arry = mysql_fetch_array($consul);
+                                  echo "<option value=".$arry['id_medico'].">".$arry['nombre_medico']." ".$arry['apellidos_medico']."</option>";
+                                }
+                                ?>
+                              </select><br>
+                            </div>
+                            <div class="col-lg-12 col-md-12 col-xs-12">
+                              <input type="submit" name="insertmed" class="btn btn-success" style="float:right;">
+                          </div>
+                        </div>
+                    </form>
+                    <?php
+                            if(isset($_POST['insertmed'])){
+                                $descripcion=$_POST['descripcion'];
+                                $idMedico=$_POST['an_medico'];
+                                $progreso="SIN EMPEZAR";
+                                include_once $_SERVER['DOCUMENT_ROOT']."Vidosan/modules/Medicos/EntidadMedico/tareas.php";
+                                include_once $_SERVER['DOCUMENT_ROOT']."Vidosan/modules/Medicos/DaoMedico/DaoTareas.php";
+                                $objetix=new Tareas($descripcion,$progreso,$idMedico);
+                                insertarTareas($objetix);
+                            }
+                        ?>
              </div>
 
             </div>
@@ -231,6 +230,29 @@
     <!-- Morris Charts JavaScript -->
     <script src="../../js/plugins/morris/raphael.min.js"></script>
     <script>
+        function validarvacio(valor){
+            var val=$("#"+valor).val();
+            if(val == "" || val == null){
+                return false;
+            }else{
+                return true;
+            }
+        }
+        function validarinsertarTareas(){
+            var cont=0;
+            if(!validarvacio("descripcion")){
+                cont++;
+                $("#descripcion").attr("style", "box-shadow:0px 0px 5px #DF0101");
+            }else{
+                $("#descripcion").attr("style", "box-shadow:0px 0px 0px #DF0101");
+            }
+            if(cont==0){
+                return true;
+            }else{
+              return false;
+            }
+
+        }
     </script>
 </body>
 </html>

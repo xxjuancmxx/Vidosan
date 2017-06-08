@@ -6,16 +6,23 @@
 ?>
 <html>
     <head>
-        <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+      <meta charset="utf-8">
+
+        <!--<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
         <link href="css/bootstrap.css" rel="stylesheet">
         <link href="css/bootstrap-theme.css" rel="stylesheet">
         <script src="//code.jquery.com/jquery-1.10.2.js"></script>
-        <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+        <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>-->
+        <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
         <style>
-            body{
+            /*body{
                 width: 30%;
                 margin: auto;
-				margin-top:5%;
+				        margin-top:5%;
             }
             #logo_vidosan{
                 margin-left: 25%;
@@ -26,28 +33,94 @@
             }
             #img_logo{
                 width: 150px;
+            }*/
+            #cabecera{
+              margin-top: 1%;
+
+            }
+            body{
+              background: linear-gradient(white,#3a87ad);
+            }
+            #img_logo{
+              width: 150px;
+            }
+            .carousel-inner > .item > img,
+            .carousel-inner > .item > a > img {
+                width: 70%;
+                margin: auto;
             }
         </style>
     </head>
-    <body>
-        <div class="col-lg-12" id="logo_vidosan">
-            <img src="images/paramedic.png" style="border-radius:20px;" id="img_logo">
+    <body class="container-fluid">
+
+      <!-- Cabecera -->
+      <div class="row" id="cabecera">
+        <div class="col-lg-2" id="logo_vidosan">
+          <img src="images/paramedic.png" style="border-radius:20px;" id="img_logo">
         </div>
-        <div class="col-lg-12">
-            <form class="form" method="POST" action="#">
-                <div class="col-lg-12">
-                    <label>Usuario</label>
-                    <input type="text" id="user" name="user" class="form-control" required>
-    		</div>
-    		<div class="col-lg-12">
-                    <label>Contraseña</label>
-                    <input type="password" id="pass" name="pass" class="form-control" required><br>
-    		</div>
-    		<div class="col-lg-12">
-                    <button class="btn btn-block btn-primary" id="boton_submit" name="submit_login">Enviar</button>
+        <div id="form_login" class="col-lg-3 pull-right">
+          <div class="row">
+          <form class="form" method="POST" action="#">
+            <div class="row">
+                  <div class="col-lg-3 form-group">
+                    <label><small>Usuario</small></label>
+                  </div>
+                  <div class="col-lg-7">
+                      <input type="text" id="user" name="user" class="form-control" required>
+                    </div>
+                  </div>
+                  <div class="row">
+                  <div class="col-lg-3">
+                      <label><small>Contraseña</small></label>
+                    </div>
+                  <div class="col-lg-7">
+                      <input type="password" id="pass" name="pass" class="form-control" required>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-lg-10">
+                      <button id="boton_submit" name="submit_login" class="btn btn-info" style="width:100%;margin:2px;">Enviar</button>
+                    </div>
+                  </div>
+          </form>
+        </div>
+        </div>
+      </div>
+      <!-- Fin cabecera -->
+
+      <!-- Carousel -->
+      <div class="row">
+        <div class="col-lg-1"></div>
+        <div id="myCarousel" class="carousel slide col-lg-10" data-ride="carousel" style="border:1px solid;">
+
+          <ol class="carousel-indicators">
+            <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+            <li data-target="#myCarousel" data-slide-to="1"></li>
+            <li data-target="#myCarousel" data-slide-to="2"></li>
+            <li data-target="#myCarousel" data-slide-to="3"></li>
+          </ol>
+
+          <div class="row" style="margin-top:0.5%;">
+            <div class="col-lg-12" style="height:50%;">
+              <div class="carousel-inner" role="listbox">
+                <div class="item active">
+                  <img src="images/addImage.png" alt="Chania" style="width:460px;height:345px;">
                 </div>
-            </form>
+                <div class="item">
+                  <img src="images/paramedic.png" alt="Chania" style="width:460px;height:345px;">
+                </div>
+                <div class="item">
+                  <img src="images/sort_asc.png" alt="Flower" style="width:460px;height:345px;">
+                </div>
+                <div class="item">
+                  <img src="images/Refresh-button-icon.png" style="width:460px;height:345px;">
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
+      </div>
+      <!-- Fin carousel -->
     </body>
     <?php
         if (isset($_POST['submit_login'])) {

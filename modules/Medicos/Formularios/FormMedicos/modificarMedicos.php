@@ -1,5 +1,8 @@
 <?php
-    include $_SERVER['DOCUMENT_ROOT']."Vidosan/modules/Medicos/DaoMedico/DaoMedico.php";
+    include_once $_SERVER['DOCUMENT_ROOT']."Vidosan/modules/Medicos/DaoMedico/DaoMedico.php";
+    include_once $_SERVER['DOCUMENT_ROOT']."Vidosan/modules/Medicos/EntidadMedico/categoria.php";
+    include_once $_SERVER['DOCUMENT_ROOT']."Vidosan/modules/Medicos/DaoMedico/DaoCategoria.php";
+    header("Content-type: text/html; charset=utf8");
     $num=$_POST['num_buscar'];
     $existe= existeMedico($num);
     if($existe){
@@ -56,9 +59,29 @@
                 </div>
             </div>
             <div class="row">
+
+                <div class="col-lg-12 col-md-12 col-xs-12">
+                     <label>Categoria</label>
+                     <select name="catmed" class="form-control">
+                       <?php
+                       $consulcat=listarCategoria();
+                       $rows_cat=mysql_num_rows(listarCategoria());
+                       for($i=0;$i<$rows_cat;$i++){
+                          $arrycat = mysql_fetch_array($consulcat);
+                          if($arryCl['idCategoria']==$arrycat['id_categoria']){
+                            echo "<option selected style='color:red' value=".$arrycat['id_categoria'].">".$arrycat['tipo']."</option>";
+                          }else{
+                            echo "<option value=".$arrycat['id_categoria'].">".$arrycat['tipo']."</option>";
+                          }
+                        }
+                       ?>
+                     </select><br>
+                </div>
+            </div>
+            <div class="row">
                 <div class="col-lg-12 col-md-12 col-xs-12">
                     <br>
-                    <input type="submit" name="modificarmed" class="btn btn-success">
+                    <input type="submit" name="modificarmed" class="btn btn-success" onclick="msg()">
                 </div>
             </div>
         </form>
