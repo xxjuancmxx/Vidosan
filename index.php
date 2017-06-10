@@ -10,129 +10,82 @@ if(@$_COOKIE['rol']=="1"){
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <style>
-       body{
-          background: linear-gradient(white,#3a87ad);
-        }
-        #cabecera{
-            margin-top: 1%;
-            width: 100%;
-        }
-        #img_logo{
-            width: 15em;
-            margin-left: 15%;
-        }
-        #form_login{
-            width:15%;
-        }
-        .login-component-margin{
-            margin-top:1%;
-        }
-        .carousel-inner > .item > img,
-        .carousel-inner > .item > a > img {
-            width: 70%;
-            margin: auto;
-        }
 
-        .nav ul {
-            list-style: none;
-            background-color: #3a87ad;
-            text-align: center;
-            padding: 0;
-            margin: 0;
-        }
-        .nav li {
-            font-family: 'Oswald', sans-serif;
-            display: inline-block;
-            margin-right: -4px;
-            width: 160px;
-            border-bottom: none;
-            height: 50px;
-            line-height: 50px;
-        }
-         
-        .nav a {
-            text-decoration: none;
-            color: #fff;
-            display: block;
-            transition: .3s background-color;
-        }
-         
-        .nav a:hover {
-            background-color: #005f5f;
-        }
-         
-        .nav a.active {
-            background-color: #fff;
-            color: #444;
-            cursor: default;
-        }
+    <script type="text/javascript" src="js/index-controller.js"></script>
 
-        .btn-verMas{
-            background-color: #005f5f;
-            color: white;
-        }
-
-        .copyright {
-            min-height:40px;
-            background-color:#000000;
-            margin-top: 1%;
-        }
-        .copyright p {
-            text-align:left;
-            color:#FFF;
-            padding:10px 0;
-            margin-bottom:0px;
-        }
-        .bottom_ul {
-            list-style-type:none;
-            float:right;
-            margin-bottom:0px;
-        }
-        .bottom_ul li {
-            float:left;
-            line-height:40px;
-        }
-        .bottom_ul li:after {
-            content:"/";
-            color:#FFF;
-            margin-right:8px;
-            margin-left:8px;
-        }
-        .bottom_ul li a {
-            color:#FFF;
-            font-size:12px;
-        }
-    </style>
+    <link href="css/estilos-index.css" rel="stylesheet">
 </head>
 <body>
    <!-- Cabecera -->
    <div class="row" id="cabecera">
+        <!-- Logo -->
         <div class="col-xs-2" id="logo_vidosan">
             <img src="images/logo.png" id="img_logo">
         </div>
-
-        <div id="form_login" class="col-xs-2 pull-right">
-            <div class="row">
-                <form class="form" method="POST" action="#">
-                    <div class="input-group login-component-margin"">
-                        <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                        <input type="text" id="user" name="user" class="form-control" placeholder="Usuario" required>
-                    </div>
-                    <div class="input-group login-component-margin">
-                        <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-                        <input type="password" id="pass" name="pass" class="form-control" placeholder="Contraseña" required>                                        
-                    </div>
-                    <div class="row login-component-margin">
-                        <div class="col-lg-12">
-                            <button id="boton_submit" name="submit_login" class="btn btn-info" style="width:100%;">Entrar</button>
+        <!-- Fin logo -->
+        <!-- Login -->
+        <?php
+            if(!isset($_COOKIE['rol']) && empty($_SESSION['rol'])){
+                ?>
+                    <div id="form_login" class="col-xs-2 pull-right">
+                        <div class="row">
+                            <form class="form" method="POST" action="#">
+                                <div class="input-group login-component-margin"">
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                                    <input type="text" id="user" name="user" class="form-control" placeholder="Usuario" required>
+                                </div>
+                                <div class="input-group login-component-margin">
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                                    <input type="password" id="pass" name="pass" class="form-control" placeholder="Contraseña" required>                                        
+                                </div>
+                                <div class="row login-component-margin">
+                                    <div class="col-lg-12">
+                                        <button id="boton_submit" name="submit_login" class="btn btn-info" style="width:100%;">Entrar</button>
+                                    </div>
+                                </div>
+                            </form>
                         </div>
                     </div>
-                </form>
-            </div>
-        </div>
+                <?php
+            }else if(isset($_COOKIE['rol'])){
+                ?>
+                    <div class="col-xs-2 pull-right">
+                        <table>
+                            <tr>
+                                <td>
+                                    <h2>Bienvenido/a <?php echo $_COOKIE['user']; ?></h2>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="text-align: center;">
+                                    <button id="volverMedico" class="btn btn-primary" onclick="volverPanel()">Panel de control</button>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                <?php
+            }else if(!empty($_SESSION['rol'])){
+                ?>
+                    <div class="col-xs-2 pull-right">
+                        <table>
+                            <tr>
+                                <td>
+                                    <h3>Bienvenido/a <?php echo $_SESSION['nombre_cliente']; ?></h3>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="text-align: center;">
+                                    <button id="volverCliente" class="btn btn-primary" onclick="volverPanel()">Panel de control</button>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                <?php
+            }
+        ?>
+        <!-- Fin login -->
     </div>
-
+    <!-- Barra de navegacion -->
     <div class="container">
         <div class="row">
             <div class="col-xs-12">
@@ -150,6 +103,7 @@ if(@$_COOKIE['rol']=="1"){
             </div>
         </div>
     </div>
+    <!-- Fin barra de navegacion -->
     <!-- Fin cabecera -->
 
     <!-- Carousel -->
