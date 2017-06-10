@@ -10,6 +10,7 @@ if(@$_COOKIE['rol']=="1"){
     <meta charset="utf-8">
     <!-- CSS externos -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href='https://fonts.googleapis.com/css?family=Courgette' rel='stylesheet'>
     <!-- CSS ropios -->
     <link href="css/estilos-index.css" rel="stylesheet">
     <!-- JS externos -->
@@ -56,7 +57,7 @@ if(@$_COOKIE['rol']=="1"){
                         <table>
                             <tr>
                                 <td>
-                                    <h2>Bienvenido/a <?php echo $_COOKIE['user']; ?></h2>
+                                    <h3 class="bienvenida">Bienvenido/a <?php echo $_COOKIE['user']; ?></h3>
                                 </td>
                             </tr>
                             <tr>
@@ -73,7 +74,7 @@ if(@$_COOKIE['rol']=="1"){
                         <table>
                             <tr>
                                 <td>
-                                    <h3>Bienvenido/a <?php echo $_SESSION['nombre_cliente']; ?></h3>
+                                    <h3 class="bienvenida">Bienvenido/a <?php echo $_SESSION['nombre_cliente']; ?></h3>
                                 </td>
                             </tr>
                             <tr>

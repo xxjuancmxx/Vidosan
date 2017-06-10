@@ -1,5 +1,6 @@
 body{
   background: linear-gradient(white,#3a87ad);
+  font-family: 'Courgette';
 }
 #cabecera{
     margin-top: 1%;
@@ -15,6 +16,9 @@ body{
 .login-component-margin{
     margin-top:1%;
 }
+.bienvenida{
+    font-family: 'Courgette';
+}
 .carousel-inner > .item > img,
 .carousel-inner > .item > a > img {
     width: 70%;
@@ -29,7 +33,6 @@ body{
     margin: 0;
 }
 .nav li {
-    font-family: 'Oswald', sans-serif;
     display: inline-block;
     margin-right: -4px;
     width: 160px;
