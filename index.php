@@ -1,166 +1,304 @@
 <?php
-    session_start();
-    if(@$_COOKIE['rol']=="1"){
-        header('Location: modules/Medicos/index.php');
-    }
+session_start();
+if(@$_COOKIE['rol']=="1"){
+	header('Location: modules/Medicos/index.php');
+}
 ?>
 <html>
-    <head>
-      <meta charset="utf-8">
-
-        <!--<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
-        <link href="css/bootstrap.css" rel="stylesheet">
-        <link href="css/bootstrap-theme.css" rel="stylesheet">
-        <script src="//code.jquery.com/jquery-1.10.2.js"></script>
-        <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>-->
-        <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-        <style>
-            /*body{
-                width: 30%;
-                margin: auto;
-				        margin-top:5%;
-            }
-            #logo_vidosan{
-                margin-left: 25%;
-            }
-            #boton_submit{
-                width: 50%;
-                margin: auto;
-            }
-            #img_logo{
-                width: 150px;
-            }*/
-            #cabecera{
-              margin-top: 1%;
-
-            }
-            body{
-              background: linear-gradient(white,#3a87ad);
-            }
-            #img_logo{
-              width: 150px;
-            }
-            .carousel-inner > .item > img,
-            .carousel-inner > .item > a > img {
-                width: 70%;
-                margin: auto;
-            }
-        </style>
-    </head>
-    <body class="container-fluid">
-
-      <!-- Cabecera -->
-      <div class="row" id="cabecera">
-        <div class="col-lg-2" id="logo_vidosan">
-          <img src="images/paramedic.png" style="border-radius:20px;" id="img_logo">
-        </div>
-        <div id="form_login" class="col-lg-3 pull-right">
-          <div class="row">
-          <form class="form" method="POST" action="#">
-            <div class="row">
-                  <div class="col-lg-3 form-group">
-                    <label><small>Usuario</small></label>
-                  </div>
-                  <div class="col-lg-7">
-                      <input type="text" id="user" name="user" class="form-control" required>
-                    </div>
-                  </div>
-                  <div class="row">
-                  <div class="col-lg-3">
-                      <label><small>Contraseña</small></label>
-                    </div>
-                  <div class="col-lg-7">
-                      <input type="password" id="pass" name="pass" class="form-control" required>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="col-lg-10">
-                      <button id="boton_submit" name="submit_login" class="btn btn-info" style="width:100%;margin:2px;">Enviar</button>
-                    </div>
-                  </div>
-          </form>
-        </div>
-        </div>
-      </div>
-      <!-- Fin cabecera -->
-
-      <!-- Carousel -->
-      <div class="row">
-        <div class="col-lg-1"></div>
-        <div id="myCarousel" class="carousel slide col-lg-10" data-ride="carousel" style="border:1px solid;">
-
-          <ol class="carousel-indicators">
-            <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-            <li data-target="#myCarousel" data-slide-to="1"></li>
-            <li data-target="#myCarousel" data-slide-to="2"></li>
-            <li data-target="#myCarousel" data-slide-to="3"></li>
-          </ol>
-
-          <div class="row" style="margin-top:0.5%;">
-            <div class="col-lg-12" style="height:50%;">
-              <div class="carousel-inner" role="listbox">
-                <div class="item active">
-                  <img src="images/addImage.png" alt="Chania" style="width:460px;height:345px;">
-                </div>
-                <div class="item">
-                  <img src="images/paramedic.png" alt="Chania" style="width:460px;height:345px;">
-                </div>
-                <div class="item">
-                  <img src="images/sort_asc.png" alt="Flower" style="width:460px;height:345px;">
-                </div>
-                <div class="item">
-                  <img src="images/Refresh-button-icon.png" style="width:460px;height:345px;">
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <!-- Fin carousel -->
-    </body>
-    <?php
-        if (isset($_POST['submit_login'])) {
-            // Contiene la conexion y metodos para encontrar usuarios
-            include("BBDD/conexion.php");
-
-            $user=$_POST['user'];
-            $pass=$_POST['pass'];
-
-            $consulta=buscarcliente($user,$pass);
-            $consulta1=buscarmedico($user,$conexion);
-
-            $rows_cliente=mysql_num_rows($consulta);
-            $rows_medico=mysql_num_rows($consulta1);
-
-            if($rows_medico>0){
-                header('Location: modules/Medicos/index.php');
-                $medic = mysql_fetch_array($consulta1);
-                setcookie("user",$user);
-                setcookie("pass",$pass);
-                setcookie("id",$medic['id_medico']);
-                setcookie(rol,"1");
-            }else if($rows_cliente>0){
-                // Creamos un array con el cliente
-                $client = mysql_fetch_array($consulta);
-                // Creamos una variable de sesion con el nombre del usuario y otra con los apellidos
-                // Creamos variables de sesion con los campos del usuario
-                $_SESSION['id'] = $client['idCliente'];
-                $_SESSION['nombre_cliente'] = $client['nombre_cliente'];
-                $_SESSION['apellidos'] = $client['apellidos_cliente'];
-                $_SESSION['tlf'] = $client['telefono_cliente'];
-                $_SESSION['email'] = $client['email'];
-                $_SESSION['provincia'] = $client['provincia'];
-                $_SESSION['municipio'] = $client['municipio'];
-                $_SESSION['rol'] = "2";
-                // Redirigimos a la plantilla de cliente
-                header('Location: modules/Clientes/production/index.php') or die("asd");
-            }else{
-                echo "El usuario no existe";
-            }
+<head>
+    <meta charset="utf-8">
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <style>
+       body{
+          background: linear-gradient(white,#3a87ad);
         }
+        #cabecera{
+            margin-top: 1%;
+            width: 100%;
+        }
+        #img_logo{
+            width: 15em;
+            margin-left: 15%;
+        }
+        #form_login{
+            width:15%;
+        }
+        .login-component-margin{
+            margin-top:1%;
+        }
+        .carousel-inner > .item > img,
+        .carousel-inner > .item > a > img {
+            width: 70%;
+            margin: auto;
+        }
+
+        .nav ul {
+            list-style: none;
+            background-color: #3a87ad;
+            text-align: center;
+            padding: 0;
+            margin: 0;
+        }
+        .nav li {
+            font-family: 'Oswald', sans-serif;
+            display: inline-block;
+            margin-right: -4px;
+            width: 160px;
+            border-bottom: none;
+            height: 50px;
+            line-height: 50px;
+        }
+         
+        .nav a {
+            text-decoration: none;
+            color: #fff;
+            display: block;
+            transition: .3s background-color;
+        }
+         
+        .nav a:hover {
+            background-color: #005f5f;
+        }
+         
+        .nav a.active {
+            background-color: #fff;
+            color: #444;
+            cursor: default;
+        }
+
+        .btn-verMas{
+            background-color: #005f5f;
+            color: white;
+        }
+
+        .copyright {
+            min-height:40px;
+            background-color:#000000;
+            margin-top: 1%;
+        }
+        .copyright p {
+            text-align:left;
+            color:#FFF;
+            padding:10px 0;
+            margin-bottom:0px;
+        }
+        .bottom_ul {
+            list-style-type:none;
+            float:right;
+            margin-bottom:0px;
+        }
+        .bottom_ul li {
+            float:left;
+            line-height:40px;
+        }
+        .bottom_ul li:after {
+            content:"/";
+            color:#FFF;
+            margin-right:8px;
+            margin-left:8px;
+        }
+        .bottom_ul li a {
+            color:#FFF;
+            font-size:12px;
+        }
+    </style>
+</head>
+<body>
+   <!-- Cabecera -->
+   <div class="row" id="cabecera">
+        <div class="col-xs-2" id="logo_vidosan">
+            <img src="images/logo.png" id="img_logo">
+        </div>
+
+        <div id="form_login" class="col-xs-2 pull-right">
+            <div class="row">
+                <form class="form" method="POST" action="#">
+                    <div class="input-group login-component-margin"">
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                        <input type="text" id="user" name="user" class="form-control" placeholder="Usuario" required>
+                    </div>
+                    <div class="input-group login-component-margin">
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                        <input type="password" id="pass" name="pass" class="form-control" placeholder="Contraseña" required>                                        
+                    </div>
+                    <div class="row login-component-margin">
+                        <div class="col-lg-12">
+                            <button id="boton_submit" name="submit_login" class="btn btn-info" style="width:100%;">Entrar</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="nav">
+                    <ul>
+                        <li class="home"><a href="#">Conócenos</a></li>
+                        <li class="tutorials"><a href="#">Nuestro centro</a></li>
+                        <li class="about"><a href="#">Cuadro médico</a></li>
+                        <li class="news"><a href="#">Cartera de servicios</a></li>
+                        <li class="contact"><a href="#">Trabaja con nosotros</a></li>
+                        <li class="contact"><a href="#">Sector privado</a></li>
+                        <li class="contact"><a href="#">Sala de prensa</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Fin cabecera -->
+
+    <!-- Carousel -->
+    <div class="container">
+        <div class="row" style="margin-top:1%;">
+            <div class="col-xs-1"></div>
+            <div id="myCarousel" class="carousel slide col-xs-10" data-ride="carousel">
+
+                <ol class="carousel-indicators">
+                    <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+                    <li data-target="#myCarousel" data-slide-to="1"></li>
+                    <li data-target="#myCarousel" data-slide-to="2"></li>
+                    <li data-target="#myCarousel" data-slide-to="3"></li>
+                </ol>
+
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="carousel-inner" role="listbox">
+                            <div class="item active">
+                                <img src="images/Medicine.png" style="height: 460px;width:460px;">
+                            </div>
+                            <div class="item">
+                                <img src="images/estetoscopio.png" style="height: 460px;width:460px;">
+                            </div>
+                            <div class="item">
+                                <img src="images/enfermera-1.png" style="height: 460px;width:460px;">
+                            </div>
+                            <div class="item">
+                                <img src="images/jeringa.png" style="height: 460px;width:460px;">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+	<!-- Fin carousel -->
+
+    <!-- Noticias -->
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-4">
+                <h2>Lorem ipsum</h2>
+                <p>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. 
+                </p>
+                <button class="btn btn-verMas">Más detalles</button>
+            </div>
+            <div class="col-xs-4">
+                <h2>Lorem ipsum</h2>
+                <p>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. 
+                </p>
+                <button class="btn btn-verMas">Más detalles</button>
+            </div>
+            <div class="col-xs-4">
+                <h2>Lorem ipsum</h2>
+                <p>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. 
+                </p>
+                <button class="btn btn-verMas">Más detalles</button>
+            </div>
+        </div>
+        <div class="row" style="margin-top:1%;">
+            <div class="col-xs-4">
+                <h2>Lorem ipsum</h2>
+                <p>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. 
+                </p>
+                <button class="btn btn-verMas">Más detalles</button>
+            </div>
+            <div class="col-xs-4">
+                <h2>Lorem ipsum</h2>
+                <p>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. 
+                </p>
+                <button class="btn btn-verMas">Más detalles</button>
+            </div>
+            <div class="col-xs-4">
+                <h2>Lorem ipsum</h2>
+                <p>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. 
+                </p>
+                <button class="btn btn-verMas">Más detalles</button>
+            </div>
+        </div>
+    </div>
+    <!-- Fin noticias -->
+
+    <!-- Footer -->
+    <div class="copyright">
+        <div class="container">
+            <div class="col-md-6">
+                <p>© 2017 - No copyright</p>
+            </div>
+            <div class="col-md-6">
+                <ul class="bottom_ul">
+                    <li><a href="#">Vidosan.com</a></li>
+                    <li><a href="#">Sobre nosotros</a></li>
+                    <li><a href="#">Blog</a></li>
+                    <li><a href="#">Faq's</a></li>
+                    <li><a href="#">Contáctanos</a></li>
+                    <li><a href="#">Mapa</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- Fin footer -->
+    </body>
+
+    <?php
+    if (isset($_POST['submit_login'])) {
+        // Contiene la conexion y metodos para encontrar usuarios
+    	include("BBDD/conexion.php");
+
+    	$user=$_POST['user'];
+    	$pass=$_POST['pass'];
+    	
+    	$consulta=buscarcliente($user,$pass);
+    	$consulta1=buscarmedico($user,$conexion);
+
+    	$rows_cliente=mysql_num_rows($consulta);
+    	$rows_medico=mysql_num_rows($consulta1);
+
+        if($rows_medico>0){
+            header('Location: modules/Medicos/index.php');
+            $medic = mysql_fetch_array($consulta1);
+            setcookie("user",$user);
+            setcookie("pass",$pass);
+            setcookie("id",$medic['id_medico']);
+            setcookie(rol,"1");
+        }else if($rows_cliente>0){
+                // Creamos un array con el cliente
+            $client = mysql_fetch_array($consulta);
+                // Creamos variables de sesion con los campos del usuario
+            $_SESSION['id'] = $client['idCliente'];
+            $_SESSION['nombre_cliente'] = $client['nombre_cliente'];
+            $_SESSION['apellidos'] = $client['apellidos_cliente'];
+            $_SESSION['tlf'] = $client['telefono_cliente'];
+            $_SESSION['email'] = $client['email'];
+            $_SESSION['provincia'] = $client['provincia'];
+            $_SESSION['municipio'] = $client['municipio'];
+            $_SESSION['rol'] = "2";
+
+                // Redirigimos a la plantilla de cliente
+            echo "<script type='text/javascript'>window.location = 'modules/Clientes/production/index.php';</script>";
+        }else{
+            echo "El usuario no existe";
+        }
+    }
     ?>
-</html>
+    </html>
