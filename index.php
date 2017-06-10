@@ -6,14 +6,17 @@ if(@$_COOKIE['rol']=="1"){
 ?>
 <html>
 <head>
+    <!-- Metas -->
     <meta charset="utf-8">
+    <!-- CSS externos -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-
-    <script type="text/javascript" src="js/index-controller.js"></script>
-
+    <!-- CSS ropios -->
     <link href="css/estilos-index.css" rel="stylesheet">
+    <!-- JS externos -->
+    <script src="js/jquery-3.2.0.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <!-- JS propios -->
+    <script type="text/javascript" src="js/index-controller.js"></script>
 </head>
 <body>
    <!-- Cabecera -->
@@ -236,9 +239,9 @@ if(@$_COOKIE['rol']=="1"){
             setcookie("id",$medic['id_medico']);
             setcookie(rol,"1");
         }else if($rows_cliente>0){
-                // Creamos un array con el cliente
+            // Creamos un array con el cliente
             $client = mysql_fetch_array($consulta);
-                // Creamos variables de sesion con los campos del usuario
+            // Creamos variables de sesion con los campos del usuario
             $_SESSION['id'] = $client['idCliente'];
             $_SESSION['nombre_cliente'] = $client['nombre_cliente'];
             $_SESSION['apellidos'] = $client['apellidos_cliente'];
@@ -248,7 +251,7 @@ if(@$_COOKIE['rol']=="1"){
             $_SESSION['municipio'] = $client['municipio'];
             $_SESSION['rol'] = "2";
 
-                // Redirigimos a la plantilla de cliente
+            // Redirigimos a la plantilla de cliente
             echo "<script type='text/javascript'>window.location = 'modules/Clientes/production/index.php';</script>";
         }else{
             echo "El usuario no existe";
