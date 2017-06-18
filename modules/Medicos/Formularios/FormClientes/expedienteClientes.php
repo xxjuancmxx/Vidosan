@@ -182,7 +182,7 @@
                         <?php
                       for($i=0;$i<$rowers_incidencia;$i++){
                         $arry =mysql_fetch_array($listaInc);
-                        echo "<tr><td>".utf8_decode($arry["descripcion"])."<td>";
+                        echo "<tr><td>".utf8_encode($arry["descripcion"])."<td>";
                         echo "<td>".$arry["fecha_incidencia"]."</td></tr>";
                       }
                       ?>
