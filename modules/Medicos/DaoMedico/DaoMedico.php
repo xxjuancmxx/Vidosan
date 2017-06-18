@@ -3,7 +3,7 @@
 
 
     function insertarMedicos($obj){
-        $consulta = mysql_query("INSERT INTO medico (user_medico, password, nombre_medico, apellidos_medico, telefono_medico, email, provincia, municipio, idCategoria) VALUES ('$obj->userMedico', '$obj->password', '$obj->nombreMedico', '$obj->apellidosMedico', '$obj->telefonoMedico', '$obj->email', '$obj->provincia', '$obj->municipio', '$obj->idCategoria');
+        $consulta = mysql_query("INSERT INTO medico (user_medico, password, nombre_medico, apellidos_medico, telefono_medico, email, provincia, municipio, idCategoria,fecha_alta) VALUES ('$obj->userMedico', '$obj->password', '$obj->nombreMedico', '$obj->apellidosMedico', '$obj->telefonoMedico', '$obj->email', '$obj->provincia', '$obj->municipio', '$obj->idCategoria',CURRENT_DATE);
 ",connectbbdd()) or die ("Fallo en insertar Medicos");
         return $consulta;
     }
@@ -11,7 +11,7 @@
         $consulta = mysql_query("select * from medico where isDeleted=0 order by apellidos_medico",connectbbdd()) or die ("Fallo en Listar medicos");
         return $consulta;
     }
-    
+
     function eliminarMedico($valor){
         $consulta = mysql_query("UPDATE medico SET isDeleted=1 WHERE id_Medico='$valor'",connectbbdd()) or die ("Fallo en eliminar Medico");
         return $consulta;
@@ -39,7 +39,7 @@
         return $consulta;
     }
     function modificarMedico($obj,$valor){
-        $consulta = mysql_query("UPDATE medico SET user_medico='$obj->userMedico',  nombre_medico='$obj->nombreMedico', apellidos_medico='$obj->apellidosMedico', telefono_medico='$obj->telefonoMedico', email='$obj->email', provincia='$obj->provincia', municipio='$obj->municipio',idCategoria='$obj->idCategoria' WHERE id_medico='$valor'",connectbbdd()) or die ("Fallo en modificar Medico");
+        $consulta = mysql_query("UPDATE medico SET user_medico='$obj->userMedico',  nombre_medico='$obj->nombreMedico', apellidos_medico='$obj->apellidosMedico', telefono_medico='$obj->telefonoMedico', email='$obj->email', provincia='$obj->provincia', municipio='$obj->municipio',idCategoria='$obj->idCategoria',fecha_modificacion=CURRENT_DATE WHERE id_medico='$valor'",connectbbdd()) or die ("Fallo en modificar Medico");
         return $consulta;
     }
     function sacarMedicoporId($valor){
