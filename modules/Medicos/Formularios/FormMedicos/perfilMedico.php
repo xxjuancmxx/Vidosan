@@ -181,12 +181,12 @@
                                 <p><?php echo $arry['user_medico'];?></p>
                             </div>
                             <div class="col-lg-6 col-md-6 col-xs-6">
-                                <label>Apellidos:</label>
-                                <p><?php echo $arry['nombre_medico'];?></p>
+                                <label>Nombre:</label>
+                                <p><?php echo utf8_encode($arry['nombre_medico']);?></p>
                             </div>
                             <div class="col-lg-6 col-md-6 col-xs-6">
-                                <label>Nombre:</label>
-                                <p><?php echo $arry['apellidos_medico'];?></p>
+                                <label>Apellidos:</label>
+                                <p><?php echo utf8_encode($arry['apellidos_medico']);?></p>
                             </div>
                             <div class="col-lg-6 col-md-6 col-xs-6">
                                 <label>Telefono:</label>
@@ -198,11 +198,11 @@
                             </div>
                             <div class="col-lg-6 col-md-6 col-xs-6">
                                 <label>Provincia</label>
-                                <p><?php echo $arry['provincia'];?></p>
+                                <p><?php echo utf8_encode($arry['provincia']);?></p>
                             </div>
                             <div class="col-lg-6 col-md-6 col-xs-6">
                                 <label>Municipio:</label>
-                                <p><?php echo $arry['municipio'];?></p>
+                                <p><?php echo utf8_encode($arry['municipio']);?></p>
                             </div>
                             <div class="col-lg-6 col-md-6 col-xs-6">
                               <label>Fecha de alta:</label>
