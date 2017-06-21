@@ -25,6 +25,7 @@
   }
 
 function actualizarPerfil($nombre,$apellidos,$tlf,$email,$provincia,$municipio){
+    $id = $_SESSION['id'];
     $fecha_mod = date("Y-m-d");
     $consulta = mysql_query("update cliente set nombre_cliente='$nombre', apellidos_cliente='$apellidos', telefono_cliente='$tlf', email='$email', provincia='$provincia', municipio='$municipio', fecha_modificacion='$fecha_mod' where idCliente = " . $id);
   }
